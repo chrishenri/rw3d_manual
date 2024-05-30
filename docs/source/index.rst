@@ -1,13 +1,7 @@
-Welcome to Lumache's documentation!
+RW3D documentation
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
-
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+**RW3D** is a Fortran90 code (essentially) simulating the fate and transport of contaminant in porous media. 
 
 .. note::
 
@@ -18,5 +12,5 @@ Contents
 
 .. toctree::
 
-   usage
-   api
+   intro
+   

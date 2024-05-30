@@ -2,9 +2,9 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'RW3D'
+copyright = '2024, Christopher Henri'
+author = 'Christopher V. Henri'
 
 release = '0.1'
 version = '0.1.0'
