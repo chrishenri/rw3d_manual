@@ -1,7 +1,7 @@
 Welcome to RW3D's User Manual
 ===================================
 
-.. image:: GEUS_logo_sorttekst_RGB.png
+.. image:: logos_institutions_rw3d.png
 
 **Christopher V. Henri** [1]_, **Daniel Fernandez-Garcia** [2]_
 
