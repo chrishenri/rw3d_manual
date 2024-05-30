@@ -15,14 +15,13 @@ Welcome to RW3D's User Manual
    This project is under active development.
 
 
-**RW3D** is a Fortran90 code (essentially) simulating the fate and transport of contaminant in porous media. 
-
 Contents
 --------
 
 .. toctree::
 
    intro
+   random_walk
    
 .. [1]
    *Department of Hydrology, Geological Survey of Denmark and Greenland, Copenhagen, Denmark.* cvh@geus.dk
