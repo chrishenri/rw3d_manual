@@ -22,6 +22,7 @@ Contents
 
    intro
    random_walk
+   concept
    
 .. [1]
    *Department of Hydrology, Geological Survey of Denmark and Greenland, Copenhagen, Denmark.* cvh@geus.dk

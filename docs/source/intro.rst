@@ -1,7 +1,7 @@
 Introduction
 =====
 
-.. _purpose:
+.. _intro:
 
 Purpose of RW3D
 ------------
