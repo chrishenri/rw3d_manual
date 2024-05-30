@@ -12,6 +12,7 @@ RW3D is randoam walk particle tracking code simulating the fate and transport of
 Mathematical model
 ----------------
 The transport of a conservative solute is described by the advection-dispersion equation (ADE):
+
 .. math:: 
 	:label: eq_ade
 	
@@ -20,7 +21,8 @@ The transport of a conservative solute is described by the advection-dispersion 
 	\end{aligned}
 	
 	
-where :math:`c` [g.m:math:`^{-3}`] is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by:
+where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by:
+
 .. math::  
 	:label: eq_disp_tensor
 	
