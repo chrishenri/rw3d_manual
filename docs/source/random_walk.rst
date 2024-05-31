@@ -13,7 +13,7 @@ This simulates advection, or the transport of particles by the flow of fluid. In
 Typically, the transport of a conservative solute solved by RW3D is described by the advection-dispersion equation (ADE):
 
 .. math:: 
-	:label: eq_ade
+	:label: ade
 	
 	\begin{aligned}
 	\phi\frac{\partial c}{\partial t} = \nabla \cdot (\phi \mathbf{D} \nabla c) + \nabla \cdot (\mathbf{q} c)
@@ -22,7 +22,7 @@ Typically, the transport of a conservative solute solved by RW3D is described by
 where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by: 
 
 .. math::  
-	:label: eq_disp_tensor
+	:label: disp_tensor
 	
 	\begin{aligned}
 	D_{ij}=(\alpha_T|v|+D_m)\delta_{ij} + (\alpha_L - \alpha_T)v_i v_j/|v|
@@ -38,11 +38,12 @@ In brief, the Random Walk Particle Tracking (RWPT) method models the movement of
 The change over time of a particle’s position is influenced by two factors: a drift term, which corresponds to the advective movement, and a superimposed Brownian motion, which accounts for dispersion. 
 The particle’s displacement is expressed in its conventional form as per the Itô–Taylor integration scheme, as described by :cite:t:`gardiner1985handbook`: 
 
-.. math::  
+.. math::
+	:label: rwpt
+	
 	\begin{aligned}
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
 	\end{aligned}
-	:label: eqrwpt
 
 where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the time step of the particles jump and :math:`\mathbf{\xi}` is a vector of independent, normally distributed random variables with zero mean and unit variance. 
 
