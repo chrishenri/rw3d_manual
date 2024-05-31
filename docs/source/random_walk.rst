@@ -42,23 +42,28 @@ The particle’s displacement is expressed in its conventional form as per the I
 .. math::  
 	:label: eq_rwpt
 	
+	\begin{aligned}
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
-
+	\end{aligned}
 
 where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the time step of the particles jump and :math:`\mathbf{\xi}` is a vector of independent, normally distributed random variables with zero mean and unit variance. 
 
 .. math::  
 	:label: eq_A
 	
+	\begin{aligned}
     \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\theta(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p)  \cdot \nabla \theta(\mathbf{x}_p). 
-
+	\end{aligned}
+	
 The displacement matrix relates to the dispersion tensor as:
 
 .. math::  
 	:label: eq_B
 	
+	\begin{aligned}
     2\mathbf{D} = \mathbf{B} \cdot \mathbf{B}^T.
-
+	\end{aligned}
+	
 For more details, see :cite:t:`Salamon06`, who provide a clear presentation of the RWPT method.
 
 
@@ -66,11 +71,17 @@ Advantages
 ----------------
 
 One of the key advantages of the RWPT method is that it avoids the need to solve the transport equation directly. 
-As a result, it virtually eliminates numerical dispersion and artificial oscillations, which are common issues in computational models. 
-Moreover, this method is computationally efficient, especially for models with a large number of cells and strong heterogeneities. 
-It requires significantly less computational time compared to traditional methods such as Eulerian, mixed Eulerian–Lagrangian, or total variation diminishing (TVD) schemes.
+As a result, it virtually eliminates numerical dispersion and artificial oscillations, which are common issues in commonly used Eulerian models. 
+Moreover, this method is generally considered to be computationally efficient - especially for models with a large number of cells and strong heterogeneities - compared to more traditional methods such as Eulerian, mixed Eulerian–Lagrangian, or total variation diminishing (TVD) schemes.
 
-Therefore, due to its computational efficiency and the absence of numerical dispersion, the Lagrangian transport method has become a valuable tool for modelling complex, high-resolution transport problems.
+Overall, due to its computational efficiency and the absence of numerical dispersion, the Lagrangian transport method is becoming a valuable tool for modelling complex, high-resolution transport problems.
 
 Limitations
 ----------------
+
+One of the main limitation of the RWPT method is the random fluctuations of computed concentrations due to subsampling. 
+This error can be reduced by increasing the number of particles, since the statistical fluctuation is inversely related to the square root of the number of particles in a cell. 
+Increasing the number of particles can greatly increase the computational cost. This problem can be tackled by applying post-processed smoothing techniques such as the Kernel Density Estimator (KDE) to limit the number of particles without compromising the solution :cite:t:`Fernandez11`. 
+An option to use the KDE technique to smooth the recording particle temporal arrivals (breakthrough curve) is proposed in RW3D. 
+
+
