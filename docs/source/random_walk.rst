@@ -41,6 +41,7 @@ The particle’s displacement is expressed in its conventional form as per the I
 
 .. math::  
 	:label: eq_rwpt
+	
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
 
 
@@ -48,11 +49,14 @@ where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the tim
 
 .. math::  
 	:label: eq_A
+	
     \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\theta(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p)  \cdot \nabla \theta(\mathbf{x}_p). 
 
 The displacement matrix relates to the dispersion tensor as:
+
 .. math::  
 	:label: eq_B
+	
     2\mathbf{D} = \mathbf{B} \cdot \mathbf{B}^T.
 
 For more details, see :cite:t:`Salamon06`, who provide a clear presentation of the RWPT method.
