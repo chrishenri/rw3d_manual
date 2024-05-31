@@ -1,0 +1,4 @@
+.. _inputs:
+
+Input Instructions
+===============

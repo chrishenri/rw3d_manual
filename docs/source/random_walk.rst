@@ -19,6 +19,7 @@ The transport of a conservative solute is described by the advection-dispersion 
 	
 	
 where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by:
+:cite:t:`Ajami14`
 
 .. math::  
 	:label: eq_disp_tensor
