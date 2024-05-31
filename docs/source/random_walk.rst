@@ -1,7 +1,7 @@
+.. _randomwalk:
+
 Random-Walk Particle-Tracking
 =====
-
-.. _randomwalk:
 
 Background
 ------------
@@ -18,7 +18,6 @@ Typically, the transport of a conservative solute solved by RW3D is described by
 	\begin{aligned}
 	\phi\frac{\partial c}{\partial t} = \nabla \cdot (\phi \mathbf{D} \nabla c) + \nabla \cdot (\mathbf{q} c)
 	\end{aligned}
-	
 	
 where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by: 
 
@@ -40,17 +39,16 @@ The change over time of a particle’s position is influenced by two factors: a 
 The particle’s displacement is expressed in its conventional form as per the Itô–Taylor integration scheme, as described by :cite:t:`gardiner1985handbook`: 
 
 .. math::  
-	:label: eqrwpt
-	
 	\begin{aligned}
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
 	\end{aligned}
+	:label: eqrwpt
 
 where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the time step of the particles jump and :math:`\mathbf{\xi}` is a vector of independent, normally distributed random variables with zero mean and unit variance. 
 
 .. math::  
 	:label: eqA
-	
+
 	\begin{aligned}
     \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\theta(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p)  \cdot \nabla \theta(\mathbf{x}_p). 
 	\end{aligned}
@@ -59,7 +57,7 @@ The displacement matrix relates to the dispersion tensor as:
 
 .. math::  
 	:label: eqB
-	
+
 	\begin{aligned}
     2\mathbf{D} = \mathbf{B} \cdot \mathbf{B}^T.
 	\end{aligned}
