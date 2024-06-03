@@ -8,7 +8,7 @@ Background
 
 RW3D is random-walk particle-tracking (RWPT) code simulating the fate and transport of solute in porous media. 
 The RWPT method simulates the movement of a solute mass by tracking a large number of particles. Each particle is moved through the porous medium based on the velocity field, which is derived from the solution of the flow equation. 
-This simulates advection, or the transport of particles by the flow of fluid. In addition, a random displacement is added to each particle’s movement to simulate dispersion and diffusion (i.e., the spreading of the plume).
+This simulates advection, or the transport of particles by the flow of fluid. In addition, a random displacement is added to each particle’s movement to simulate the spreading of the plume by dispersion and diffusion.
 
 Typically, the transport of a conservative solute solved by RW3D is described by the advection-dispersion equation (ADE):
 
@@ -34,13 +34,13 @@ where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is 
 Mathematical model
 ----------------
 
-In brief, the Random Walk Particle Tracking (RWPT) method models the movement of a solute by dividing the solute mass into numerous representative particles. 
+In brief, the Random Walk Particle Tracking (RWPT) method solves the ADE by dividing the solute mass into numerous representative particles. 
 The change over time of a particle’s position is influenced by two factors: a drift term, which corresponds to the advective movement, and a superimposed Brownian motion, which accounts for dispersion. 
 The particle’s displacement is expressed in its conventional form as per the Itô–Taylor integration scheme, as described by :cite:t:`gardiner1985handbook`: 
 
 .. math::
 	:label: rwpt
-	
+
 	\begin{aligned}
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
 	\end{aligned}

@@ -16,7 +16,7 @@ RW3D solves a range of reactions, which are described below. We refer to the rel
 
 First-order decay networks
 `````````````
-The transport equations governing the behavior of network reactions is given by set of advective-dispersive equations coupled with first-order reactions:
+The transport equations governing the behavior of network reactions is given by a set of advective-dispersive equations coupled with first-order reactions:
 
 .. math:: 
 	:label: firstorder
@@ -28,6 +28,8 @@ The transport equations governing the behavior of network reactions is given by 
 where the ith-equation represents the mass balance of the ith species, :math:`n_s` is the number of the species involved, :math:`\theta [-]` is the porosity of the media, :math:`q [L T^{–1}]` is the Darcy velocity vector, and :math:`D [L^{2} T^{–1}]` is the dispersion tensor. 
 For any given species i, :math:`c_i [M L^{–3}]` is the concentration in the liquid phase, :math:`k_i [T^{–1}]` is the first-order contaminant destruction rate constant, and :math:`y_{ij} [M M^{–1}]` is the effective yield coefficient for any reactant or product pair. 
 These coefficients are defined as the ratio of mass of species i generated to the amount of mass of species j consumed.
+
+RW3D solves this network by estimating the probability for a particle at a given state (i.e., species) at a given time to turn into another species after a given time step. The derivation, validation and application of the method is presented in :cite:t:`Henri2014`.
 
 Bimolecular reaction networks
 `````````````
