@@ -17,14 +17,10 @@ A series of preprocessing codes (Python) allow to run reactive transport on outp
 How do I get set up?
 ----------------
 
-**Bullet list:**
-
 - The RW3D source code can be found on the `RW3D GitHub <https://github.com/upc-ghs/RW3D>`_.
 - RW3D is a Fortran90 code build with the Intel Fortran compiler. Other compilers haven't been tested yet.
-- Dependencies: LAPACK, netcdf-fortran
+- Dependencies: `LAPACK <https://www.netlib.org/lapack/>`_, `netcdf-fortran <https://docs.unidata.ucar.edu/netcdf-fortran/current/>`_
 - Brief instructions to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
-
-**Numbered list**:
 
 #. Download Visual Studio Community for free; Install
 #. Download Intel Parallel Studio XE (for free for student and educators); Install (the included MKL library has to been also installed)
