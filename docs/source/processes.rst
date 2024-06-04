@@ -33,6 +33,7 @@ RW3D solves this network by estimating the probability for a particle at a given
 
 Bimolecular reaction networks
 `````````````
+RW3D is solving few types of bimolecular reactions. The reactive transport of such systems is given by: 
 
 .. math:: 
 	:label: aderx
@@ -45,14 +46,26 @@ where :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimension
 For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f [L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
 
 For the moment, RW3D is solving the following reactions: 
+
 - 2 products: :math:`A + B \to C + D`
 - 1 product: :math:`A + B \to C`
 - 0 product: :math:`A + B \to 0`
 
+The particle-based method used here simulates bimolecular reactions through probabilistic rules of particle collisions and transformation, as described by :cite:t:`Benson2008`.
 
 Linear Sorption
 `````````````
 
+Linear instantaneous sorption, i.e., retardation, is simply solved by scaling the advective flux: 
+
+.. math:: 
+	:label: ade
+	
+	\begin{aligned}
+    R_i \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right)
+    \end{aligned}
+	
+where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity, :math:`\mathbf{D}` is the dispersion tensor, and :math:`\mathbf{R_i}` is the i-th species specific retardation factor.  
 
 
 Multirate Mass Transfer
