@@ -41,6 +41,15 @@ Bimolecular reaction networks
     \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right) + r(c_A,c_B)
     \end{aligned}
 
+where :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`, :math:`\theta [L$^2$ L$^{-2}]` is the water content, :math:`\mathbf{u}` is the pore water velocity :math:`[L T$^{-1}]` and :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source. 
+For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f [L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
+
+For the moment, RW3D is solving the following reactions: 
+
+- 2 products: :math:`A + B --> C + D`
+- 1 product: :math:`A + B \to C`
+- 0 product: :math:`A + B \to 0`
+
 
 Linear Sorption
 `````````````
