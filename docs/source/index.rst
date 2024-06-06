@@ -23,6 +23,7 @@ Contents
    intro
    random_walk
    processes
+   inputs
    bibliography
    
 .. [1]

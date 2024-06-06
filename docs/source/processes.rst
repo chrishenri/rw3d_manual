@@ -8,6 +8,12 @@ Transport
 
 RW3D solve the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT equation defined in the chapter :ref:`randomwalk`. 
 
+
+Scheme of interpolation of velocities. 
+
+Specific cases
+`````````````
+
 **Unsaturated transport.** 
 In case flow has been computed from an unsaturated flow solver (e.g., solving the Richard's equation), transport equations remain identical and the water content field (homogeneous or heterogeneous, steady state or transient) can simply be considered as the porosity field. 
 
