@@ -8,6 +8,11 @@ Transport
 
 RW3D solve the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT equation defined in the chapter :ref:`randomwalk`. 
 
+**Unsaturated transport.** 
+In case flow has been computed from an unsaturated flow solver (e.g., solving the Richard's equation), transport equations remain identical and the water content field (homogeneous or heterogeneous, steady state or transient) can simply be considered as the porosity field. 
+
+**Partially saturated cells.** 
+
 
 Reactions
 ----------------
@@ -79,7 +84,7 @@ The presence of stagnant water in micro and meso-pores at the grain scale and th
 One region with mobile water where advection and dispersion takes place, and another with relatively immobile water where transport is diffusion limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`. 
 Mass transfer also occurs between the mobile and immobile region due to differences in concentrations. 
 Consequently, contaminants originally located in the mobile region can get trapped and slowly released in the immobile region :cite:p:`debarros13`. 
-This conceptual model has received great attention for its success in reproducing highly asymmetric concentration profiles from field observations :cite:pt:`harvey00,huang00,li00,haggerty00`. 
+This conceptual model has received great attention for its success in reproducing highly asymmetric concentration profiles from field observations :cite:p:`harvey00,huang00,li00,haggerty00`. 
 Albeit mass transfer models were originally characterized and widely employed with a single mass transfer coefficient :cite:p:`vangenuchten76,neretnieks80,harvey00`, this has shown drastic limitations on the long-term prediction of the concentrations :cite:p:`Young,haggerty95,haggerty00`. 
 The diverse mineralogical composition of a real soil and the complex spatial variability of aquifer properties leads to a mixture of mass transfer processes that occur over multiple time scales. 
 This phenomena cannot be properly represented by a single coefficient. The multirate mass transfer model presented by :cite:t:`haggerty95` overcomes this problem by including multiple immobile domains, each characterized with a different mass transfer coefficient and porosity. 
@@ -125,5 +130,23 @@ The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent th
 Similar reaction terms have been presented by many authors \cite[][]{clement97,clement01,sun99,Falta07}. 
 We have assumed that only aqueous concentrations are susceptible to undergo chemical reactions, i.e., no biodegradation in the sorbed phase occurs. Nevertheless, we note that other situations can be simulated by properly redefining the degradation rates \citep{vanGenuchten85}.
 
+.. _tbl-grid:
+
+  +----------------------+-----------------------------------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
+  |                      |                          Multirates series                                                                                                                                                                                                                                                                                                                                              | 
+  | Diffusion geommetry  | for :math:`j=1,\dots,N_{im}-1}`                                                               |  for :math:`j=N_{im}`                                                                                                                                                                                                                                                                   |
+  |                      | :math:`\alpha_j`                              | :math:`\beta_j`                               | :math:`\alpha_j`                                                                                                                                                                   | :math:`\beta_j`                                                                                    |
+  +----------------------+-----------------------------------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
+  | Layered diffusion    | :math:`\dfrac{(2j-1)^2\pi^2}{4}(D_a/a^2)_i`   | :math:`\dfrac{8}{(2j-1)^2\pi^2}\beta_{tot}`   | :math:`\dfrac{3\left(D_a/a^2\right)_i \left[ 1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{8}{(2j-1)^2\pi^2}\right]}{1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{96}{(2j-1)^4\pi^4}}`  | :math:`\left[ 1 - \displaystyle\sum_{j=1}^{N_{im}-1} \dfrac{8}{(2j-1)^2\pi^2} \right]\beta_{tot}`  |
+  +----------------------+-----------------------------------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
+..
+  Cylindrical diffusion$^a$ 				& $r^2_{0,j}(D_a/a^2)_i$					& $\dfrac{4}{r^2_{0,j}}\beta_{tot}$		& $\dfrac{8\left(D_a/a^2\right)_i \left[ 1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{4}{r^2_{0,j}}\right]}{1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{32}{r^2_{0,j}}}$ & $\left[ 1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{4}{r^2_{0,j}}\right]\beta_{tot}$	\\ [10ex]
+..
+  Spherical diffusion$^b$ 				& $j^2\pi^2(D_a/a^2)_i$					& $\dfrac{6}{j^2\pi^2}\beta_{tot}$		& $\dfrac{15\left(D_a/a^2\right)_i \left[ 1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{6}{j^2\pi^2}\right]}{1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{90}{j^4\pi^4}}$ & $\left[ 1- \displaystyle\sum_{j=1}^{N_{im}-1}\frac{6}{j^2\pi^2}\right]\beta_{tot}$		\\ [8ex]
+..
+  $^a$ Where $r_{0,j}$ is the $j$th root of $J_0(x)$ where $J_0$ is the zero-order Bessel function of the first kind.
+  $^b$ Where $(\beta_{tot})_i = \dfrac{\phi_{im}\,R^{im}_i}{\phi_{m}\,R^{m}_i}$ is the capacity ratio for a specie $i$.
+
 Sink
 ----------------
+
