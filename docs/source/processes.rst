@@ -13,6 +13,17 @@ In case flow has been computed from an unsaturated flow solver (e.g., solving th
 
 **Partially saturated cells.** 
 
+Vertical transport only if the particle is located above the water table (given by the head elevation). 
+
+**Change in cell thickness.** 
+
+In case of horizontal motion to a call with a different thickness, the new particle location in z (:math:`z_{new}`) is corrected as follow:  
+
+.. math:: 
+	:label: zcorr
+
+    z_{new} = \frac{z_{new}-bot_{old}}{top_{old}-bot_{old}} \times (top_{new}-bot_{new}) + bot_{new}
+
 
 Reactions
 ----------------
@@ -113,7 +124,7 @@ In a general form, and associated to a multispecies reactive system, the multira
 The left-hand-side of these equations form the standard multirate mass transfer model :cite:p:`haggerty95` that describes advective-dispersive transport with rate-limited mass transfer between a mobile domain and any number of immobile domains for each species. 
 These immobile domains can represent a wide variety of common field site conditions that exits in almost all porous media and over multiple scales.
 
-In these equations, the variable :math:`c_{i0} \left[M\, L^{-3}\right]` is the concentration of the *i*-th species in the mobile domain (denoted always by the subscript index :math:`k=0`), :math:`c_{ik} \left[M\, L^{-3}\right]`, for :math:`k=1,...,N_{im}`, is the concentration of the i-th species in the k-th immobile domain, :math:`N_s` is the number of species, :math:`N_{im}` is the number of immobile domains, :math:`\phi_0 \left(dimensionless\right)` is the porosity of the media in the mobile domain, :math:`\phi_{k} \left(dimensionless\right)` for :math:`k=1,...,N_{im}` is the porosity of the media in the *k*-th immobile domain,  :math:`R_{i0}\,\left(dimensionless\right)` is the retardation factor of the *i*-th species in the mobile domain, and :math:`R_{ik} \left(dimensionless\right)` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})`. 
+In these equations, the variable :math:`c_{i0} \left[M\, L^{-3}\right]` is the concentration of the *i*-th species in the mobile domain (denoted always by the subscript index :math:`k=0`), :math:`c_{ik} \left[M\, L^{-3}\right]`, for :math:`k=1,...,N_{im}`, is the concentration of the i-th species in the k-th immobile domain, :math:`N_s` is the number of species, :math:`N_{im}` is the number of immobile domains, :math:`\phi_0 [-]` is the porosity of the media in the mobile domain, :math:`\phi_{k} [-]` for :math:`k=1,...,N_{im}` is the porosity of the media in the *k*-th immobile domain,  :math:`R_{i0}\ [-]` is the retardation factor of the *i*-th species in the mobile domain, and :math:`R_{ik} [-]` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})`. 
 Sorption is considered in local equilibrium (linear isotherm), and :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by
 
 .. math:: 
@@ -130,10 +141,11 @@ The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent th
 Similar reaction terms have been presented by many authors \cite[][]{clement97,clement01,sun99,Falta07}. 
 We have assumed that only aqueous concentrations are susceptible to undergo chemical reactions, i.e., no biodegradation in the sorbed phase occurs. Nevertheless, we note that other situations can be simulated by properly redefining the degradation rates \citep{vanGenuchten85}.
 
+Multirates series:
+
 .. _tbl-grid:
 
   +------------------------------+-----------------------------------------------+-----------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
-  |                              |                            Multirates series                                                                                                                                                                                                                                                                                                                                            |
   | Diffusion geommetry          | for :math:`j=1,\dots,N_{im}-1`                                                                |  for :math:`j=N_{im}`                                                                                                                                                                                                                                                                   |
   |                              | :math:`\alpha_j`                              | :math:`\beta_j`                               | :math:`\alpha_j`                                                                                                                                                                   | :math:`\beta_j`                                                                                    |
   +==============================+===============================================+===============================================+====================================================================================================================================================================================+====================================================================================================+
