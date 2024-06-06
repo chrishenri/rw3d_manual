@@ -71,8 +71,23 @@ where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is 
 Multirate Mass Transfer
 ----------------
 
-Parameters of the multirate mass transfer model are species specific. 
-In a general form (i.e, associated to a multispecies reactive system), the multirate mass transfer model is given by:  
+**What is Multirate Mass Transfer?**
+The presence of stagnant water in micro and meso-pores at the grain scale and the inclusion of low permeability areas at the field scale typically leads to the conceptualization of the porous media as two distinct regions. 
+One region with mobile water where advection and dispersion takes place, and another with relatively immobile water where transport is diffusion limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`. 
+Mass transfer also occurs between the mobile and immobile region due to differences in concentrations. 
+Consequently, contaminants originally located in the mobile region can get trapped and slowly released in the immobile region :cite:p:`debarros13`. 
+This conceptual model has received great attention for its success in reproducing highly asymmetric concentration profiles from field observations :cite:pt:`harvey00,huang00,li00,haggerty00`. 
+Albeit mass transfer models were originally characterized and widely employed with a single mass transfer coefficient :cite:p:`vangenuchten76,neretnieks80,harvey00`, this has shown drastic limitations on the long-term prediction of the concentrations :cite:p:`Young,haggerty95,haggerty00`. 
+The diverse mineralogical composition of a real soil and the complex spatial variability of aquifer properties leads to a mixture of mass transfer processes that occur over multiple time scales. 
+This phenomena cannot be properly represented by a single coefficient. The multirate mass transfer model presented by :cite:t:`haggerty95` overcomes this problem by including multiple immobile domains, each characterized with a different mass transfer coefficient and porosity. 
+By choosing appropriate parameter values, this model can simulate a large variety of diffusion processes such as diffusion into cylinders, spheres, layers, rock matrices, and others :cite:p:`haggerty95,carrera98`. 
+Moreover, various authors :cite:p:`Zinn,liu04,fernandez09` have demonstrated, that solute transport in heterogeneous aquifers is often better upscaled using also a mass transfer model.
+
+**The MRMT model.** 
+
+Parameters of the multirate mass transfer model are species specific. In theory, reaction can occur in the mobile and immobile domains with specific reaction parameters. 
+In a general form, and associated to a multispecies reactive system, the multirate mass transfer model is given by:  
+
 .. math:: 
 
     \begin{equation}
@@ -87,7 +102,8 @@ In a general form (i.e, associated to a multispecies reactive system), the multi
     \\ \qquad\forall\, k=1,2,\cdots,N_{im}, \qquad \forall\, i=1,2,\cdots,N_s. 
     \end{multline}
 
-The left-hand-side of these equations form the standard multirate mass transfer model :cite:p:`haggerty95` that describes advective-dispersive transport with rate-limited mass transfer between a mobile domain and any number of immobile domains for each species. These immobile domains can represent a wide variety of common field site conditions that exits in almost all porous media and over multiple scales.
+The left-hand-side of these equations form the standard multirate mass transfer model :cite:p:`haggerty95` that describes advective-dispersive transport with rate-limited mass transfer between a mobile domain and any number of immobile domains for each species. 
+These immobile domains can represent a wide variety of common field site conditions that exits in almost all porous media and over multiple scales.
 
 In these equations, the variable :math:`c_{i0} \left[M\, L^{-3}\right]` is the concentration of the *i*-th species in the mobile domain (denoted always by the subscript index :math:`k=0`), :math:`c_{ik} \left[M\, L^{-3}\right]`, for :math:`k=1,...,N_{im}`, is the concentration of the i-th species in the k-th immobile domain, :math:`N_s` is the number of species, :math:`N_{im}` is the number of immobile domains, :math:`\phi_0 \left(dimensionless\right)` is the porosity of the media in the mobile domain, :math:`\phi_{k} \left(dimensionless\right)` for :math:`k=1,...,N_{im}` is the porosity of the media in the *k*-th immobile domain,  :math:`R_{i0}\,\left(dimensionless\right)` is the retardation factor of the *i*-th species in the mobile domain, and :math:`R_{ik} \left(dimensionless\right)` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})`. 
 Sorption is considered in local equilibrium (linear isotherm), and :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by
@@ -96,10 +112,10 @@ Sorption is considered in local equilibrium (linear isotherm), and :math:`\maths
 
 	\mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
 
-where :math:`\textbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector, and :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`. The first equation (\ref{eq:governGene}) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (\ref{eq:governImmo}) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
+where :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector, and :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`. The first equation (\ref{eq:governGene}) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (\ref{eq:governImmo}) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
 %This mass transfer process is characterized by the apparent mass transfer coefficient :math:`\alpha_{ik} [T^{-1}]`, which is defined as :math:`\alpha_{ik}=\alpha^\prime_k/R_{ik}`, where  :math:`\alpha^\prime_k` is the first-order mass transfer rate coefficient between the mobile domain :math:`(k=0)` and the *k*-th immobile domain :math:`(k=1,...,N_{im})`.
 
-The right-hand-side of equation (\ref{eq:governGene}) represents the destruction and production of the different species driven by first-order kinetic reactions, where :math:`k{}_{i\ell} \left[T^{-1}\right]` is the first-order contaminant destruction rate constant associated with the $i$ species and :math:`\ell` domain, :math:`y{}_{ij} \left[M\, M^{-1}\right]` is the effective yield coefficient for any reactant or product pair *(i,j)*. 
+The right-hand-side of equation (\ref{eq:governGene}) represents the destruction and production of the different species driven by first-order kinetic reactions, where :math:`k{}_{i\ell} \left[T^{-1}\right]` is the first-order contaminant destruction rate constant associated with the *i*-th species and :math:`\ell` domain, :math:`y{}_{ij} \left[M\, M^{-1}\right]` is the effective yield coefficient for any reactant or product pair *(i,j)*. 
 It is a stoichiometric coefficient that is assumed constant for all domains. 
 These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed. 
 The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent the first-order decay of the *i*-*the species. 
