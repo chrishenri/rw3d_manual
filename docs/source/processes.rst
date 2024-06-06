@@ -72,6 +72,9 @@ Multirate Mass Transfer
 ----------------
 
 **What is Multirate Mass Transfer?**
+
+.. image:: scheme_MRMT_Rx.png
+
 The presence of stagnant water in micro and meso-pores at the grain scale and the inclusion of low permeability areas at the field scale typically leads to the conceptualization of the porous media as two distinct regions. 
 One region with mobile water where advection and dispersion takes place, and another with relatively immobile water where transport is diffusion limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`. 
 Mass transfer also occurs between the mobile and immobile region due to differences in concentrations. 
