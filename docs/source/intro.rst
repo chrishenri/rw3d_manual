@@ -21,7 +21,9 @@ How do I get set up?
 - RW3D is a Fortran code. Intel Fortran compiler and gfortran have been successfully used to build the code. Other compilers haven't been tested yet.
 - Dependencies: `LAPACK <https://www.netlib.org/lapack/>`_, `netcdf-fortran <https://docs.unidata.ucar.edu/netcdf-fortran/current/>`_
 
+
 Brief instructions to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
+
 #. Download `Visual Studio Community <https://visualstudio.microsoft.com/downloads/>_`; Install
 #. Download `Intel HPC Toolkit <https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html>_`; Install (the included MKL library has to been also installed)
 #. In Visual Studio: File -> New -> Project

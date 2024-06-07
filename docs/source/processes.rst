@@ -10,7 +10,7 @@ RW3D solve the typical transport processes that are: advection, dispersion, and 
 
 Scheme of interpolation of velocities. 
 
-Specific cases
+Special cases
 `````````````
 
 **Unsaturated transport.** 
@@ -18,11 +18,13 @@ In case flow has been computed from an unsaturated flow solver (e.g., solving th
 
 **Partially saturated cells.** 
 
-Vertical transport only if the particle is located above the water table (given by the head elevation). 
+Even using flow parameters from flow models solving the Darcy equation, cell can be partially saturated, e.g., in case of low water table in an unconfined aquifer. 
+The saturation of each cell of the domain can be defined by the cell-by-cell head elevation. 
+For the moment, in case particles located in a partially saturated cell and located above the head elevation, we consider vertical transport only by setting the horizontal fluxes to zero. 
 
 **Change in cell thickness.** 
 
-In case of horizontal motion to a cell with a different thickness after a time step :math:`\Delta t`, the new particle location in z (:math:`z_{p}(\Delta t)`) is corrected as follow:  
+In case of horizontal motion to a cell with a different thickness after a time step :math:`\Delta t`, the relative local z-coordinate of the particle previous of the jump is preserved. The new particle location in z (:math:`z_{p}`) is then corrected as follow:  
 
 .. math::
     :label: zcorr
@@ -31,9 +33,18 @@ In case of horizontal motion to a cell with a different thickness after a time s
     z_p{t+\Delta t} = \frac{z_{p}(t)-z_{c,bot}(t)}{z_{c,top}(t)-z_{c,bot}(t)} \times (z_{c,top}(t+\Delta t)-z_{c,bot}(t+\Delta t)) + z_{c,bot}(t+\Delta t)
     \end{aligned}
 
-where 
+where t and :math:`t + \Delta t` refers to time before and after the horizontal jump in another cell, respectively, :math:`z_{c,bot}` and :math:`z_{c,top}` are the bottom and the top elevation of the cell. 
+
 ..
     z_{new} = \frac{z_{old}-bot_{old}}{top_{old}-bot_{old}} \times (top_{new}-bot_{new}) + bot_{new}
+
+
+
+Backward particle tracking
+`````````````
+
+
+
 
 Reactions
 ----------------
@@ -128,6 +139,11 @@ In a general form, and associated to a multispecies reactive system, the multira
 .. math::
     :label: MRMT2
     
+    \begin{aligned}
+    R_{ik}\frac{\partial c_{ik}}{\partial t}=\alpha^{\prime}_{ik} \left(c_{i0}-c_{ik}\right)+ \displaystyle\sum_{j=1}^{N_s}y_{ij}k_{jk} c_{jk}, \qquad\forall\, k=1,2,\cdots,N_{im}, \qquad \forall\, i=1,2,\cdots,N_s. 
+    \end{aligned}
+
+.. 
     \begin{multline}
     R_{ik}\frac{\partial c_{ik}}{\partial t}=\alpha^{\prime}_{ik} \left(c_{i0}-c_{ik}\right)+ \displaystyle\sum_{j=1}^{N_s}y_{ij}k_{jk} c_{jk},  
     \\ \qquad\forall\, k=1,2,\cdots,N_{im}, \qquad \forall\, i=1,2,\cdots,N_s. 
@@ -153,7 +169,7 @@ The right-hand-side of equation (\ref{eq:governGene}) represents the destruction
 It is a stoichiometric coefficient that is assumed constant for all domains. 
 These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed. 
 The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent the first-order decay of the *i*-*the species. 
-Similar reaction terms have been presented by many authors \cite[][]{clement97,clement01,sun99,Falta07}. 
+Similar reaction terms have been presented by many authors :cite:t:`clement97,clement01,sun99,Falta07`. 
 We have assumed that only aqueous concentrations are susceptible to undergo chemical reactions, i.e., no biodegradation in the sorbed phase occurs. Nevertheless, we note that other situations can be simulated by properly redefining the degradation rates \citep{vanGenuchten85}.
 
 Multirates series:

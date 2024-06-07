@@ -39,7 +39,7 @@ The change over time of a particle’s position is influenced by two factors: a 
 The particle’s displacement is expressed in its conventional form as per the Itô–Taylor integration scheme, as described by :cite:t:`gardiner1985handbook`: 
 
 .. math::
-	:label: rwpt
+    :label: rwpt
 
 	\begin{aligned}
     \mathbf{x}_p(t+\Delta t) = \mathbf{x}_p(t) + \mathbf{A}(\mathbf{x}_p,t) \Delta t + \mathbf{B}(\mathbf{x}_p,t) \cdot \mathbf{\xi}(t)\sqrt{\Delta t},
@@ -48,7 +48,7 @@ The particle’s displacement is expressed in its conventional form as per the I
 where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the time step of the particles jump and :math:`\mathbf{\xi}` is a vector of independent, normally distributed random variables with zero mean and unit variance. 
 
 .. math::
-	:label: eqA
+    :label: eqA
 
 	\begin{aligned}
     \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\theta(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p)  \cdot \nabla \theta(\mathbf{x}_p). 
@@ -57,8 +57,8 @@ where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the tim
 The displacement matrix relates to the dispersion tensor as:
 
 .. math::
-	:label: eqB
-	
+    :label: eqB
+
 	\begin{aligned}
     2\mathbf{D} = \mathbf{B} \cdot \mathbf{B}^T.
 	\end{aligned}
