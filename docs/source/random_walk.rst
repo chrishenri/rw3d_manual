@@ -12,7 +12,7 @@ This simulates advection, or the transport of particles by the flow of fluid. In
 
 Typically, the transport of a conservative solute solved by RW3D is described by the advection-dispersion equation (ADE):
 
-.. math:: 
+.. math::
 	:label: ade
 	
 	\begin{aligned}
@@ -21,7 +21,7 @@ Typically, the transport of a conservative solute solved by RW3D is described by
 	
 where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity and :math:`\mathbf{D}` is the dispersion tensor given by: 
 
-.. math::  
+.. math::
 	:label: disp_tensor
 	
 	\begin{aligned}
@@ -47,7 +47,7 @@ The particle’s displacement is expressed in its conventional form as per the I
 
 where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the time step of the particles jump and :math:`\mathbf{\xi}` is a vector of independent, normally distributed random variables with zero mean and unit variance. 
 
-.. math::  
+.. math::
 	:label: eqA
 
 	\begin{aligned}
@@ -56,7 +56,7 @@ where :math:`\mathbf{x}_p` is the particle location, :math:`\Delta t` is the tim
 	
 The displacement matrix relates to the dispersion tensor as:
 
-.. math::  
+.. math::
 	:label: eqB
 	
 	\begin{aligned}
