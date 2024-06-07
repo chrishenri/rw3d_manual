@@ -58,7 +58,7 @@ The displacement matrix relates to the dispersion tensor as:
 
 .. math::  
 	:label: eqB
-
+	
 	\begin{aligned}
     2\mathbf{D} = \mathbf{B} \cdot \mathbf{B}^T.
 	\end{aligned}

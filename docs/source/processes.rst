@@ -24,10 +24,12 @@ Vertical transport only if the particle is located above the water table (given 
 
 In case of horizontal motion to a call with a different thickness, the new particle location in z (:math:`z_{new}`) is corrected as follow:  
 
-.. math:: 
-	:label: zcorr
+.. math::
+    :label: zcorr
 
+    \begin{aligned}
     z_{new} = \frac{z_{new}-bot_{old}}{top_{old}-bot_{old}} \times (top_{new}-bot_{new}) + bot_{new}
+    \end{aligned}
 
 
 Reactions
@@ -40,7 +42,7 @@ First-order decay networks
 The transport equations governing the behavior of network reactions is given by a set of advective-dispersive equations coupled with first-order reactions:
 
 .. math:: 
-	:label: firstorder
+    :label: firstorder
 	
 	\begin{aligned}
 	\frac{\partial (\theta c_i)}{\partial t} + \nabla\cdot({\theta \mathbf{u} c_i}) - \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right) = \sum_{j=1}^{n_s} y_{ij}k{j}\theta c_j 
@@ -56,9 +58,9 @@ Bimolecular reaction networks
 `````````````
 RW3D is solving few types of bimolecular reactions. The reactive transport of such systems is given by: 
 
-.. math:: 
-	:label: aderx
-
+.. math::
+    :label: aderx
+    
     \begin{aligned}
     \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right) + r(c_A,c_B)
     \end{aligned}
@@ -79,9 +81,9 @@ Linear Sorption
 
 Linear instantaneous sorption, i.e., retardation, is simply solved by scaling the advective flux: 
 
-.. math:: 
-	:label: ade
-	
+.. math::
+    :label: ade
+    
 	\begin{aligned}
     R_i \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right)
     \end{aligned}
@@ -112,15 +114,17 @@ Moreover, various authors :cite:p:`Zinn,liu04,fernandez09` have demonstrated, th
 Parameters of the multirate mass transfer model are species specific. In theory, reaction can occur in the mobile and immobile domains with specific reaction parameters. 
 In a general form, and associated to a multispecies reactive system, the multirate mass transfer model is given by:  
 
-.. math:: 
-
-    \begin{equation}
+.. math::
+    :label: MRMT
+    
+    \begin{aligned}
     \sum_{k=0}^{N_{im}}\phi_{k}{R}_{ik}\frac{\partial c_{ik}}{\partial t} - \mathscr{L}(c_{i0})
     = \sum_{j=1}^{N_s} \sum_{k=0}^{N_{im}} y_{ij}k_{jk}\phi_{k} c_{jk},  \qquad\forall\, i=1,2,\cdots,N_s ,
-    \end{equation}
+    \end{aligned}
 
-.. math:: 
-
+.. math::
+    :label: MRMT2
+    
     \begin{multline}
     R_{ik}\frac{\partial c_{ik}}{\partial t}=\alpha^{\prime}_{ik} \left(c_{i0}-c_{ik}\right)+ \displaystyle\sum_{j=1}^{N_s}y_{ij}k_{jk} c_{jk},  
     \\ \qquad\forall\, k=1,2,\cdots,N_{im}, \qquad \forall\, i=1,2,\cdots,N_s. 
@@ -133,8 +137,11 @@ In these equations, the variable :math:`c_{i0} \left[M\, L^{-3}\right]` is the c
 Sorption is considered in local equilibrium (linear isotherm), and :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by
 
 .. math:: 
-
+    :label: transop
+    
+    \begin{aligned}
 	\mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
+    \end{aligned}
 
 where :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector, and :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`. The first equation (\ref{eq:governGene}) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (\ref{eq:governImmo}) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
 %This mass transfer process is characterized by the apparent mass transfer coefficient :math:`\alpha_{ik} [T^{-1}]`, which is defined as :math:`\alpha_{ik}=\alpha^\prime_k/R_{ik}`, where  :math:`\alpha^\prime_k` is the first-order mass transfer rate coefficient between the mobile domain :math:`(k=0)` and the *k*-th immobile domain :math:`(k=1,...,N_{im})`.
