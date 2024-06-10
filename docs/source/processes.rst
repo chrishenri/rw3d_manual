@@ -13,13 +13,14 @@ Velocities Interpolation
 `````````````
 
 2 options to interpolate velocities:
+
 **Eulerian**: Standard Random Walk with Eulerian integration of the velocity:
 
 .. math::
     :label: eulerian
 
     \begin{aligned}
-    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx v(\mathbf{X}_{p},t)\Delta t,
+    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx v(\mathbf{x}_{p},t)\Delta t,
     \end{aligned}
 
 where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :math:`v` is the pore velocity.
@@ -29,7 +30,7 @@ where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :mat
 .. math::
     :label: expo
 
-    \Delta\mathbf{X}_{p,adv} = \int v(\tau)d\tau \approx \dfrac{v_i(\mathbf{X}_{p},t)}{A_i\,R}(\exp(A_i\,\Delta t)-1), 
+    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx \dfrac{v_i(\mathbf{x}_{p},t)}{A_i\,R}(\exp(A_i\,\Delta t)-1), 
     
 with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
 
