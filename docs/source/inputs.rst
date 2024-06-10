@@ -43,7 +43,7 @@ Name file
   +------+--------------+------------------------------------------------------------+
   | 13   | File name	| Output with residence times in zonal regions               |
   +------+--------------+------------------------------------------------------------+
-  | 14   | File name	| Output with velocity field (for idebug $\geq$ 1)           |
+  | 14   | File name	| Output with velocity field (for idebug :math:`\geq 1`)           |
   +------+--------------+------------------------------------------------------------+
   | 15   | File name	| Output with derivative of BTC in double log                |
   +------+--------------+------------------------------------------------------------+
