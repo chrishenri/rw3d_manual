@@ -43,6 +43,13 @@ where t and :math:`t + \Delta t` refers to time before and after the horizontal 
 Backward particle tracking
 `````````````
 
+To track particle in the backward direction, a.k.a. *upstream*, simply inverse the velocity field by setting the multiplier associated to the flow field to *-1*. 
+No particular modification is made to the transport code. 
+Note that setting up backward particle tracking accounting for dispersion does not provide a deterministic characterization of the plume origin, which should be done with cautious. 
+
+
+Velocities Interpolation
+`````````````
 
 
 
