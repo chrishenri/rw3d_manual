@@ -7,13 +7,38 @@ Transport
 ----------------
 
 RW3D solve the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT scheme defined in the chapter :ref:`randomwalk`. 
+Here, we describe key interpolation schemes and available options. 
 
-Scheme of interpolation of velocities. 
+Velocities Interpolation
+`````````````
+
+2 options to interpolate velocities:
+**Eulerian**: Standard Random Walk with Eulerian integration of the velocity:
+
+.. math::
+    :label: eulerian
+
+    \begin{aligned}
+    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx v(\mathbf{X}_{p},t)\Delta t,
+    \end{aligned}
+
+where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :math:`v` is the pore velocity.
+
+**Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
+
+.. math::
+    :label: expo
+
+    \Delta\mathbf{X}_{p,adv} = \int v(\tau)d\tau \approx \dfrac{v_i(\mathbf{X}_{p},t)}{A_i\,R}(\exp(A_i\,\Delta t)-1), 
+    
+with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
+
 
 Special cases
 `````````````
 
 **Unsaturated transport.** 
+
 In case flow has been computed from an unsaturated flow solver (e.g., solving the Richard's equation), transport equations remain identical and the water content field (homogeneous or heterogeneous, steady state or transient) can simply be considered as the porosity field. 
 
 **Partially saturated cells.** 
@@ -30,10 +55,10 @@ In case of horizontal motion to a cell with a different thickness after a time s
     :label: zcorr
 
     \begin{aligned}
-    z_p{t+\Delta t} = \frac{z_{p}(t)-z_{c,bot}(t)}{z_{c,top}(t)-z_{c,bot}(t)} \times (z_{c,top}(t+\Delta t)-z_{c,bot}(t+\Delta t)) + z_{c,bot}(t+\Delta t)
+    z_{p}(t+\Delta t) = \frac{z_{p}(t)-z_{c,bot}(t)}{z_{c,top}(t)-z_{c,bot}(t)} \times (z_{c,top}(t+\Delta t)-z_{c,bot}(t+\Delta t)) + z_{c,bot}(t+\Delta t)
     \end{aligned}
 
-where t and :math:`t + \Delta t` refers to time before and after the horizontal jump in another cell, respectively, :math:`z_{c,bot}` and :math:`z_{c,top}` are the bottom and the top elevation of the cell. 
+where :math:`t` and :math:`t + \Delta t` refers to time before and after the horizontal jump in another cell, respectively, :math:`z_{c,bot}` and :math:`z_{c,top}` are the bottom and the top elevation of the cell. 
 
 ..
     z_{new} = \frac{z_{old}-bot_{old}}{top_{old}-bot_{old}} \times (top_{new}-bot_{new}) + bot_{new}
@@ -45,12 +70,7 @@ Backward particle tracking
 
 To track particle in the backward direction, a.k.a. *upstream*, simply inverse the velocity field by setting the multiplier associated to the flow field to *-1*. 
 No particular modification is made to the transport code. 
-Note that setting up backward particle tracking accounting for dispersion does not provide a deterministic characterization of the plume origin, which should be done with cautious. 
-
-
-Velocities Interpolation
-`````````````
-
+Note that setting up backward particle tracking accounting for dispersion does not provide a deterministic characterization of the plume origin, and should be done with cautious. 
 
 
 Reactions
