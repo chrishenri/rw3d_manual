@@ -6,7 +6,7 @@ Simulated processes
 Transport
 ----------------
 
-RW3D solve the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT scheme defined in the chapter :ref:`randomwalk`. 
+RW3D solves the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT scheme defined in the chapter :ref:`randomwalk`. 
 Here, we describe key interpolation schemes and available options. 
 
 Velocities Interpolation
