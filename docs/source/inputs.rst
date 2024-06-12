@@ -74,7 +74,7 @@ Parameter file
 
 Type of inputs: 
 
-- Flag: ``T`` for True; ``F`` for False
+- Logical flag: ``T`` for True; ``F`` for False
 - 
 
 .. _General setup:
@@ -84,15 +84,43 @@ General setup
 
 .. _tbl-grid:
   
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  |Line  | Variable                    | Type               | Description                                                                     |
+  +======+=============================+====================+=================================================================================+
+  | 10   | ``idebug``                  | integer            | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
+  |      |                             |                    | options:                                                                        |
+  |      |                             |                    |                                                                                 |
+  |      |                             |                    |         - ``idebug`` = -1: Do not write the velocity field                      |
+  |      |                             |                    |         - ``idebug`` = 0: Normal Run                                            |
+  |      |                             |                    |         - ``idebug`` = 10: Maximum Debugging Degree                             |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 11   | ``nspe_aq``, ``nspe_min``   | integer            | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
+  |      |                             |                    |                                                                                 |
+  |      |                             |                    | ``nspe_min``: number of aqueous (i.e., immobile) species                        |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 12   | ``name_aq``, ``name_min``   | string             | ``name_aq``: name(s) of aqueous (i.e., mobile) species                          |
+  |      |                             |                    |                                                                                 |
+  |      |                             |                    | ``name_min``: name(s) of aqueous (i.e., immobile) species                       |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 13   | ``t_sim``                   | real               | ``t_sim``: simulation time                                                      |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 14   | ``transient_flag``          | logical flag       | ``transient_flag``: Flag for transient conditions                               |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+
+
+.. _Geometry:
+
+Geometry
+`````````````
+
+.. _tbl-grid:
+  
   +------+-----------------------------+---------------------------------------------------------------------------------+
   |Line  | Variable                    | Description                                                                     |
   +======+=============================+=================================================================================+
-  | 10   | ``idebug``                  | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
-  |      |                             | options:                                                                        |
-  |      |                             |                                                                                 |
-  |      |                             |         - ``idebug`` = -1: Do not write the velocity field                      |
-  |      |                             |         - ``idebug`` = 0: Normal Run                                            |
-  |      |                             |         - ``idebug`` = 10: Maximum Debugging Degree                             |
+  | 10   | ``nx``, ``ny``, ``nz``      | ``nx``: number of cell in the x direction (i.e., columns)                       |
+  |      |                             | ``ny``: number of cell in the x direction (i.e., columns)                       |
+  |      |                             | ``nz``: number of cell in the x direction (i.e., columns)                       |
   +------+-----------------------------+---------------------------------------------------------------------------------+
   | 11   | ``nspe_aq``, ``nspe_min``   | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
   |      |                             |                                                                                 |
@@ -106,11 +134,5 @@ General setup
   +------+-----------------------------+---------------------------------------------------------------------------------+
   | 14   | ``transient_flag``          | ``transient_flag``: Flag for transient conditions                               |
   +------+-----------------------------+---------------------------------------------------------------------------------+
-
-
-.. _Geometry:
-
-Geometry
-`````````````
 
 
