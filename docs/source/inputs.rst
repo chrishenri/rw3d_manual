@@ -71,16 +71,17 @@ Parameter file
 - Recirculation
 - Outputs
 
+.. _General setup:
 
 General setup
 `````````````
 
 .. _tbl-grid:
- 
+  
   +------+--------------+---------------------------------------------------------------------------------+
   |Line  | Variable     | Description                                                                     |
   +======+==============+=================================================================================+
-  | 10   | idebug       | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
+  | 10   | ``idebug``   | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
   |      |              |         options:                                                                |
   |      |              |         - ``idebug`` = -1: Do not write the velocity field                      |
   |      |              |         - ``idebug`` = 0: Normal Run                                            |
