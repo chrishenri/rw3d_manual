@@ -82,23 +82,26 @@ Note that 3 header lines has to be written before each block.
 
 .. _tbl-grid:
 
-  +--------------+-----------------------------------------------------------------------------------------------------------+
-  | file name    | name of the file. Put some text even if no file is used                                                   |
-  +--------------+-----------------------------------------------------------------------------------------------------------+
-  | multiplier   | multiplier of the variable                                                                                |
-  +--------------+-----------------------------------------------------------------------------------------------------------+
-  | ivar         | variable index of the variable in the gslib array                                                         |
-  +--------------+-----------------------------------------------------------------------------------------------------------+
-  | flag         | 0: the parameter is not read from a file and is defined as the multiplier                                 |
-  |              |                                                                                                           |
-  |              | 1: the parameter is read from the ascii file specified in ``file name``                                   |
-  |              |                                                                                                           |
-  |              | 2: the parameter is read from a MODFLOW type file (only available for fluxes)                             |
-  |              |                                                                                                           |
-  |              | 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file    | 
-  |              |                                                                                                           |
-  |              | 4: the parameter is read from a netcdf file                                                               | 
-  +--------------+-----------------------------------------------------------------------------------------------------------+
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | Variable                    | Type               | Description                                                                                               |
+  +======+======================+====================+===========================================================================================================+
+  | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+  |                             |                    |                                                                                                           |
+  |                             |                    | values:                                                                                                   |
+  |                             |                    |                                                                                                           |
+  |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+  |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+  |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+  |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+  |                             |                    | - 4: the parameter is read from a netcdf file                                                             |
+  |                             |                    |                                                                                                           |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
 
 .. _General setup:
@@ -119,11 +122,11 @@ General setup
   |      |                             |                    |         - ``idebug`` = 0: Normal Run                                            |
   |      |                             |                    |         - ``idebug`` = 10: Maximum Debugging Degree                             |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
-  | 11   | ``nspe_aq``, ``nspe_min``   | ``integer``        | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
+  | 11   | ``nspe_aq`` ``nspe_min``    | ``integer``        | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
   |      |                             |                    |                                                                                 |
   |      |                             |                    | ``nspe_min``: number of aqueous (i.e., immobile) species                        |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
-  | 12   | ``name_aq``, ``name_min``   | ``string``         | ``name_aq``: name(s) of aqueous (i.e., mobile) species                          |
+  | 12   | ``name_aq`` ``name_min``    | ``string``         | ``name_aq``: name(s) of aqueous (i.e., mobile) species                          |
   |      |                             |                    |                                                                                 |
   |      |                             |                    | ``name_min``: name(s) of aqueous (i.e., immobile) species                       |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
@@ -140,49 +143,53 @@ Geometry
 
 .. _tbl-grid:
   
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  |Line  | Variable                                             | Type               | Description                                                                            |
-  +======+======================================================+====================+========================================================================================+
-  | 15   | ``nx``, ``ny``, ``nz``                               | ``integer``        | ``nx``: number of cell in the *x* direction (i.e., columns)                            |
-  |      |                                                      |                    | ``ny``: number of cell in the *y* direction (i.e., rows)                               |
-  |      |                                                      |                    | ``nz``: number of cell in the *z* direction (i.e., layers)                             |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ``dx``                                               | ``array``          | ``dx``: cell size in the *x* direction                                                 |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ``dy``                                               | ``array``          | ``dy``: cell size in the *y* direction                                                 |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ``dz``                                               | ``array, 1 option``| ``dz``: cell size in the *z* direction                                                 |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | option: Constant layer thickness                                                       |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ``floor``                                            | ``array``          | ``floor``: floor elevation                                                             |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ``inactive_cell``                                    | ``array, 1 option``| ``inactive_cell``: binary characteriztion of active/inactive cells                     |
-  |      |                                                      |                    |  (0: active; 1: inactive)                                                              |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | option: Particle in inactive cells are killed                                          |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    |    - ``logical``: ``T`` particles are killed, ``F`` particles bounce at the boundary   |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 16   | ib(1,1), ib(1,2), ib(2,1), ib(2,2), ib(3,1), ib(3,2) | ``integer``        | Defines the particle behaviour if a domain boundary is reached.                        |
-  |      |                                                      |                    | ``ib(1,1)``: left boundary, defined by x_min                                           |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | ``ib(1,2)``: right boundary, defined by x_max                                          |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | ``ib(2,1)``: front boundary, defined by y_min                                          |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | ``ib(2,2)``: back boundary, defined by y_max                                           |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | ``ib(2,1)``: bottom boundary, defined by z_min                                         |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | ``ib(2,2)``: top boundary, defined by z_max                                            | 
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    | values:                                                                                |
-  |      |                                                      |                    |                                                                                        |
-  |      |                                                      |                    |    - 0: The particle is killed                                                         |
-  |      |                                                      |                    |    - 1: The particle is sent to the opposite side of the domain                        |
-  |      |                                                      |                    |    - 2: The particle bounces at the boundary                                           |
-  +------+------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 15   | ``nx`` ``ny`` ``nz``                                                    | ``integer``        | ``nx``: number of cell in the *x* direction (i.e., columns)                            |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ny``: number of cell in the *y* direction (i.e., rows)                               |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``nz``: number of cell in the *z* direction (i.e., layers)                             |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``dx``                                                                  | ``array``          | ``dx``: cell size in the *x* direction                                                 |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``dy``                                                                  | ``array``          | ``dy``: cell size in the *y* direction                                                 |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``dz``                                                                  | ``array, 1 option``| ``dz``: cell size in the *z* direction                                                 |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | option: Constant layer thickness                                                       |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``floor``                                                               | ``array``          | ``floor``: floor elevation                                                             |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``inactive_cell``                                                       | ``array, 1 option``| ``inactive_cell``: binary characteriztion of active/inactive cells                     |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | values: 0: active; 1: inactive                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | option: Particle in inactive cells are killed                                          |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` particles are killed, ``F`` particles bounce at the boundary   |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``ib(1,1)`` ``ib(1,2)`` ``ib(2,1)`` ``ib(2,2)`` ``ib(3,1)`` ``ib(3,2)`` | ``integer``        | Defines the particle behaviour if a domain boundary is reached.                        |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(1,1)``: left boundary, defined by x_min                                           |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(1,2)``: right boundary, defined by x_max                                          |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(2,1)``: front boundary, defined by y_min                                          |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(2,2)``: back boundary, defined by y_max                                           |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(2,1)``: bottom boundary, defined by z_min                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ib(2,2)``: top boundary, defined by z_max                                            |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | values:                                                                                |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - 0: The particle is killed                                                         |
+  |      |                                                                         |                    |    - 1: The particle is sent to the opposite side of the domain                        |
+  |      |                                                                         |                    |    - 2: The particle bounces at the boundary                                           |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   
