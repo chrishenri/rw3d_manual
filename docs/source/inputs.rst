@@ -72,18 +72,20 @@ Parameter file
 - Outputs
 
 
-Type of inputs: 
+**Type of inputs**
 
 - Logical flag: ``T`` for True; ``F`` for False
-- Array: The parameter is potentially spatially variable and can be read from a file. 
-      The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``
+- Array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``
 
 .. _tbl-grid:
 
   +--------------+-----------------------------------------------------------------------------------------------------------+
   | file name    | name of the file. Put some text even if no file is used                                                   |
+  +--------------+-----------------------------------------------------------------------------------------------------------+
   | multiplier   | multiplier of the variable                                                                                |
+  +--------------+-----------------------------------------------------------------------------------------------------------+
   | ivar         | variable index of the variable in the gslib array                                                         |
+  +--------------+-----------------------------------------------------------------------------------------------------------+
   | flag         | 0: the parameter is not read from a file and is defined as the multiplier                                 |
   |              |                                                                                                           |
   |              | 1: the parameter is read from the ascii file specified in ``file name``                                   |
