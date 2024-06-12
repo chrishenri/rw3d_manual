@@ -109,6 +109,7 @@ General setup
   |Line  | Variable                    | Type               | Description                                                                     |
   +======+=============================+====================+=================================================================================+
   | 10   | ``idebug``                  | ``integer``        | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
+  |      |                             |                    |                                                                                 |
   |      |                             |                    | options:                                                                        |
   |      |                             |                    |                                                                                 |
   |      |                             |                    |         - ``idebug`` = -1: Do not write the velocity field                      |
@@ -148,6 +149,7 @@ Geometry
   | 16   | ``dy``                      | ``array``          | ``dy``: cell size in the *y* direction                                                 |
   +------+-----------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 16   | ``dz``                      | ``array, 1 option``| ``dz``: cell size in the *z* direction                                                 |
+  |      |                             |                    |                                                                                        |
   |      |                             |                    | option: Constant layer thickness                                                       |
   |      |                             |                    |                                                                                        |
   |      |                             |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
