@@ -78,12 +78,16 @@ General setup
 
 .. _tbl-grid:
   
-  +------+--------------+---------------------------------------------------------------------------------+
-  |Line  | Variable     | Description                                                                     |
-  +======+==============+=================================================================================+
-  | 10   | ``idebug``   | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
-  |      |              |         options:                                                                |
-  |      |              |         - ``idebug`` = -1: Do not write the velocity field                      |
-  |      |              |         - ``idebug`` = 0: Normal Run                                            |
-  |      |              |         - ``idebug`` = 10: Maximum Debugging Degree                             |
-  +------+--------------+---------------------------------------------------------------------------------+
+  +------+-----------------------------+---------------------------------------------------------------------------------+
+  |Line  | Variable                    | Description                                                                     |
+  +======+=============================+=================================================================================+
+  | 10   | ``idebug``                  | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
+  |      |                             | options:                                                                        |
+  |      |                             |                                                                                 |
+  |      |                             |         - ``idebug`` = -1: Do not write the velocity field                      |
+  |      |                             |         - ``idebug`` = 0: Normal Run                                            |
+  |      |                             |         - ``idebug`` = 10: Maximum Debugging Degree                             |
+  +------+-----------------------------+---------------------------------------------------------------------------------+
+  | 11   | ``nspe_aq``, ``nspe_min``   | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
+  |      |                             | ``nspe_min``: number of aqueous (i.e., immobile) species                        |
+  +------+-----------------------------+---------------------------------------------------------------------------------+
