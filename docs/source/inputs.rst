@@ -55,7 +55,7 @@ Parameter file
 ------------
 
 - :ref:`General setup`
-- Geommetry
+- :ref:`Geometry`
 - Time discretization
 - Advection
 - Heads
@@ -70,6 +70,12 @@ Parameter file
 - Injection
 - Recirculation
 - Outputs
+
+
+Type of inputs: 
+
+- Flag: ``T`` for True; ``F`` for False
+- 
 
 .. _General setup:
 
@@ -92,3 +98,19 @@ General setup
   |      |                             |                                                                                 |
   |      |                             | ``nspe_min``: number of aqueous (i.e., immobile) species                        |
   +------+-----------------------------+---------------------------------------------------------------------------------+
+  | 12   | ``name_aq``, ``name_min``   | ``name_aq``: name(s) of aqueous (i.e., mobile) species                          |
+  |      |                             |                                                                                 |
+  |      |                             | ``name_min``: name(s) of aqueous (i.e., immobile) species                       |
+  +------+-----------------------------+---------------------------------------------------------------------------------+
+  | 13   | ``t_sim``                   | ``t_sim``: simulation time                                                      |
+  +------+-----------------------------+---------------------------------------------------------------------------------+
+  | 14   | ``transient_flag``          | ``transient_flag``: Flag for transient conditions                               |
+  +------+-----------------------------+---------------------------------------------------------------------------------+
+
+
+.. _Geometry:
+
+Geometry
+`````````````
+
+
