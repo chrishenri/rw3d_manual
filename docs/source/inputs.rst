@@ -54,6 +54,9 @@ The file consists in 15 lines that must be defined as follow (even if the output
 Parameter file
 ------------
 
+The parameter file consists in a text file. The following blocks of information has to be sequentially provided. 
+Note that 3 header lines has to be written before each block. 
+
 - :ref:`General setup`
 - :ref:`Geometry`
 - Time discretization
@@ -154,3 +157,15 @@ Geometry
   |      |                             |                    |                                                                                        |
   |      |                             |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
   +------+-----------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``floor``                   | ``array``          | ``floor``: floor elevation                                                             |
+  +------+-----------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``inactive_cell``           | ``array, 1 option``| ``inactive_cell``: binary characteriztion of active/inactive cells                     |
+  |      |                             |                    |  (0: active; 1: inactive)                                                              |
+  |      |                             |                    |                                                                                        |
+  |      |                             |                    | option: Particle in inactive cells are killed                                          |
+  |      |                             |                    |                                                                                        |
+  |      |                             |                    |    - ``logical``: ``T`` particles are killed, ``F`` particles bounce at the boundary   |
+  +------+-----------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ib(1,1), ib(1,2), ib(2,1), ib(2,2), ib(3,1), ib(3,2) | ``integer``          | ``ib``: floor elevation                                                             |
+  +------+-----------------------------+--------------------+----------------------------------------------------------------------------------------+
+  
