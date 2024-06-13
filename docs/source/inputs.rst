@@ -59,8 +59,8 @@ Note that 3 header lines has to be written before each block.
 
 - :ref:`General setup`
 - :ref:`Geometry`
-- Time discretization
-- Advection
+- :ref:`Time discretization`
+- :ref:`Advection`
 - Heads
 - Sinks
 - Diffusion / Dispersion
@@ -77,8 +77,11 @@ Note that 3 header lines has to be written before each block.
 
 **Type of inputs**
 
-- Logical flag: ``T`` for True; ``F`` for False
-- Array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``
+- logical: ``T`` for True; ``F`` for False
+- array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``
+- string
+- integer
+- real
 
 .. _tbl-grid:
 
@@ -118,9 +121,9 @@ General setup
   |      |                             |                    |                                                                                 |
   |      |                             |                    | values:                                                                         |
   |      |                             |                    |                                                                                 |
-  |      |                             |                    |         - ``idebug`` = -1: Do not write the velocity field                      |
-  |      |                             |                    |         - ``idebug`` = 0: Normal Run                                            |
-  |      |                             |                    |         - ``idebug`` = 10: Maximum Debugging Degree                             |
+  |      |                             |                    |         - -1: Do not write the velocity field                                   |
+  |      |                             |                    |         - 0: Normal Run                                                         |
+  |      |                             |                    |         - 10: Maximum Debugging Degree                                          |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
   | 11   | ``nspe_aq`` ``nspe_min``    | ``integer``        | ``nspe_aq``: number of aqueous (i.e., mobile) species                           |
   |      |                             |                    |                                                                                 |
@@ -132,7 +135,7 @@ General setup
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
   | 13   | ``t_sim``                   | ``real``           | ``t_sim``: simulation time                                                      |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
-  | 14   | ``transient_flag``          | ``logical``        | ``transient_flag``: Flag for transient conditions                               |
+  | 14   | ``transient_flag``          | ``logical``        | ``transient_flag``: True if transient conditions                                |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
 
 
@@ -192,4 +195,60 @@ Geometry
   |      |                                                                         |                    |    - 1: The particle is sent to the opposite side of the domain                        |
   |      |                                                                         |                    |    - 2: The particle bounces at the boundary                                           |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+
+.. _Time discretization:
+
+Time discretization
+`````````````
+
+.. _tbl-grid:
   
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 16   | ``dt_method``                                                           | ``string``         | Defines the way time steps are computed.                                               |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | values: description provided in the section :ref:`Time discretization process`         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``constant_dt``                                                                   |
+  |      |                                                                         |                    |    - ``constant_cu``                                                                   |
+  |      |                                                                         |                    |    - ``constant_damt``                                                                 |
+  |      |                                                                         |                    |    - ``constant_dadecay``                                                              |
+  |      |                                                                         |                    |    - ``optimum_dt``                                                                    |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``dt`` ``courant`` ``peclet`` ``DaKINETIC`` ``DaDECAY`` ``DaMMT``       | ``real``           | Defines the way time steps are computed.                                               |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+
+.. _Advection:
+
+Advection
+`````````````
+
+.. _tbl-grid:
+  
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 15   | ``advection_action``                                                    | ``logical``        | True if the package is activated                                                       |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 15   | ``q_x``                                                                 | ``array``          | flux in the *x* direction                                                              |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 15   | ``q_y``                                                                 | ``array``          | flux in the *y* direction                                                              |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 15   | ``q_z``                                                                 | ``array``          | flux in the *z* direction                                                              |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 16   | ``porosity``                                                            | ``array, 1 option``| porosity (or water content)                                                            |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | option: transient conditions                                                           |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+
+
+

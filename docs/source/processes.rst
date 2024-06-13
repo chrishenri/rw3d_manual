@@ -35,6 +35,44 @@ where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :mat
 with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
 
 
+.. _Time discretization process:
+
+Time discretization
+`````````````
+
+Particles jumps occurs 
+
+The time step can be made constant and dependent on characteristic times for advection :math:`t_{c,adv}`, dispersion :math:`t_{c,disp}` and/or reactions :math:`t_{c,k}`. 
+These characteristic times are defined as follow: 
+
+.. math::
+    :label: tcadv
+
+    \begin{aligned}
+    t_{c,adv} = \frac{\Delta_s}{\bar{v}} 
+    \end{aligned}
+
+where 
+
+.. math::
+    
+    \Delta_s = \frac{v_x(\mathbf{x_p},t) dx^2}{\bar{v}} + \frac{v_y(\mathbf{x_p},t) dy^2}{\bar{v}} + \frac{v_z(\mathbf{x_p},t) dz^2}{\bar{v}}
+
+and 
+
+.. math::
+    
+    \bar{v} = \sqrt{v_x(\mathbf{x_p},t)^2 + v_y(\mathbf{x_p},t)^2 + v_z(\mathbf{x_p},t)^2}
+
+
+.. math::
+    :label: tcdisp
+
+    \begin{aligned}
+    t_{c,disp} = \frac{\Delta_s^2}{\max{D_L,D_{TH},D_{TV}}} 
+    \end{aligned}
+
+
 Special cases
 `````````````
 
