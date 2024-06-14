@@ -55,7 +55,6 @@ Parameter file
 ------------
 
 The parameter file consists in a text file. The following blocks of information has to be sequentially provided. 
-Note that 3 header lines has to be written before each block. 
 
 - :ref:`General setup`
 - :ref:`Geometry`
@@ -74,11 +73,13 @@ Note that 3 header lines has to be written before each block.
 - Recirculation
 - Outputs
 
+Note that 3 header lines has to be written before each block. 
 
 **Type of inputs**
 
 - logical: ``T`` for True; ``F`` for False
-- array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``
+- array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
+  In some specific cases, one or two additional parameters (options) must also be provided. 
 - string
 - integer
 - real
@@ -119,7 +120,7 @@ General setup
   +======+=============================+====================+=================================================================================+
   | 10   | ``idebug``                  | ``integer``        | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg |
   |      |                             |                    |                                                                                 |
-  |      |                             |                    | values:                                                                         |
+  |      |                             |                    | *values*:                                                                       |
   |      |                             |                    |                                                                                 |
   |      |                             |                    |         - -1: Do not write the velocity field                                   |
   |      |                             |                    |         - 0: Normal Run                                                         |
@@ -136,6 +137,22 @@ General setup
   | 13   | ``t_sim``                   | ``real``           | ``t_sim``: simulation time                                                      |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
   | 14   | ``transient_flag``          | ``logical``        | ``transient_flag``: True if transient conditions                                |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | *if ``transient_flag`` == ``F``, go to :ref:`Geometry`; if ``transient_flag`` == ``T``, fill up the following:*                           |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 15   | ``read_dt_from_file``       | ``logical``        | ``read_dt_from_file``: True if the time steps are read from an ascii file       |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | *if ``read_dt_from_file`` == ``T``:*                                                                                                      |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 16   | ``dt_file``                 | ``string``         | ``dt_file``: name of the ascii file listing the time steps                      |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | *if ``read_dt_from_file`` == ``F``:*                                                                                                      |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 17   | ``n_dt``                    | ``integer``        | ``n_dt``: number of time steps                                                  |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | *to be repeated :math:`n_{dt}` times:*                                                                                                    |
+  +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
+  | 18...| ``dt``                      | ``real``           | ``dt``: time step                                                               |
   +------+-----------------------------+--------------------+---------------------------------------------------------------------------------+
 
 
@@ -161,7 +178,7 @@ Geometry
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 16   | ``dz``                                                                  | ``array, 1 option``| ``dz``: cell size in the *z* direction                                                 |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | option: Constant layer thickness                                                       |
+  |      |                                                                         |                    | *option*: Constant layer thickness                                                     |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
@@ -169,9 +186,9 @@ Geometry
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 16   | ``inactive_cell``                                                       | ``array, 1 option``| ``inactive_cell``: binary characteriztion of active/inactive cells                     |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | values: 0: active; 1: inactive                                                         |
+  |      |                                                                         |                    | *values*: 0: active; 1: inactive                                                       |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | option: Particle in inactive cells are killed                                          |
+  |      |                                                                         |                    | *option*: Particle in inactive cells are killed                                        |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``logical``: ``T`` particles are killed, ``F`` particles bounce at the boundary   |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
@@ -189,7 +206,7 @@ Geometry
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    | ``ib(2,2)``: top boundary, defined by z_max                                            |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | values:                                                                                |
+  |      |                                                                         |                    | *values*:                                                                              |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - 0: The particle is killed                                                         |
   |      |                                                                         |                    |    - 1: The particle is sent to the opposite side of the domain                        |
@@ -210,7 +227,7 @@ Time discretization
   +======+=========================================================================+====================+========================================================================================+
   | 16   | ``dt_method``                                                           | ``string``         | Defines the way time steps are computed.                                               |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | values: description provided in the section :ref:`Time discretization process`         |
+  |      |                                                                         |                    | *values*: description provided in the section :ref:`Time discretization process`       |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``constant_dt``                                                                   |
   |      |                                                                         |                    |    - ``constant_cu``                                                                   |
@@ -243,7 +260,7 @@ Advection
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 16   | ``porosity``                                                            | ``array, 1 option``| porosity (or water content)                                                            |
   |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | option: transient conditions                                                           |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+

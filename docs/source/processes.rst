@@ -40,7 +40,9 @@ with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
 Time discretization
 `````````````
 
-Particles jumps occurs 
+The appropriate determination of the time step between two particles jumps is essential for the RWPT method to solve the ADE. In general, the smaller the time step, the better. 
+But, to gain in efficiency, we implemented few methods, based on characteristic times, that allows a satisfactorily relaxation of the time step size. 
+Basically,   
 
 The time step can be made constant and dependent on characteristic times for advection :math:`t_{c,adv}`, dispersion :math:`t_{c,disp}` and/or reactions :math:`t_{c,k}`. 
 These characteristic times are defined as follow: 
