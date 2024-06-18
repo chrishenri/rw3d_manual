@@ -62,8 +62,8 @@ The parameter file consists in a text file. The following blocks of information 
 - :ref:`Advection`
 - :ref:`Heads`
 - :ref:`Sinks`
-- Diffusion / Dispersion
-- Mass Transfer
+- :ref:`Diffusion / Dispersion`
+- :ref:`Mass Transfer`
 - Reactions
     - Retardation
     - First-order reactions
@@ -80,33 +80,36 @@ Note that 3 header lines has to be written before each block.
 - logical: ``T`` for True; ``F`` for False
 - array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
   In some specific cases, one or two additional parameters (options) must also be provided. 
+
+.. container::
+   :name: table-array
+
+   .. table:: Array.
+
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | Variable                    | Type               | Description                                                                                               |
+      +======+======================+====================+===========================================================================================================+
+      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | values:                                                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+      |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+      |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+      |                             |                    | - 4: the parameter is read from a netcdf file                                                             |
+      |                             |                    |                                                                                                           |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+
 - string
 - integer
 - real
-
-.. _tbl-grid:
-
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | Variable                    | Type               | Description                                                                                               |
-  +======+======================+====================+===========================================================================================================+
-  | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-  |                             |                    |                                                                                                           |
-  |                             |                    | values:                                                                                                   |
-  |                             |                    |                                                                                                           |
-  |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-  |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
-  |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-  |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
-  |                             |                    | - 4: the parameter is read from a netcdf file                                                             |
-  |                             |                    |                                                                                                           |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-
 
 .. _General setup:
 
@@ -313,9 +316,9 @@ Sinks
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 
-.. _Dispersion:
+.. _Diffusion / Dispersion:
 
-Dispersion
+Dispersion / Disffusion
 `````````````
 
 .. _tbl-grid:
@@ -367,4 +370,16 @@ Mass transfer
   |Line  | Variable                                                                | Type               | Description                                                                            |
   +======+=========================================================================+====================+========================================================================================+
   | 68   | ``mass_transfer_action``                                                | ``logical``        | True if the package is activated                                                       |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 32   | ``type_mass_transfer``                                                  | ``string``         | Defines the type of mass transfer process                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *values*: description provided in section :ref:`Multirate Mass Transfer process`       |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``multirate``                                                                     |
+  |      |                                                                         |                    |    - ``spherical_diffusion``                                                           |
+  |      |                                                                         |                    |    - ``layered_diffusion``                                                             |
+  |      |                                                                         |                    |    - ``cylindral_diffusion``                                                           |
+  |      |                                                                         |                    |    - ``power_law``                                                                     |
+  |      |                                                                         |                    |    - ``lognormal_law``                                                                 |
+  |      |                                                                         |                    |    - ``composite_law``                                                                 |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+

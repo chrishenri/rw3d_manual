@@ -175,6 +175,8 @@ Linear instantaneous sorption, i.e., retardation, is simply solved by scaling th
 where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity, :math:`\mathbf{D}` is the dispersion tensor, and :math:`R_i` is the i-th species specific retardation factor.  
 
 
+.. _Multirate Mass Transfer process:
+
 Multirate Mass Transfer
 ----------------
 
