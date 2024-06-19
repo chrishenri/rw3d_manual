@@ -73,7 +73,8 @@ The parameter file consists in a text file. The following blocks of information 
 - Recirculation
 - Outputs
 
-Note that 3 header lines has to be written before each block. 
+.. warning::
+    Note that 3 header lines has to be written before each block. 
 
 **Type of inputs**
 
