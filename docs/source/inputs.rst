@@ -163,17 +163,17 @@ Example:
 
 ::
 
-   #---------------------------------------------------------
+   #-----------------------------------------------------------------
    # General Setup
-   #---------------------------------------------------------
-   0                            !idebug
-   2  0                         !nspe_aq; nspe_min
-   A  B                         !name_aq
-   -                            !name_min
-   150.0                        !t_sim
-   T 						    !transient_flag (T if any parameters other than MF2K fluxes and injected mass flux is transient; F otherwise)
-   T	T						!read_dt_from_file (1 read temp. disc. from a file; 0 if specified bellow); LOOP_TRANSPAR (T if specified time discretization is looped )
-   time_discretization.dat
+   #-----------------------------------------------------------------
+   0                                   !idebug
+   2   0                               !nspe_aq; nspe_min
+   A   B                               !name_aq
+   -                                   !name_min
+   150.0                               !t_sim
+   T                                   !transient_flag
+   T   T                               !read_dt_from_file; loop_dt
+   time_discretization.dat             !dt_file
 
 
 .. _Geometry:
@@ -233,6 +233,20 @@ Geometry
   |      |                                                                         |                    |    - 2: The particle bounces at the boundary                                           |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
+Example:
+
+::
+
+   #---------------------------------------------------------------
+   # Geometry
+   #---------------------------------------------------------------
+   1200    1400    11                               !nx; ny; nz
+   not_used             100.0    1 	  0             !dx
+   not_used             100.0    1 	  0             !dy
+   dz.dat               1.0      1    1    F        !dz
+   floor.dat            1.0      1    1             !floor
+   InactCell.dat        1.0      1    1    T        !inactive_cell
+   0   0   0   0   0   1                            !ib(1,1); ib(1,2); ib(2,1); ib(2,2); ib(3,1); ib(3,2)
 
 
 .. _Time discretization:
