@@ -26,12 +26,12 @@ How do I get set up?
 
     #. Download `Visual Studio Community <https://visualstudio.microsoft.com/downloads/>`_ ; Install
     #. Download `Intel HPC Toolkit <https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html>`_; Install (the included MKL library has to been also installed)
-    #. In Visual Studio: File -> New -> Project
-    #. In the New Project window: Template -> Intel(R) Visual Fortran (appear when the compiler has been correctly installed) -> Empty Project (provide Name and Location)
+    #. In Visual Studio: File :math:`\to` New :math:`\to` Project
+    #. In the New Project window: Template :math:`\to` Intel(R) Visual Fortran (appear when the compiler has been correctly installed) :math:`\to` Empty Project (provide Name and Location)
     #. In the Solution Explorer panel: Drag all fortran input files into the folder "Source files"
     #. Right click on the project name; the Property Pages appears
     #. Select the desired Configuration: Debug (running the code will be slower but more detailed error messages will be displayed) or Release (lighter, faster solution)
-    #. In Configuration Properties -> Fortran -> Libraries: Select "Parallel" in Use Intel Math Kernel Library
-    #. In Configuration Properties -> Linker -> General: Select "Yes" in Link Library Dependencies; click OK to validate the changes
-    #. The solution can now be built; In Visual Studio: Build -> Build Solution
+    #. In Configuration Properties :math:`\to` Fortran :math:`\to` Libraries: Select "Parallel" in Use Intel Math Kernel Library
+    #. In Configuration Properties :math:`\to` Linker :math:`\to` General: Select "Yes" in Link Library Dependencies; click OK to validate the changes
+    #. The solution can now be built; In Visual Studio: Build :math:`\to` Build Solution
     #. The generated executable, located in the newly created folder (named Debug or Release, following the chosen Configuration), is now ready to be used.

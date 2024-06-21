@@ -244,9 +244,15 @@ The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent th
 Similar reaction terms have been presented by many authors :cite:t:`clement97,clement01,sun99,Falta07`. 
 We have assumed that only aqueous concentrations are susceptible to undergo chemical reactions, i.e., no biodegradation in the sorbed phase occurs. Nevertheless, we note that other situations can be simulated by properly redefining the degradation rates \citep{vanGenuchten85}.
 
-Multirates series:
+**Diffusion into different geometries**
 
-.. _tbl-grid:
+The multirate model offers the advantage of also simulating diffusion into spheres, cylinders, and layers. This is achieved by selecting appropriate values for the first-order rates and capacity coefficients :cite:t:`Haggerty1995`. 
+More discussion about the modeling of diffusion into different geometries using RWPT can be found in :cite:t:`Salamon2006`. 
+
+The series of these coefficients for the different geometries are shown in the following table:
+
+.. container::
+   :name: table-diffusion
 
   +------------------------------+---------------------------------------------------+---------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------+
   | Diffusion geommetry          | :math:`\alpha_j` (for :math:`j=1,\dots,N_{im}-1`) | :math:`\beta_j` (for :math:`j=1,\dots,N_{im}-1`)  | :math:`\alpha_j` (for :math:`j=N_{im}` )                                                                                                                                           | :math:`\beta_j` (for :math:`j=N_{im}` )                                                            |

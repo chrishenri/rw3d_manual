@@ -9,6 +9,93 @@ Input Instructions
 - Parameter file: File with parameters (file name to be defined in the name file)
 
 
+Type of inputs
+------------
+
+- ``logical``: ``T`` for True; ``F`` for False
+- ``string``
+- ``integer``
+- ``real``
+- ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
+  In some specific cases, one or two additional parameters (*options*) must also be provided. 
+
+.. container::
+   :name: table-array
+
+   .. table:: Array.
+
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | Variable                    | Type               | Description                                                                                               |
+      +======+======================+====================+===========================================================================================================+
+      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | values:                                                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+      |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+      |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+      |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
+      |                             |                    |                                                                                                           |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+
+
+File format
+`````````````
+
+- **ascii file (``flag``=1 or 3)**
+
+A text file (with name ``file name``) must follow the following format: 
+
+.. container::
+   :name: table-array
+
+   .. table:: Ascii file format.
+ 
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      |Line  | Variable                                                                | Type               | Description                                                                            |
+      +======+=========================================================================+====================+========================================================================================+
+      | 1    | ``header``                                                              | ``string``         | header line (*not used by the code*)                                                   |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      | 2    | ``nvar``                                                                | ``integer``        | number of variables                                                                    |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      | repeat the following line ``nvar`` times:                                                                                                                                                    |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      | 3    | ``nvar_name``                                                           | ``string``         | name of the variable (*not used by the code*)                                          |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      | repeat the following line :math:`nx \times ny \times nz` times:                                                                                                                              |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+      | 4    | ``values``                                                              | ``real``           | variable values                                                                        |
+      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+A single file can contain information about multiple (``nvar``) variables. 
+The values of each variable is defined in space separated columns. The file must contain :math:`nx \times ny \times nz` rows, where :math:`ni` is the number of cells in the *i*-th dimension. 
+All values are corrected by multiplying the read values by ``multiplier``. 
+
+The values of the variable with index ``ivar`` are read as follow: 
+
+.. code-block:: fortran
+
+    do k=1,nz
+        do j=1,ny
+            do i=1,nx
+                read(iunit,*) (aline(jcol),jcol=1,nvar)    ! read all columns, i.e., all variables values, corresponding to the location (i,j,k)
+                values(i,j,k) = aline(ivar) * multiplier   ! values of the selected variable (corresponding to the column ivar), corrected by a user-defined constant (multiplier) 
+            end do
+        end do
+    end do
+
+
+- **netcdf file (``flag``=4)**
+
+
+
 Name file
 ------------
 
@@ -75,88 +162,6 @@ The parameter file consists in a text file. The following blocks of information 
 
 .. warning::
     Note that 3 header lines has to be written before each block. 
-
-**Type of inputs**
-
-- ``logical``: ``T`` for True; ``F`` for False
-- ``string``
-- ``integer``
-- ``real``
-- ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
-  In some specific cases, one or two additional parameters (*options*) must also be provided. 
-
-.. container::
-   :name: table-array
-
-   .. table:: Array.
-
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | Variable                    | Type               | Description                                                                                               |
-      +======+======================+====================+===========================================================================================================+
-      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | values:                                                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-      |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
-      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-      |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
-      |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
-      |                             |                    |                                                                                                           |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-
-**File format**
-
-*ascii file (``flag``=1 or 3)*
-
-A text file (with name ``file name``) must follow the following format: 
-
-.. container::
-   :name: table-array
-
-   .. table:: Array.
- 
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      |Line  | Variable                                                                | Type               | Description                                                                            |
-      +======+=========================================================================+====================+========================================================================================+
-      | 1    | ``header``                                                              | ``string``         | header line (not used by the code)                                                     |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      | 2    | ``nvar``                                                                | ``integer``        | number of variables                                                                    |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      | repeat the following line ``nvar`` times:                                                                                                                                                    |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      | 3    | ``nvar_name``                                                           | ``string``         | name of the variable                                                                   |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      | repeat the following line :math:`nx \times ny \times nz` times:                                                                                                                              |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-      | 4    | ``values``                                                              | ``real``           | variable values                                                                        |
-      +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-
-A single file can contain information about multiple (``nvar``) variables. 
-The values of each variable is defined in space separated columns. The file must contain :math:`nx \times ny \times nz` rows, where :math:`ni` is the number of cells in the *i*-th dimension. 
-All values are corrected by multiplying the read values by ``multiplier``. 
-The values of the variable with index ``ivar`` are read as follow: 
-
-.. code-block:: fortran
-
-    do k=1,nz
-        do j=1,ny
-            do i=1,nx
-                read(iunit,*) (aline(jcol),jcol=1,nvar)    ! read all columns, i.e., all variables values, corresponding to the location (i,j,k)
-                values(i,j,k) = aline(ivar) * multiplier   ! values of the selected variable (corresponding to the column ivar), corrected by a user-defined constant (multiplier) 
-            end do
-        end do
-    end do
-
-
-*netcdf file (``flag``=4)*
-
 
 
 .. _General setup:
@@ -527,3 +532,8 @@ Reactions
 
 .. _tbl-grid:
 
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 68   | ``reaction_action``                                                     | ``logical``        | True if the package is activated                                                       |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
