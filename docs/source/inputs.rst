@@ -78,9 +78,12 @@ The parameter file consists in a text file. The following blocks of information 
 
 **Type of inputs**
 
-- logical: ``T`` for True; ``F`` for False
-- array: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
-  In some specific cases, one or two additional parameters (options) must also be provided. 
+- ``logical``: ``T`` for True; ``F`` for False
+- ``string``
+- ``integer``
+- ``real``
+- ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
+  In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
 .. container::
    :name: table-array
@@ -108,9 +111,47 @@ The parameter file consists in a text file. The following blocks of information 
       |                             |                    |                                                                                                           |
       +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
-- string
-- integer
-- real
+**File format**
+
+*ascii file*
+
+A text file must follow the following format: 
+
+.. _tbl-grid:
+ 
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 1   | ``header``                                                               | ``string``         | header line (not used by the code)                                                     |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 2   | ``nvar``                                                                 | ``integer``        | number of variables                                                                    |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | repeat the following line ``nvar`` times:                                                                                                                                                    |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 3   | ``nvar_name``                                                            | ``string``         | name of the variable                                                                   |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | repeat the following line :math:`nx \times ny \times nz` times:                                                                                                                              |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 4   | ``var``                                                                  | ``real``           | variable values                                                                        |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+.. code-block:: fortran
+
+    do k=1,nz
+        do j=1,ny
+            do i=1,nx
+                read(iunit,*,err=10,end=11) (aline(jcol),jcol=1,nvar)
+                values (i,j,k) = aline(ivar) * const
+            end do
+        end do
+    end do
+    close(iunit)
+
+
+*netcdf file*
+
+
 
 .. _General setup:
 
@@ -164,9 +205,9 @@ Example:
 
 ::
 
-   #-----------------------------------------------------------------
-   # General Setup
-   #-----------------------------------------------------------------
+   -----------------------------------------------------------------
+    General Setup
+   -----------------------------------------------------------------
    0                                   !idebug
    2   0                               !nspe_aq; nspe_min
    A   B                               !name_aq
@@ -246,9 +287,9 @@ Example:
 
 ::
 
-   #---------------------------------------------------------------
-   # Geometry
-   #---------------------------------------------------------------
+   ---------------------------------------------------------------
+    Geometry
+   ---------------------------------------------------------------
    1200    1400    11                               !nx; ny; nz
    not_used             100.0    1    0             !dx
    not_used             100.0    1    0             !dy
