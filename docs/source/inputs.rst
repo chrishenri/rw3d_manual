@@ -47,7 +47,7 @@ Type of inputs
 
 
 File format
-`````````````
+~~~~~~~~~~
 
 - **ascii file (``flag``=1 or 3)**
 
@@ -167,7 +167,7 @@ The parameter file consists in a text file. The following blocks of information 
 .. _General setup:
 
 General setup
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -232,7 +232,7 @@ Example:
 .. _Geometry:
 
 Geometry
-`````````````
+~~~~~~~~~~
 
 .. raw:: latex
 
@@ -313,7 +313,7 @@ Example:
 .. _Time discretization:
 
 Time discretization
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -338,7 +338,7 @@ Time discretization
 .. _Advection:
 
 Advection
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -371,7 +371,7 @@ Advection
 .. _Heads:
 
 Heads
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -389,7 +389,7 @@ Heads
 .. _Sinks:
 
 Sinks
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -411,7 +411,7 @@ Sinks
 .. _Diffusion / Dispersion:
 
 Dispersion / Disffusion
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
   
@@ -454,7 +454,7 @@ Dispersion / Disffusion
 .. _Mass transfer:
 
 Mass transfer
-`````````````
+~~~~~~~~~~
 
 .. _tbl-grid:
 
@@ -528,7 +528,11 @@ Mass transfer
 .. _Reactions:
 
 Reactions
-`````````````
+~~~~~~~~~~
+
+Retardation
+""""""""""
+
 
 .. _tbl-grid:
 
