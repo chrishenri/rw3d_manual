@@ -1,72 +1,72 @@
 -----------------------------------------------------------------
  General Setup
 -----------------------------------------------------------------
-0					    																						!...
-1  0					    																					!...
-A 					    																						!...
--					    																						!...
-150.0					    																					!...
-T 						    																					!...TRANSIENT_FLAG (T if any parameters other than MF2K fluxes and injected mass flux is transient; F otherwise)
-T	T																											!...READ_TIMES_FILE (1 read temp. disc. from a file; 0 if specified bellow), LOOP_TRANSPAR (T if specified time discretization is looped )
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\time_discretization_2.dat
+0					    																!... idebug
+1  0					    															!... nspe_aq, nspe_min
+A 					    																!... name_aq
+-					    																!... name_min
+150.0					    															!... t_sim
+T 						    															!... transient_flag (T if any parameters other than MF2K fluxes and injected mass flux is transient; F otherwise)
+T	T																					!... read_dt_from_file (1 read temp. disc. from a file; 0 if specified bellow), loop_dt (T if specified time discretization is looped )
+time_discretization_.dat																!... dt_file
 -----------------------------------------------------------------
  Geometry
 -----------------------------------------------------------------
-1200    1400    11
-not_used 			100.0 	1 	0
-not_used 			100.0 	1 	0
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\dz_DK1.dat    		1.0 	1 	1	 F									!...dz
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\floor_DK1.dat		1.0 	1	1										!...floor
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\InactCell_DK1.dat 	1.0 	1 	1	 T									!...inactive
+1200  1400  11																			!... nx, ny, nz
+not_used 							100.0 	1 	0										!... dx array
+not_used 							100.0 	1 	0										!... dy array
+dz_DK1.dat    						1.0 	1 	1	 F									!... dz array
+floor_DK1.dat						1.0 	1	1										!... floor
+InactCell_DK1.dat 					1.0 	1 	1	 T									!... inactive
 0 0 0 0 0 1	
 -----------------------------------------------------------------
  Time discretization
 -----------------------------------------------------------------
-constant_cu
-0.5  1.0  0.2  0.1  0.1  0.1
-0.99			!time step relaxation
+constant_cu																				!... 
+0.5  1.0  0.2  0.1  0.1  0.1															!... 
+0.99																					!... time step relaxation
 -----------------------------------------------------------------
  Advection
 -----------------------------------------------------------------
-T
-Eulerian
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\qx_from_Qx_DK1.nc  	1.0  	1  	4  	T									!...file,const,ivar,flag,trans
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\qy_from_Qy_DK1.nc  	1.0   	1  	4  	T  									!...file,const,ivar,flag,trans
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\qz_DK1.nc  			1.0   	1  	4  	T  									!...file,const,ivar,flag,trans
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\porosity_DK1.dat   	1.0		1  	1  	F									!...file,const,ivar,flag,trans
+T																						!... advection_action
+Eulerian																				!... advection_method
+qx_DK1.nc  							1.0  	1  	4  	T									!... qx array
+qy_DK1.nc  							1.0   	1  	4  	T  									!... qy array
+qz_DK1.nc  							1.0   	1  	4  	T  									!... qz array
+porosity_DK1.dat   					1.0		1  	1  	F									!... porosity array
 -----------------------------------------------------------------
  Heads
 -----------------------------------------------------------------
-T
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\heads_DK1.nc  		1.0 	1 	4	 F									!...heads
-0.05
+T																						!... heads_action
+heads_DK1.nc  						1.0 	1 	4	F									!... heads
+0.05 																					!... 
 -----------------------------------------------------------------
  Sinks
 -----------------------------------------------------------------
-T
-4
-river  \\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\Qriver_DK1.nc  			1.0  1  4  T  T  						!...name,file,const,ivar,flag,SaveBTC,trans		!...specific name if read from netCDF: river, drain, uz
-drain  \\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\Qdrain_DK1.nc  			1.0  1  4  T  T  						!...name,file,const,ivar,flag,SaveBTC,trans
-uz	   \\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\Qseepage_and_uz_DK1.nc  	1.0  1  4  T  T  						!...name,file,const,ivar,flag,SaveBTC,trans
-well   \\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\Qwell_DK1.nc  			1.0  1  4  T  T  						!...name,file,const,ivar,flag,SaveBTC,trans
+T																						!... sink_action
+4																						!... number of sink
+river  		Qriver_DK1.nc  			1.0  	1  	4  	T  	T  								!... name, qsink array
+drain  		Qdrain_DK1.nc  			1.0  	1  	4  	T  	T  								!... name, qsink array
+uz	   		Q_uz_DK1.nc  			1.0  	1  	4  	T  	T  								!... name, qsink array
+well   		Qwell_DK1.nc  			1.0  	1  	4  	T  	T  								!... name, qsink array
 -----------------------------------------------------------------
  Dispersion / diffusion
 -----------------------------------------------------------------
-F
-not_used       		5.0     1 	0	F
-not_used       		5.0		1 	0	F
-not_used       		0.1 	1 	0	F
-not_used       		0.01 	1 	0	F
-not_used       		0.01 	1 	0	F
-not_used       		0.01 	1 	0	F
-1.0  1.0  1.0  1.0  1.0
-1.0  1.0  1.0  1.0  1.0
+T																						!... 
+not_used       						5.0     1 	0	F									!... 
+not_used       						5.0		1 	0	F									!... 
+not_used       						0.1 	1 	0	F									!... 
+not_used       						0.01 	1 	0	F									!... 
+not_used       						0.01 	1 	0	F									!... 
+not_used       						0.01 	1 	0	F									!... 
+1.0  1.0  1.0  1.0  1.0																	!... 
+1.0  1.0  1.0  1.0  1.0																	!... 
 -----------------------------------------------------------------
  Mass transfer
 -----------------------------------------------------------------
 F
 -----------------------------------------------------------------
- Sorption
+ Retardation
 -----------------------------------------------------------------
 F
 -----------------------------------------------------------------
@@ -80,16 +80,16 @@ F
 -----------------------------------------------------------------
  Control surface
 -----------------------------------------------------------------
-0
-0
-0																												!...number of registration lenses
+0																						!... number of extraction wells
+0																						!... number of control planes
+0																						!... number of registration lenses
 -----------------------------------------------------------------
  Injection
 -----------------------------------------------------------------
-1
-read_particle_file    DIRAC
-\\netapp2p\Nmodel\RW3D\DK1_rw3d_inputs\cell_part_loc_OP11_sat.dat
-0.0
+1																						!... 
+read_particle_file    DIRAC																!... 
+cell_part_loc_OP11_sat.dat																!... 
+0.0																						!... 
 -----------------------------------------------------------------
  Recirculation
 -----------------------------------------------------------------
@@ -97,12 +97,12 @@ F
 -----------------------------------------------------------------
  Outputs
 -----------------------------------------------------------------
-  0
-  1
-  150.0   2   1
+  0																						!... 
+  1																						!... 
+  150.0  2  1																			!... 
 
-  0
-  0    100   plugin   -10.   0. 250.0
-  0    	1	1		!print cBTC, inc, binary format
-  0		0	0		!print plume history, binary format, print killed particles (0: no; 1: yes)
-  0    	1	35496
+  0																						!... 
+  0  100  plugin  -10.  0.  250.0														!... 
+  0  1  1																				!... print cBTC, inc, binary format
+  0  0  0																				!... print plume history, binary format, print killed particles (0: no; 1: yes)
+  0  1  35496
