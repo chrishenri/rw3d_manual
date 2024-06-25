@@ -152,10 +152,10 @@ The parameter file consists in a text file. The following blocks of information 
 - :ref:`Diffusion / Dispersion`
 - :ref:`Mass Transfer`
 - :ref:`Reactions`
-    - Retardation
-    - First-order reactions
+    - :ref:`Retardation`
+    - :ref:`First-order decay`
     - Bimolecular 
-- Observations 
+- Observation 
 - Injection
 - Recirculation
 - Outputs
@@ -215,7 +215,9 @@ General setup
     The line number in each table is reset for each block to simplify the description of the inputs. Each block is to be filled up sequentially, so the *absolute* line number will be different. 
 
 
-Example:
+**Example**: A problem involving 2 aqueous chemical species (named *A* and *B*) and 0 mineral species. 
+The simulation will run for 150.0 time units with transient parameters. 
+The temporal discretization of the transient parameters is specified in the file *time_discretization.dat* and the transient paramters are set to be looped in time until the end of the simulation. 
 
 ::
 
@@ -289,15 +291,19 @@ Geometry
   |      |                                                                         |                    | *values*:                                                                              |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - 0: The particle is killed                                                         |
-  |      |                                                                         |                    |    - 1: The particle is sent to the opposite side of the domain                        |
-  |      |                                                                         |                    |    - 2: The particle bounces at the boundary                                           |
+  |      |                                                                         |                    |    - 1: The particle bounces at the boundary                                           |
+  |      |                                                                         |                    |    - 2: The particle is sent to the opposite side of the domain                        |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 .. raw:: latex
 
     \end{landscape}
 
-Example:
+**Example**: The domain is discretized in 1200 cells in the *x*-direction, 1400 cells in the *y*-direction and 11 cells in the *z*-direction. 
+The cell size in *x* and *y* is fixed to 100 space units. The cell size in the *z*-direction is variable in space and specified in the file *dz.dat*. 
+The bottom elevation of the domain (floor) is also variable in space and specified in the file *floor.dat*.  
+The location of inactive cells is provided in the file *InactCell.dat* and particles reaching an inactive cell will be killed. 
+Finally, particles reaching the boundary of the domain will be killed, expected at the top of the domain, where particles will bounce.  
 
 ::
 
@@ -570,7 +576,7 @@ Retardation
     Retardation is not available if ``type_mass_transfer`` = ``composite_media``. 
 
 
-.. _First-order Reaction:
+.. _First-order decay:
 
 First-order decay
 """"""""""
@@ -592,7 +598,7 @@ First-order decay
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``serial``: sequential degradation (e.g., A :math:`\to` B :math:`\to` C)          |
   |      |                                                                         |                    |    - ``serial_moments``: sequential degradation solving higher moments in the          |
-  |      |                                                                         |                    |       derivation of transition probabilities (slower, but more accurate for large dt)  |
+  |      |                                                                         |                    |    derivation of transition probabilities (slower, but more accurate for large dt)     |
   |      |                                                                         |                    |    - ``generic``: generic reaction network                                             |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | - if ``type_decay_network`` = ``serial``:                                                                                                                                                    |
@@ -619,7 +625,7 @@ First-order decay
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | ...... to be repeated ``nspe_decay`` times:                                                                                                                                                  |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 11...| ``kim``                                                                 | ``array``          | first-order decay rate a given aqueous species (for all imoobile zones)                |
+  | 10...| ``kim``                                                                 | ``array``          | first-order decay rate a given aqueous species (for all imoobile zones)                |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | - if ``type_decay_network`` = ``serial_moments``:                                                                                                                                            |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
@@ -630,6 +636,12 @@ First-order decay
   | ...... do not fill for the first species for the serial network:                                                                                                                             |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 9 ...| ``y``                                                                   | ``array``          | yield coefficient                                                                      |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | - if ``type_decay_network`` = ``generic``:                                                                                                                                                   |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | ... to be repeated ``nspe_decay`` times:                                                                                                                                                     |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 8 ...| ``k``                                                                   | ``array``          | first-order decay rate                                                                 |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 
