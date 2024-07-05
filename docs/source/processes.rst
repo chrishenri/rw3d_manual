@@ -152,13 +152,47 @@ RW3D is solving few types of bimolecular reactions. The reactive transport of su
 where :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`, :math:`\theta [L^2 L^{-2}]` is the water content, :math:`\mathbf{u}` is the pore water velocity :math:`[L T^{-1}]` and :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source. 
 For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f [L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
 
-For the moment, RW3D is solving the following reactions: 
+For the moment, RW3D is solving the following bimolecular reactions: 
 
-- 2 products: :math:`A + B \to C + D`
-- 1 product: :math:`A + B \to C`
 - 0 product: :math:`A + B \to 0`
+- 1 product: :math:`A + B \to C`
+- 2 products: :math:`A + B \to C + D`
 
-The particle-based method used here simulates bimolecular reactions through probabilistic rules of particle collisions and transformation, as described by :cite:t:`Benson2008`.
+In this package, these reactions can be associated to first-order reactions of the form: 
+
+- 0 product: :math:`A \to 0`
+- 1 product: :math:`A \to C`
+- 2 products: :math:`A \to C + D`
+
+The particle-based method used here simulates bimolecular reactions through probabilistic rules of particle collisions and transformation, as described by :cite:t:`Benson2008`. 
+
+To illustrate the method, let's consider a reaction :math:`A + B \to C`. For this reaction to take place, a A particle should be close enough to a B particle, so they can interact. 
+Under natural, not well mixed conditions, this process is controlled by the distance that a particle might diffuse or hydro-dynamically disperse, especially in the transverse direction to flow. 
+Let’s assume two independent particles A and B, with initial locations :math:`x_t^A` and :math:`x_t^B`, respectively. 
+After a small time-step $\Delta t$, the particles have moved to new positions, :math:`x_{t+\Delta t}^A` and :math:`x_{t+\Delta t}^B`, respectively, with :math:`dx^A` and :math:`dx^B` is the actual displacement of each particle during :math:`\Delta t`.
+The probability that the two particles will occupy the same position, after :math:`\Delta t`, is given by:
+
+.. math::
+    :label: Preact
+
+    \begin{split}
+    P\left(x_{t+\Delta t}^A = x_{t+\Delta t}^B \right) & = P\left( x_t^A+dx^A=x_{t+\Delta t}^B+dx^B \right) \\ 
+    & = P\left(dx^A-dx^B = x_{t+\Delta t}^B-x_{t+\Delta t}^A \right) \\ 
+    & = P\left(D=s\right) = P\left(D-s=0\right),
+    \end{split}
+
+where :math:`D=dx^A-dx^B` is the relative displacement of the two particles and :math:`s=x_t^B-x_t^A` is the initial separation distance. 
+We assume that the two particles will be in contact (and react) if :math:`D` is equal to :math:`s` and the final displacement, :math:`D-s` is equal to 0. :cite:t:`Benson2008` define the encounter density function :math:`v(s)` as the density of :math:`D`.
+Now, assuming that the movement of the particles during :math:`\Delta t` is symmetric, then for the case of B particles, :math:`{dx}^B` is identically distributed with :math:`-dx^B`, and since the displacements :math:`dx^A` and :math:`dx^B` are independent, :math:`D` is identically distributed with :math:`dx^A+dx^B`. 
+:math:`v(s)` can then be considered as the sum of two independent random variables :math:`dx^A` and :math:`dx^B`, which is known to be equal to the convolution of the two densities. 
+Defining :math:`f_A(x)` and :math:`f_B(x)` as the densities of :math:`dx^A` and :math:`dx^B` (i.e., the densities of the motions away from the current positions :math:`x_t^A` and :math:`x_t^B`), we can write the following convolution equation: 
+
+.. math::
+    :label: vs
+
+    v(s)=\int{f_A(x)f_B(s-x)dx}.
+
+In RW3D. both :math:`f_A(x)` and :math:`f_B(x)` are considered as Gaussian densities to represent the mechanical dispersion of particles.
 
 Linear Sorption
 `````````````
@@ -268,6 +302,19 @@ The series of these coefficients for the different geometries are shown in the f
   .. [#] Where :math:`(\beta_{tot})_i = \dfrac{\phi_{im}\,R^{im}_i}{\phi_{m}\,R^{m}_i}` is the capacity ratio for a specie *i*.
 
 
+.. _Sink process:
+
 Sink
 ----------------
+
+.. _Sink cells:
+
+Sink cells
+`````````````
+
+
+.. _Wells:
+
+Wells
+`````````````
 
