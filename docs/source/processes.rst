@@ -44,17 +44,31 @@ Time discretization
 
 The appropriate determination of the time step between two particles jumps is essential for the RWPT method to solve the ADE. In general, the smaller the time step, the better. 
 But, to gain in efficiency, we implemented few methods, based on characteristic times, that allows a satisfactorily relaxation of the time step size. 
-Basically,   
 
-The time step can be made constant and dependent on characteristic times for advection :math:`t_{c,adv}`, dispersion :math:`t_{c,disp}` and/or reactions :math:`t_{c,k}`. 
+The time step can be made constant or dependent on characteristic times for key processes that are advection :math:`t_{c,adv}`, dispersion :math:`t_{c,disp}` and reactions :math:`t_{c,k}`. 
 These characteristic times are defined as follow: 
 
 .. math::
     :label: tcadv
 
     \begin{aligned}
-    t_{c,adv} = \frac{\Delta_s}{\bar{v}} 
+    t_{c,adv} = \frac{\Delta_s}{\bar{v}},
     \end{aligned}
+
+.. math::
+    :label: tcdisp
+
+    \begin{aligned}
+    t_{c,disp} = \frac{\Delta_s^2}{\max{D_L,D_{TH},D_{TV}}},
+    \end{aligned}
+
+.. math::
+    :label: tckinetic
+
+    \begin{aligned}
+    t_{c,k} = \frac{1}{\max{kf}},
+    \end{aligned}
+
 
 where 
 
@@ -69,13 +83,7 @@ and
     \bar{v} = \sqrt{v_x(\mathbf{x_p},t)^2 + v_y(\mathbf{x_p},t)^2 + v_z(\mathbf{x_p},t)^2}
 
 
-.. math::
-    :label: tcdisp
-
-    \begin{aligned}
-    t_{c,disp} = \frac{\Delta_s^2}{\max{D_L,D_{TH},D_{TV}}} 
-    \end{aligned}
-
+:math:`\max{kf}` refers to the maximum values of the reaction rates in a bimolecular reaction network. 
 
 Special cases
 `````````````
@@ -169,11 +177,11 @@ The particle-based method used here simulates bimolecular reactions through prob
 To illustrate the method, let's consider a reaction :math:`A + B \to C`. For this reaction to take place, a A particle should be close enough to a B particle, so they can interact. 
 Under natural, not well mixed conditions, this process is controlled by the distance that a particle might diffuse or hydro-dynamically disperse, especially in the transverse direction to flow. 
 Let’s assume two independent particles A and B, with initial locations :math:`x_t^A` and :math:`x_t^B`, respectively. 
-After a small time-step $\Delta t$, the particles have moved to new positions, :math:`x_{t+\Delta t}^A` and :math:`x_{t+\Delta t}^B`, respectively, with :math:`dx^A` and :math:`dx^B` is the actual displacement of each particle during :math:`\Delta t`.
+After a small time-step :math:`\Delta t`, the particles have moved to new positions, :math:`x_{t+\Delta t}^A` and :math:`x_{t+\Delta t}^B`, respectively, with :math:`dx^A` and :math:`dx^B` is the actual displacement of each particle during :math:`\Delta t`.
 The probability that the two particles will occupy the same position, after :math:`\Delta t`, is given by:
 
 .. math::
-    :label: Preact
+    :label: Pcolloc
 
     \begin{split}
     P\left(x_{t+\Delta t}^A = x_{t+\Delta t}^B \right) & = P\left( x_t^A+dx^A=x_{t+\Delta t}^B+dx^B \right) \\ 
@@ -192,7 +200,19 @@ Defining :math:`f_A(x)` and :math:`f_B(x)` as the densities of :math:`dx^A` and 
 
     v(s)=\int{f_A(x)f_B(s-x)dx}.
 
-In RW3D. both :math:`f_A(x)` and :math:`f_B(x)` are considered as Gaussian densities to represent the mechanical dispersion of particles.
+In RW3D, both :math:`f_A(x)` and :math:`f_B(x)` are considered as Gaussian densities to represent the mechanical dispersion of particles.
+
+The probability density that a pair of particles A and B react is then given by:
+
+.. math::
+    :label: Preact
+    
+    P\left(react\right) = k_f\times\Delta t\times m_p\times v(s)
+
+where :math:`m_p` [M] is the mass of a particle.
+
+The reaction probability `P(react)` is finally compared with a random number that is uniformly distributed between 0 and 1. 
+If the probability of the reaction is larger than the random number, the two reactant particles are converted to a product particle. The location of the product particle is considered to be half-way between the two reactant particles.  
 
 Linear Sorption
 `````````````
