@@ -9,14 +9,23 @@ Transport
 RW3D solves the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT scheme defined in the chapter :ref:`randomwalk`. 
 Here, we describe key interpolation schemes and available options. 
 
-.. _Velocities Interpolation:
+.. _Advective motion:
 
-Velocities Interpolation
+Advective motion
 `````````````
 
-2 options to interpolate velocities:
+RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`).
 
-**Eulerian**: Standard Random Walk with Eulerian integration of the velocity:
+Particle velocities are estimated at each particle location 
+
+.. _label: finite-difference_cell
+.. figure:: finite-difference_cell.jpg
+    
+    Fluxes crossing the faces of a finite-difference cell.
+
+RW3D is proposing 2 options to simulate advective particle motion:
+
+- **Eulerian**: Standard Random Walk with Eulerian integration of the velocity:
 
 .. math::
     :label: eulerian
@@ -27,7 +36,10 @@ Velocities Interpolation
 
 where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :math:`v` is the pore velocity.
 
-**Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
+
+
+
+- **Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
 
 .. math::
     :label: expo

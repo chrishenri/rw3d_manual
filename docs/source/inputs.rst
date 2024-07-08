@@ -366,7 +366,7 @@ Advection
   +======+=========================================================================+====================+========================================================================================+
   | 4    | ``advection_action``                                                    | ``logical``        | True if the package is activated                                                       |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``advection_method``                                                    | ``logical``        | Method of velocity interpolation, as defined in :ref:`Velocities Interpolation`        |
+  | 5    | ``advection_method``                                                    | ``logical``        | Method for advective motion of particles, as defined in :ref:`Advective motion`        |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    | *values*:                                                                              |
   |      |                                                                         |                    |                                                                                        |
