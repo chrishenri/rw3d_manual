@@ -22,8 +22,9 @@ Particle fluxes are then subsequently used to estimate the velocity of a particl
 .. math::
     :label: vp
     
-    v_p(\mathbf{x}_{p}) = \frac{\mathbf{q}_p}{\phi}
+    v_p(\mathbf{x}_{p}) = \frac{\mathbf{q}_p(\mathbf{x}_{p})}{\phi(\mathbf{x}_{p})}
 
+From now on, all parameters are considered at the particle location :math:`(\mathbf{x}_{p})`, unless mentioned otherwise. 
 
 .. _finite-difference_cell:
 
@@ -40,10 +41,8 @@ RW3D is proposing 2 options to simulate advective particle motion, i.e., :math:`
     :label: eulerian
 
     \begin{aligned}
-    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx v_p(\mathbf{x}_{p},t)\Delta t,
+    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx v_p(t)\Delta t,
     \end{aligned}
-
-where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a time-step, and :math:`v_p(\mathbf{x}_{p})` is the pore velocity at the particle location.
 
 
 - **Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
@@ -51,7 +50,7 @@ where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a 
 .. math::
     :label: expo
 
-    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx \dfrac{v_{p,i}(\mathbf{x}_{p},t)}{A_i}(\exp(A_i\,\Delta t)-1), 
+    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx \dfrac{v_{p,i}(t)}{A_i}(\exp(A_i\,\Delta t)-1), 
     
 with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`, where :math:`v_{i,face(j)}` is the velocity in the `i`-th direction calculated at the `j`-th face of the cell, and :math:`\Delta x_i` is the cell size in the `i`-th direction.
 
@@ -82,14 +81,14 @@ If dispersion is accounted for, the local flux in the `i`-th direction used to c
     
     \begin{multline}
     q_{p,i} =
-    (1-F_x) \times (1-F_y) \times (1-F_z) \times q_{i,node(1,1,1) + 
-    F_x     \times (1-F_y) \times (1-F_z) \times q_{i,node(2,1,1) + \\
-    (1-F_x) \times F_y     \times (1-F_z) \times q_{i,node(1,2,1) + 
-    F_x     \times F_y     \times (1-F_z) \times q_{i,node(2,2,1) + \\
-    (1-F_x) \times (1-F_y) \times F_z     \times q_{i,node(1,1,2) + 
-    F_x     \times (1-F_y) \times F_z     \times q_{i,node(2,1,2) + \\
-    (1-F_x) \times F_y     \times F_z     \times q_{i,node(1,2,2) + 
-    F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2).
+    (1-F_x) \times (1-F_y) \times (1-F_z) \times q_{i,node(1,1,1)} + 
+    F_x     \times (1-F_y) \times (1-F_z) \times q_{i,node(2,1,1)} + \\
+    (1-F_x) \times F_y     \times (1-F_z) \times q_{i,node(1,2,1)} + 
+    F_x     \times F_y     \times (1-F_z) \times q_{i,node(2,2,1)} + \\
+    (1-F_x) \times (1-F_y) \times F_z     \times q_{i,node(1,1,2)} + 
+    F_x     \times (1-F_y) \times F_z     \times q_{i,node(2,1,2)} + \\
+    (1-F_x) \times F_y     \times F_z     \times q_{i,node(1,2,2)} + 
+    F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2)}.
     \end{multline}
 
 where :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`, and :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`. 
@@ -118,14 +117,14 @@ These characteristic times are defined as follow:
     :label: tcdisp
 
     \begin{aligned}
-    t_{c,disp} = \frac{\Delta_s^2}{\max{D_L,D_{TH},D_{TV}}},
+    t_{c,disp} = \frac{\Delta_s^2}{\max(D_L,D_{TH},D_{TV}}),
     \end{aligned}
 
 .. math::
     :label: tckinetic
 
     \begin{aligned}
-    t_{c,k} = \frac{1}{\max{kf}},
+    t_{c,k} = \frac{1}{\max(kf)},
     \end{aligned}
 
 
@@ -133,16 +132,16 @@ where
 
 .. math::
     
-    \Delta_s = \frac{v_x(\mathbf{x_p},t) dx^2}{\bar{v}} + \frac{v_y(\mathbf{x_p},t) dy^2}{\bar{v}} + \frac{v_z(\mathbf{x_p},t) dz^2}{\bar{v}}
+    \Delta_s = \frac{v_x dx^2}{\bar{v}} + \frac{v_y dy^2}{\bar{v}} + \frac{v_z dz^2}{\bar{v}}
 
 and 
 
 .. math::
     
-    \bar{v} = \sqrt{v_x(\mathbf{x_p},t)^2 + v_y(\mathbf{x_p},t)^2 + v_z(\mathbf{x_p},t)^2}
+    \bar{v} = \sqrt{v_x^2 + v_y^2 + v_z^2}
 
 
-:math:`\max{kf}` refers to the maximum values of the reaction rates in a bimolecular reaction network. 
+:math:`\max(kf)` refers to the maximum values of the reaction rates in a bimolecular reaction network. 
 
 Special cases
 `````````````
