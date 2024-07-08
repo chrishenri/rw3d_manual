@@ -14,8 +14,16 @@ Here, we describe key interpolation schemes and available options.
 Advective motion
 `````````````
 
-RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`q_x`, :math:`q_y`, :math:`q_z`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`). 
-Fluxes are subsequently used to estimate the velocity of a particle (:math:`v(\mathbf{x}_{p})`). 
+RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`\mathbf{q}`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`). 
+Fluxes are then estimated at the particle location (:math:`\mathbf{q}_p`) using the interpolation schemes described in :ref:`Flux interpolation`.
+
+Particle fluxes are then subsequently used to estimate the velocity of a particle (:math:`v_p(\mathbf{x}_{p})`) by simple scaling by the local porosity/water content (:math:`\phi`):  
+
+.. math::
+    :label: vp
+    
+    v_p(\mathbf{x}_{p}) = \frac{\mathbf{q}_p}{\phi}
+
 
 .. _finite-difference_cell:
 
@@ -32,10 +40,10 @@ RW3D is proposing 2 options to simulate advective particle motion, i.e., :math:`
     :label: eulerian
 
     \begin{aligned}
-    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx v(\mathbf{x}_{p},t)\Delta t,
+    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx v_p(\mathbf{x}_{p},t)\Delta t,
     \end{aligned}
 
-where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a time-step, and :math:`v(\mathbf{x}_{p})` is the pore velocity at the particle location.
+where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a time-step, and :math:`v_p(\mathbf{x}_{p})` is the pore velocity at the particle location.
 
 
 - **Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
@@ -43,48 +51,48 @@ where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a 
 .. math::
     :label: expo
 
-    \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx \dfrac{v_i(\mathbf{x}_{p},t)}{A_i\,R}(\exp(A_i\,\Delta t)-1), 
+    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx \dfrac{v_{p,i}(\mathbf{x}_{p},t)}{A_i}(\exp(A_i\,\Delta t)-1), 
     
-with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
+with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`, where :math:`v_{i,face(j)}` is the velocity in the `i`-th direction calculated at the `j`-th face of the cell, and :math:`\Delta x_i` is the cell size in the `i`-th direction.
 
 
 
-.. _Particle velocity interpolation:
+.. _Flux interpolation:
 
-Particle velocity interpolation
+Flux interpolation
 `````````````
 Subsurface systems are inherently heterogeneous and often characterized by abrupt changes in soil and geological materials. 
 Physical properties of grid-based flow solvers used under heterogeneous conditions are parameterized at a series of discrete points, which generates discontinuities in output parameters (e.g., velocities) that are subsequently used to solve transport. 
 Yet, the RWPT algorithm require smooth transitions in the water front in order to preserve local solute mass conservation. 
 RW3D uses interpolation schemes to deal with discontinuities in the veocities and in the dispersion tensor. 
 
-To estimated the advective motion of the particle, the flux in the direction `i` is estimated using the following linear interpolation: 
+To estimated the advective motion of the particle, the flux in the `i`-th direction is estimated using the following linear interpolation: 
 
 .. math::
     :label: tri_interpo
     
     q_{p,i} = \frac{q_{i,face(2)}-q_{i,face(1)}}{\Delta i} * (x_{p,i}-x_{c,i}) + q_{i,face(1)}
 
-where :math:`xc_{i,face(1)}` is the i:math:`^{th}` coordinate of the first face of the cell hosting the particle. 
+where :math:`xc_{i,face(1)}` is the `i`-th coordinate of the first face of the cell hosting the particle. 
 
-If dispersion is accounted for, the local flux in the direction `i` used to calculate the random motion of the particle is estimated using the following trilinear interpolation scheme:
+If dispersion is accounted for, the local flux in the `i`-th direction used to calculate the random motion of the particle is estimated using the following trilinear interpolation scheme:
 
 .. math::
     :label: tri_interpo
     
     \begin{multline}
     q_{p,i} =
-    (1-F_x) \times (1-F_y) \times (1-F_z) \times qi_{1,1,1} + 
-    F_x     \times (1-F_y) \times (1-F_z) \times qi_{2,1,1} + \\
-    (1-F_x) \times F_y     \times (1-F_z) \times qi_{1,2,1} + 
-    F_x     \times F_y     \times (1-F_z) \times qi_{2,2,1} + \\
-    (1-F_x) \times (1-F_y) \times F_z     \times qi_{1,1,2} + 
-    F_x     \times (1-F_y) \times F_z     \times qi_{2,1,2} + \\
-    (1-F_x) \times F_y     \times F_z     \times qi_{1,2,2} + 
-    F_x     \times F_y     \times F_z     \times qi_{2,2,2}.
+    (1-F_x) \times (1-F_y) \times (1-F_z) \times q_{i,node(1,1,1) + 
+    F_x     \times (1-F_y) \times (1-F_z) \times q_{i,node(2,1,1) + \\
+    (1-F_x) \times F_y     \times (1-F_z) \times q_{i,node(1,2,1) + 
+    F_x     \times F_y     \times (1-F_z) \times q_{i,node(2,2,1) + \\
+    (1-F_x) \times (1-F_y) \times F_z     \times q_{i,node(1,1,2) + 
+    F_x     \times (1-F_y) \times F_z     \times q_{i,node(2,1,2) + \\
+    (1-F_x) \times F_y     \times F_z     \times q_{i,node(1,2,2) + 
+    F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2).
     \end{multline}
 
-where :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-x_{c,i})/d_i`, where :math:`x_{p,i}` is the i:math:`^{th}` component of the particle location, :math:`x_{c,i}` is the minimum i:math:`^{th}` coordinate of the cell in which the particle is located at a given time, and :math:`qi_{j,k,l}` is flux in the `i` direction at the node `{j,k,l}`. 
+where :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`, and :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`. 
 
 
 
