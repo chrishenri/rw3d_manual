@@ -1,6 +1,6 @@
-.. _processes:
+.. _methods:
 
-Simulated processes
+Method
 =====
 
 Transport
@@ -14,13 +14,12 @@ Here, we describe key interpolation schemes and available options.
 Advective motion
 `````````````
 
-RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`).
+RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`q_x`, :math:`q_y`, :math:`q_z`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`).
 
-Particle velocities are estimated at each particle location 
+.. _finite-difference_cell:
 
 .. figure:: finite-difference_cell.jpg
-    :scale: 75 %
-    :label: finite-difference_cell
+    :scale: 65 %
 
     Fluxes crossing the faces of a finite-difference cell.
 
@@ -35,9 +34,7 @@ RW3D is proposing 2 options to simulate advective particle motion:
     \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx v(\mathbf{x}_{p},t)\Delta t,
     \end{aligned}
 
-where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :math:`v` is the pore velocity.
-
-
+where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle during a time-step, and :math:`v(\mathbf{x}_{p})` is the pore velocity at the particle location.
 
 
 - **Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
@@ -48,6 +45,18 @@ where :math:`\mathbf{x}_{p,adv}` is the advective motion of a particle, and :mat
     \Delta\mathbf{x}_{p,adv} = \int v(\tau)d\tau \approx \dfrac{v_i(\mathbf{x}_{p},t)}{A_i\,R}(\exp(A_i\,\Delta t)-1), 
     
 with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`.
+
+
+
+.. _Particle velocity interpolation:
+
+Particle velocity interpolation
+`````````````
+
+To ensure the validity of the RWPT algorithm to solve the ADE - especially in case of sharp transitiion in fluxes -, it has been shown that the velocity at the particle location (:math:`v(\mathbf{x}_{p})`) should be interpolated from the fluxes determined at cell faces. 
+
+
+
 
 
 .. _Time discretization process:

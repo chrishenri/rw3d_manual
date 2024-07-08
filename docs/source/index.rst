@@ -22,7 +22,7 @@ Contents
 
    intro
    random_walk
-   processes
+   methods
    inputs
    bibliography
    
