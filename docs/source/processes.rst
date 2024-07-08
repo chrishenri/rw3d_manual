@@ -18,9 +18,10 @@ RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered di
 
 Particle velocities are estimated at each particle location 
 
-.. _label: finite-difference_cell
 .. figure:: finite-difference_cell.jpg
-    
+    :scale: 75 %
+    :label: finite-difference_cell
+
     Fluxes crossing the faces of a finite-difference cell.
 
 RW3D is proposing 2 options to simulate advective particle motion:
