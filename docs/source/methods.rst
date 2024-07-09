@@ -29,7 +29,7 @@ From now on, all parameters are considered at the particle location :math:`(\mat
 .. _finite-difference_cell:
 
 .. figure:: finite-difference_cell.jpg
-    :scale: 65 %
+    :scale: 50 %
 
     Fluxes crossing the faces of a finite-difference cell.
 
@@ -81,14 +81,14 @@ If dispersion is accounted for, the local flux in the `i`-th direction used to c
     
     \begin{multline}
     q_{p,i} =
-    (1-F_x) \times (1-F_y) \times (1-F_z) \times q_{i,node(1,1,1)} + 
+    (1-F_x) \times (1-F_y) \times (1-F_z) \times q_{i,node(1,1,1)} + \\
     F_x     \times (1-F_y) \times (1-F_z) \times q_{i,node(2,1,1)} + \\
-    (1-F_x) \times F_y     \times (1-F_z) \times q_{i,node(1,2,1)} + 
+    (1-F_x) \times F_y     \times (1-F_z) \times q_{i,node(1,2,1)} + \\
     F_x     \times F_y     \times (1-F_z) \times q_{i,node(2,2,1)} + \\
-    (1-F_x) \times (1-F_y) \times F_z     \times q_{i,node(1,1,2)} + 
+    (1-F_x) \times (1-F_y) \times F_z     \times q_{i,node(1,1,2)} + \\
     F_x     \times (1-F_y) \times F_z     \times q_{i,node(2,1,2)} + \\
-    (1-F_x) \times F_y     \times F_z     \times q_{i,node(1,2,2)} + 
-    F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2)}.
+    (1-F_x) \times F_y     \times F_z     \times q_{i,node(1,2,2)} + \\
+    F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2)}
     \end{multline}
 
 where :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`, and :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`. 
@@ -132,7 +132,7 @@ where
 
 .. math::
     
-    \Delta_s = \frac{v_x dx^2}{\bar{v}} + \frac{v_y dy^2}{\bar{v}} + \frac{v_z dz^2}{\bar{v}}
+    \Delta_s = \frac{v_x \Delta x^2}{\bar{v}} + \frac{v_y \Delta y^2}{\bar{v}} + \frac{v_z \Delta z^2}{\bar{v}}
 
 and 
 
@@ -294,7 +294,11 @@ Multirate Mass Transfer
 
 **What is Multirate Mass Transfer?**
 
-.. image:: scheme_MRMT_Rx.png
+.. figure:: scheme_MRMT_Rx.png
+    :scale: 120 %
+
+    Illustration of reactions and mass transfer between the mobile and a series of immobile spheres.
+
 
 The presence of stagnant water in micro and meso-pores at the grain scale and the inclusion of low permeability areas at the field scale typically leads to the conceptualization of the porous media as two distinct regions. 
 One region with mobile water where advection and dispersion takes place, and another with relatively immobile water where transport is diffusion limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`. 
