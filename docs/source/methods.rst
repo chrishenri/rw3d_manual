@@ -396,6 +396,28 @@ Sink
 Sink cells
 `````````````
 
+The mass transfered to a sink during a time step is estimated cell by cell. For a cell *i* affected by a sink, i.e., in which the flux into the sink located in the cell *i* (:math:`Q_{s,i}`) is larger than 0, the number of extracted particles is given as: 
+
+.. math:: 
+    :label: part_sink
+    
+    \begin{aligned}
+	np_{s,i} = np_{s,i}^* + np_{c,i} \times S_i
+    \end{aligned}
+
+where :math:`np_{s,i}^*` is the residual number of particle to be extracted from the previous time step and :math:`np_{c,i}^*` is the number of particle located in the sink cell *i*. 
+:math:`S_i` is the relative strength of a sink cell *i*, which is estimated by: 
+
+.. math:: 
+    :label: sink_strength
+    
+    \begin{aligned}
+	S_i = \frac{V_{s,i}}{V_{s,tot}} \times \frac{V_{s,tot}}{V_{s,tot} + V_{c,i}},
+    \end{aligned}
+
+where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink cell *i*, :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell *i*, and :math:`V_{c,i} [L^3]` is the volume of water in the cell *i*. 
+These volumes are calculated as: :math:`V_{s,i} = Q_{s,i} \times \Delta t`; :math:`V_{s,tot} = \sum{Q_{s,i}}` and :math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell.  
+
 
 .. _Wells:
 
