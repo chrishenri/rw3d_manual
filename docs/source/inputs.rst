@@ -49,7 +49,7 @@ Type of inputs
 File format
 ~~~~~~~~~~
 
-- **ascii file (``flag``=1 or 3)**
+- **ascii file**: ``flag``=1 or 3
 
 A text file (with name ``file name``) must follow the following format: 
 
@@ -92,7 +92,8 @@ The values of the variable with index ``ivar`` are read as follow:
     end do
 
 
-- **netcdf file (``flag``=4)**
+- **netcdf file**: ``flag``=4
+
 
 
 

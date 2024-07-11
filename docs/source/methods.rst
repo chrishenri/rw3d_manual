@@ -29,6 +29,7 @@ From now on, all parameters are considered at the particle location :math:`(\mat
 .. _finite-difference_cell:
 
 .. figure:: finite-difference_cell.jpg
+    :align: center
     :scale: 50 %
 
     Fluxes crossing the faces of a finite-difference cell.
@@ -295,6 +296,7 @@ Multirate Mass Transfer
 **What is Multirate Mass Transfer?**
 
 .. figure:: scheme_MRMT_Rx.png
+    :align: center
     :scale: 120 %
 
     Illustration of reactions and mass transfer between the mobile and a series of immobile spheres.
