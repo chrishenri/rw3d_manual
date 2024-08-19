@@ -478,7 +478,12 @@ Dispersion / Disffusion
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 11   | ``diffusion_factor`` (repeat ``nspe_aq`` times)                         | ``real``           | Species dependent multiplier for the diffusion coefficients                            |
+  | 11   | ``dispersivity_factor`` (repeat ``nspe_aq`` times)                      | ``real``           | Species dependent multiplier for the dispersivity coefficients                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *for each aqueous species, the effective dispersivity coefficients*                    |
+  |      |                                                                         |                    | *is multiplied by the given factor*                                                    |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 12   | ``diffusion_factor`` (repeat ``nspe_aq`` times)                         | ``real``           | Species dependent multiplier for the diffusion coefficients                            |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    | *for each aqueous species, the effective diffusion coefficient*                        |
   |      |                                                                         |                    | *is multiplied by the given factor*                                                    |
@@ -740,6 +745,11 @@ Bimolecular reactions
 .. _Observation:
 
 Observation
+~~~~~~~~~~
+
+.. _Extraction wells:
+
+Extraction wells
 """"""""""
 
 .. _tbl-grid:
@@ -749,17 +759,62 @@ Observation
   +======+=========================================================================+====================+========================================================================================+
   | 4    | ``n_well``                                                              | ``integer``        | number of wells                                                                        |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | to be repeated ``n_well`` times:                                                                                                                                                        |
+  | to be repeated ``n_well`` times:                                                                                                                                                             |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 7    | ``name`` ``xw`` ``yw`` ``rw`` ``zbot`` ``ztop`` ``flag`` ``SaveBTC``    | ``array``          | reaction rate                                                                          |
+  | 6    | ``name`` ``xw`` ``yw`` ``rw`` ``zbot`` ``ztop`` ``partOUT`` ``SaveBTC`` | ``string``         | ``name``: name of the well                                                             |
+  |      |                                                                         | ``real`` (x5)      |                                                                                        |
+  |      |                                                                         | ``logical`` (x2)   | ``xw``: x-coordinate of the center of the well                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``yw``: y-coordinate of the center of the well                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``rw``: radius of the well                                                             |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``zbot``: z-coordinate of the bottom of the well (or well screen)                      |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``ztop``: z-coordinate of the top of the well (or well screen)                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``partOUT``: True (T) if particles reaching the observation location are killed        |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``SaveBTC``:  True (T) if breakthrough curves are saved and printed                    |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-
-
+  | 7    | ``Qwell_method``                                                        | ``string``         | Method with which extraction fluxes (*Q_well*) are read                                |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *values*:                                                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``CONSTANTQ``: total *Q_well* is uniformly distributed along the well screen      |
+  |      |                                                                         |                    |    - ``WELL_PACKAGE``: *Q_well* is cell-by-cell defined in a external file following   |
+  |      |                                                                         |                    |        Modflow's *well* package                                                        |
+  |      |                                                                         |                    |    - ``MNW2_PACKAGE``: *Q_well* is cell-by-cell defined in a external file following   |
+  |      |                                                                         |                    |        Modflow's *mnw2* package                                                        |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | - if ``Qwell_method`` = ``CONSTANTQ``:                                                                                                                                                       |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | ... to be repeated ``n_well`` times:                                                                                                                                                         |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 8...| ``Qw``                                                                   | ``real``           | total flux extracted by the given well                                                 |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | - if ``Qwell_method`` = ``WELL_PACKAGE`` or ``MNW2_PACKAGE``:                                                                                                                                |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 8   | ``filename``                                                             | ``string``         | name of the file following the Modflow's package                                       |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 .. note::
     Extraction wells acting as a sink (strong or weak) can be specified in :ref:`Sinks` if the sink is considered uniformly in the cell where a well is located.
-    In :ref:`Observation`, extraction wells are considered as a sink at the well location. 
+    In :ref:`Observation`, extraction wells are considered as a sink at the well location, with converging velocity leading to the actual well location. 
     See :ref:`Sink process` for more details about the implementation. 
 
 
+.. _Control planes:
 
+Control planes
+""""""""""
+
+.. _tbl-grid:
+
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 4    | ``n_plane``                                                             | ``integer``        | number of control planes                                                               |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | to be repeated ``n_planes`` times:                                                                                                                                                             |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
