@@ -747,10 +747,20 @@ Bimolecular reactions
 Observation
 ~~~~~~~~~~
 
+.. note::
+    Information about all observation surfaces (extraction wells, planes, registration lenses) have to be provided in a single block, without header lines between them,  
+
+
 .. _Extraction wells:
 
 Extraction wells
 """"""""""
+
+.. note::
+    Extraction wells acting as a sink (strong or weak) can be specified in :ref:`Sinks` if the sink is considered uniformly in the cell where a well is located.
+    In :ref:`Observation`, extraction wells are considered as a sink at the well location, with converging velocity leading to the actual well location. 
+    See :ref:`Sink process` for more details about the implementation. 
+
 
 .. _tbl-grid:
 
@@ -791,17 +801,12 @@ Extraction wells
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | ... to be repeated ``n_well`` times:                                                                                                                                                         |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8...| ``Qw``                                                                   | ``real``           | total flux extracted by the given well                                                 |
+  | 8... | ``Qw``                                                                  | ``real``           | total flux extracted by the given well                                                 |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | - if ``Qwell_method`` = ``WELL_PACKAGE`` or ``MNW2_PACKAGE``:                                                                                                                                |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8   | ``filename``                                                             | ``string``         | name of the file following the Modflow's package                                       |
+  | 8    | ``filename``                                                            | ``string``         | name of the file following the Modflow's package                                       |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-
-.. note::
-    Extraction wells acting as a sink (strong or weak) can be specified in :ref:`Sinks` if the sink is considered uniformly in the cell where a well is located.
-    In :ref:`Observation`, extraction wells are considered as a sink at the well location, with converging velocity leading to the actual well location. 
-    See :ref:`Sink process` for more details about the implementation. 
 
 
 .. _Control planes:
@@ -814,7 +819,44 @@ Control planes
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   |Line  | Variable                                                                | Type               | Description                                                                            |
   +======+=========================================================================+====================+========================================================================================+
-  | 4    | ``n_plane``                                                             | ``integer``        | number of control planes                                                               |
+  | 5    | ``n_plane``                                                             | ``integer``        | number of control planes                                                               |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | to be repeated ``n_planes`` times:                                                                                                                                                             |
+  | There are 2 options to define the control planes:                                                                                                                                            |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | - option 1, to be repeated ``n_planes`` times:                                                                                                                                               |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 6    | ``dist`` ``type`` ``partOUT``                                           | ``string``         | ``dist``: distance of the control plane with respect to the x,y or z coordinate axis   |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``type``: type of control plane                                                        |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *values*:                                                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``XX``: plane parallel to the x coordinate                                        |
+  |      |                                                                         |                    |    - ``YY``: plane parallel to the y coordinate                                        |
+  |      |                                                                         |                    |    - ``ZZ``: plane parallel to the z coordinate                                        |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``partOUT``: True (T) if particles reaching the observation location are killed        |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | - option 2, to be repeated ``n_planes`` times:                                                                                                                                               |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 6    | ``A`` ``B`` ``C`` ``D`` ``partOUT``                                     | ``string`` (x4)    | ``A``, ``B``, ``C``, ``D``: parameters of the equation defining a plane as:            |
+  |      |                                                                         | ``logical``        |                                                                                        |
+  |      |                                                                         |                    | :math:`A x + B y + C z + D = 0`                                                        |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | ``partOUT``: True (T) if particles reaching the observation location are killed        |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+
+.. _Registration lenses:
+
+Registration lenses
+""""""""""
+
+.. _tbl-grid:
+
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                            |
+  +======+=========================================================================+====================+========================================================================================+
+  | 5    | ``n_reg``                                                               | ``integer``        | number of registration lenses                                                          |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
