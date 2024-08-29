@@ -23,7 +23,7 @@ Type of inputs
 .. container::
    :name: table-array
 
-   .. tabularcolumns:: |>{\centering\arraybackslash}\Y{0.2}|>{\raggedleft\arraybackslash}\Y{0.2}|>{\raggedleft\arraybackslash}\Y{0.4}|
+   .. tabularcolumns:: |p{3cm}|p{3cm}|p{10cm}|
 
    .. table:: Array.
 
