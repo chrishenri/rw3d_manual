@@ -23,7 +23,7 @@ Type of inputs
 .. container::
    :name: table-array
 
-   .. tabularcolumns:: |p{3cm}|p{3cm}|p{10cm}|
+   .. tabularcolumns:: |p{2cm}|p{2cm}|L|
 
    .. table:: Array.
 
