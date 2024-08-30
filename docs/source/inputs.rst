@@ -20,31 +20,34 @@ Type of inputs
 - ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
-.. container::
-   :name: table-array
+.. tabularcolumns:: p{0.132\linewidth}p{0.198\linewidth}p{0.330\linewidth}
+.. table:: Example table in grid style
+   :name: tables-grid-example
+   :widths: 20, 30, 50
+   :class: longtable
+   :align: center
+   :width: 66%
 
-   .. tabularcolumns:: |p{2cm}|p{2cm}|L|
-
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | Variable                    | Type               | Description                                                                                               |
-      +======+======================+====================+===========================================================================================================+
-      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | values:                                                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-      |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
-      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-      |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
-      |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
-      |                             |                    |                                                                                                           |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+   | Variable                    | Type               | Description                                                                                               |
+   +======+======================+====================+===========================================================================================================+
+   | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+   | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+   | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+   | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+   |                             |                    |                                                                                                           |
+   |                             |                    | values:                                                                                                   |
+   |                             |                    |                                                                                                           |
+   |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+   |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+   |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+   |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+   |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
+   |                             |                    |                                                                                                           |
+   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
 
 File format for *arrays*
@@ -1103,7 +1106,7 @@ Ouputs
     |      |                                                                         |                                                     | *values*:                                                                                                                        |
     |      |                                                                         |                                                     |                                                                                                                                  |
     |      |                                                                         |                                                     |    - ``plugin``: optimizes the bandwidth with an iterative algorithm that minimizes the mean integrated squared error of the     |
-    |      |                                                                         |                                                     |        density function. In this case, the resulting bandwidth is the standard deviation of the Gaussian density function.       |
+    |      |                                                                         |                                                     |    density function. In this case, the resulting bandwidth is the standard deviation of the Gaussian density function.           |
     |      |                                                                         |                                                     |    - ``box``: shape of the kernel function                                                                                       |
     |      |                                                                         |                                                     |    - ``gauss``: shape of the kernel function                                                                                     |
     |      |                                                                         |                                                     |    - ``triangle``: shape of the kernel function                                                                                  |
@@ -1113,6 +1116,24 @@ Ouputs
     |      |                                                                         |                                                     | ``tmin``: minimum value of the histogram bin (if :math:`<0` then estimated internally)                                           |
     |      |                                                                         |                                                     |                                                                                                                                  |
     |      |                                                                         |                                                     | ``tmax``: maximum value of the histogram bin (if :math:`<0` then estimated Internally)                                           |
+    +------+-------------------------------------------------------------------------+-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------+
+    | 9    | ``iwcbtc`` ``inc`` ``bin``                                              | ``integer`` ``integer`` ``integer``                 | ``iwcbtc``: ``1`` if print cumulative breakthrough curves                                                                        |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``inc``: informs the incremental printing of the CBTC. ``1`` for printing every values; ``2`` for every other values and so on.  |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``bin``: ``1`` for printing outputs in a binary file; ``0`` for printing in a text file.                                         |
+    +------+-------------------------------------------------------------------------+-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------+
+    | 910  | ``iwhistory`` ``bin`` ``print_out``                                     | ``integer`` ``integer`` ``integer``                 | ``iwhistory``: ``1`` if print the plume history                                                                                  |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``bin``: ``1`` for printing outputs in a binary file; ``0`` for printing in a text file.                                         |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``print_out``: ``1`` for printing particles killed during the simulation; ``0`` for not printing them.                           |
+    +------+-------------------------------------------------------------------------+-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------+
+    | 11   | ``iwpath`` ``pathfreq`` ``pathpart``                                    | ``integer`` ``integer`` ``integer``                 | ``iwpath``: ``1`` if print particle paths                                                                                        |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``pathfreq``: frequency of printing particle path                                                                                |
+    |      |                                                                         |                                                     |                                                                                                                                  |
+    |      |                                                                         |                                                     | ``pathpart``: ID of the particle for which the path is printed                                                                   |
     +------+-------------------------------------------------------------------------+-----------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -1133,4 +1154,18 @@ Ouputs
       | 3    | ``t_snap``                                                              | ``string``         | time of the snapshot                                                                   |
       +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
+**Example**:  
 
+::
+
+   --------------------------------------------------------------------------------------------
+    Outputs
+   --------------------------------------------------------------------------------------------
+   0                                                                     !... ixmom
+   0                                                                     !... iwcshot
+   150.0   50   1                                                        !... tlen,ntstep,tmult
+   0                                                                     !... itmom
+   0   100   plugin   -10.   0.0   250.0                                 !... iwbtc, ngrid, Kernel, bw, tmin, tmax
+   0   1   1                                                             !... iwcbtc, inc, bin
+   1   0   0                                                             !... iwhistory, bin, print_out
+   0   1   35496                                                         !... iwpath, pathfreq, pathpart
