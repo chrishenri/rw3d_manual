@@ -20,34 +20,58 @@ Type of inputs
 - ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
-.. tabularcolumns:: p{0.132\linewidth}p{0.198\linewidth}p{0.330\linewidth}
-.. table:: Example table in grid style
-   :name: tables-grid-example
-   :widths: 20, 30, 50
-   :class: longtable
-   :align: center
-   :width: 66%
+.. _tbl-grid:
+  
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | Variable                    | Type               | Description                                                                                               |
+  +======+======================+====================+===========================================================================================================+
+  | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+  | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+  |                             |                    |                                                                                                           |
+  |                             |                    | values:                                                                                                   |
+  |                             |                    |                                                                                                           |
+  |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+  |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+  |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+  |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+  |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
+  |                             |                    |                                                                                                           |
+  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
-   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-   | Variable                    | Type               | Description                                                                                               |
-   +======+======================+====================+===========================================================================================================+
-   | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-   | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-   | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-   | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-   |                             |                    |                                                                                                           |
-   |                             |                    | values:                                                                                                   |
-   |                             |                    |                                                                                                           |
-   |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-   |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
-   |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-   |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
-   |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
-   |                             |                    |                                                                                                           |
-   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+.. 
+    .. tabularcolumns:: p{0.132\linewidth}p{0.198\linewidth}p{0.330\linewidth}
+    .. table:: Example table in grid style
+    :name: tables-grid-example
+    :widths: 20, 30, 50
+    :class: longtable
+    :align: center
+    :width: 66%
+
+    +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+    | Variable                    | Type               | Description                                                                                               |
+    +======+======================+====================+===========================================================================================================+
+    | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+    +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+    | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+    +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+    | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+    +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+    | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+    |                             |                    |                                                                                                           |
+    |                             |                    | values:                                                                                                   |
+    |                             |                    |                                                                                                           |
+    |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+    |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
+    |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+    |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
+    |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
+    |                             |                    |                                                                                                           |
+    +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
 
 File format for *arrays*
