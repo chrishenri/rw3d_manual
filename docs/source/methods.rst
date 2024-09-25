@@ -424,3 +424,30 @@ These volumes are calculated as: :math:`V_{s,i} = Q_{s,i} \times \Delta t`; :mat
 Wells
 `````````````
 
+Mass extraction by wells is implemented in 2 ways. First, wells can be considered as a sink cell. In this case, the convergence of travel paths toward the actual well location is not considered. 
+Particles will be extracted uniformly in the sink cell following the weak sink cell extraction algorithm as specified in the section :ref:`Sink cells`. 
+
+Particle extraction in wells can also be more explicitly simulated by 
+
+The components of the velocity of a particle located in a cell affected by a well extraction is estimated as:  
+
+.. math:: 
+    :label: well_velo_x
+    
+    \begin{aligned}
+	v_{p,x} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{x-x_w}{(x-x_w)^2/a+(y-yw)^2} + \frac{q_{x,face(1)} + q_{x,face(2)}}{2} \right] 
+    \end{aligned}
+
+.. math:: 
+    :label: well_velo_y
+    
+    \begin{aligned}
+	v_{p,y} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{y-y_w}{(x-x_w)^2/a+(y-yw)^2} + \frac{q_{y,face(1)} + q_{y,face(2)}}{2} \right] 
+    \end{aligned}
+
+.. math:: 
+    :label: well_velo_z
+    
+    \begin{aligned}
+	v_{p,z} = \frac{1}{\phi} \left[ \frac{q_{z,face(2)} - q_{z,face(1)}}{\Delta z}(z-\Delta z/2) + q_{z,face(2)} \right] 
+    \end{aligned}
