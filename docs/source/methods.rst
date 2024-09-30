@@ -16,6 +16,7 @@ Advective motion
 
 RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`\mathbf{q}`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`). 
 Fluxes are then estimated at the particle location (:math:`\mathbf{q}_p`) using the interpolation schemes described in :ref:`Flux interpolation`.
+Using a simple linear interpolation scheme has been shown to be consistent with the finite difference formulation of the flow equation and conserves mass locally in each cell (:ref:`Pollock88`). 
 
 Particle fluxes are then subsequently used to estimate the velocity of a particle (:math:`v_p(\mathbf{x}_{p})`) by simple scaling by the local porosity/water content (:math:`\phi`):  
 
@@ -393,7 +394,7 @@ Sink
 
 .. _Sink cells:
 
-Sink cells
+Sink-cells
 `````````````
 
 The mass transfered to a sink during a time step is estimated cell by cell. For a cell *i* affected by a sink, i.e., in which the flux into the sink located in the cell *i* (:math:`Q_{s,i}`) is larger than 0, the number of extracted particles is given as: 
@@ -415,7 +416,7 @@ where :math:`np_{s,i}^*` is the residual number of particle to be extracted from
 	S_i = \frac{V_{s,i}}{V_{s,tot}} \times \frac{V_{s,tot}}{V_{s,tot} + V_{c,i}},
     \end{aligned}
 
-where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink cell *i*, :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell *i*, and :math:`V_{c,i} [L^3]` is the volume of water in the cell *i*. 
+where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink-cell *i*, :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell *i*, and :math:`V_{c,i} [L^3]` is the volume of water in the cell *i*. 
 These volumes are calculated as: :math:`V_{s,i} = Q_{s,i} \times \Delta t`; :math:`V_{s,tot} = \sum{Q_{s,i}}` and :math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell.  
 
 
@@ -424,25 +425,26 @@ These volumes are calculated as: :math:`V_{s,i} = Q_{s,i} \times \Delta t`; :mat
 Wells
 `````````````
 
-Mass extraction by wells is implemented in 2 ways. First, wells can be considered as a sink cell. In this case, the convergence of travel paths toward the actual well location is not considered. 
-Particles will be extracted uniformly in the sink cell following the weak sink cell extraction algorithm as specified in the section :ref:`Sink cells`. 
+Mass extraction by pumping wells is implemented in 2 ways. First, wells can be considered as a sink cell. In this case, the convergence of travel paths toward the actual well location is not considered. 
+Particles will be extracted uniformly in the sink-cell following the weak sink-cell extraction algorithm as specified in the section :ref:`Sink cells`. 
 
-Particle extraction in wells can also be more explicitly simulated by 
-
-The components of the velocity of a particle located in a cell affected by a well extraction is estimated as:  
+Particle extraction in wells can also be more explicitly simulated by estimating the path of particles toward a well located in a cell. 
+In case of weak sink due to the presence of an extraction well, using the simple interpolation scheme described in :ref:`Advective motion` fails to reproduce the increase of velocity the closer the well is and to identify if a particle should be captured by the well or leave the cell from the face where an outflow exists. 
+To solve these issues, we use the approximate analytical solution presented in :cite:t:`Zheng94`. 
+The components of the velocity of a particle located in a cell affected by a well extraction can then be estimated as:  
 
 .. math:: 
     :label: well_velo_x
     
     \begin{aligned}
-	v_{p,x} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{x-x_w}{(x-x_w)^2/a+(y-yw)^2} + \frac{q_{x,face(1)} + q_{x,face(2)}}{2} \right] 
+	v_{p,x} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{x-x_w}{(x-x_w)^2/a+(y-y_w)^2} + \frac{q_{x,face(1)} + q_{x,face(2)}}{2} \right] 
     \end{aligned}
 
 .. math:: 
     :label: well_velo_y
     
     \begin{aligned}
-	v_{p,y} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{y-y_w}{(x-x_w)^2/a+(y-yw)^2} + \frac{q_{y,face(1)} + q_{y,face(2)}}{2} \right] 
+	v_{p,y} = \frac{1}{\phi} \left[ \frac{Q_w \sqrt{a}}{2\pi \Delta z} \frac{y-y_w}{(x-x_w)^2/a+(y-y_w)^2} + \frac{q_{y,face(1)} + q_{y,face(2)}}{2} \right] 
     \end{aligned}
 
 .. math:: 
@@ -451,3 +453,9 @@ The components of the velocity of a particle located in a cell affected by a wel
     \begin{aligned}
 	v_{p,z} = \frac{1}{\phi} \left[ \frac{q_{z,face(2)} - q_{z,face(1)}}{\Delta z}(z-\Delta z/2) + q_{z,face(2)} \right] 
     \end{aligned}
+
+where :math:`x_{w}` and :math:`y_{w}` are the coordinates of the well, :math:`Q_{w} [L^3/T]` is the volumetric extraction flux of water extracted by the well, and :math:`a [-]` is the horizontal anisotropy of the hydraulic conductivity. 
+Our implementation does not account for this potential anisotropy in the hydraulic conductivity. The coefficient *a* is then fixed to *1.0*. 
+Note that the well is here supposed to fully penetrate each well-cell and that the well could be located at any place horizontally in the cell (does not have to be located at the center). 
+
+The particle transport is terminated once it moves within the radius of the well (:math:`r_{w}`), which has to be specified. 
