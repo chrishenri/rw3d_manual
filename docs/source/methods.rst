@@ -397,28 +397,55 @@ Sink
 Sink-cells
 `````````````
 
-The mass transfered to a sink during a time step is estimated cell by cell. For a cell *i* affected by a sink, i.e., in which the flux into the sink located in the cell *i* (:math:`Q_{s,i}`) is larger than 0, the number of extracted particles is given as: 
+The mass transfered to a sink during a time step is estimated cell by cell. 
+For each time step, the number of particles extracted in a sink cell (np_{s,tot}), i.e., a cell affected by at least one sink and for which the total flux into sinks (:math:`Q_{s,tot}`) is larger than 0, is given by: 
 
 .. math:: 
-    :label: part_sink
+    :label: npart_all_sink
     
     \begin{aligned}
-	np_{s,i} = np_{s,i}^* + np_{c,i} \times S_i
+	np_{s,tot} = np_{s,tot}^* + np_{c} \times S_s
     \end{aligned}
 
-where :math:`np_{s,i}^*` is the residual number of particle to be extracted from the previous time step and :math:`np_{c,i}^*` is the number of particle located in the sink cell *i*. 
-:math:`S_i` is the relative strength of a sink cell *i*, which is estimated by: 
+where :math:`np_{c}` is the number of particle located in the sink cell; :math:`np_{s,tot}^*` is the residual number of particle to be extracted from the previous time step, and :math:`S_s` is the total sink strength, which is estimated by: 
+
+.. math::
+    :label: sink_strength
+    
+    \begin{aligned}
+	S_s = \frac{V_{s,tot}}{V_{s,tot} + V_{c}},
+    \end{aligned}
+
+where :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell, and :math:`V_{c} [L^3]` is the volume of water in the cell. 
+These volumes are calculated as: :math:`V_{s,tot} = \sum{Q_{s,i}} \times \Delta t`, where :math:`Q_{s,i}` is the volume of water extracted by each sink *i* located in the sink cell; 
+:math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell. 
+
+The number of particles to be extracted by each sink *i* located in this sink cell (:math:`np_{s,i}`) is then given by: 
+
+.. math:: 
+    :label: npart_sink_i
+    
+    \begin{aligned}
+	np_{s,i} = np_{s,i}^* + np_{s,tot} \times S_i
+    \end{aligned}
+
+where :math:`np_{s,i}^*` is the residual number of particle to be extracted by the sink *i* from the previous time step, and :math:`S_i` is the relative sink strength, which is estimated by: 
 
 .. math:: 
     :label: sink_strength
     
     \begin{aligned}
-	S_i = \frac{V_{s,i}}{V_{s,tot}} \times \frac{V_{s,tot}}{V_{s,tot} + V_{c,i}},
+	S_i = \frac{V_{s,i}}{V_{s,tot}},
     \end{aligned}
 
-where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink-cell *i*, :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell *i*, and :math:`V_{c,i} [L^3]` is the volume of water in the cell *i*. 
-These volumes are calculated as: :math:`V_{s,i} = Q_{s,i} \times \Delta t`; :math:`V_{s,tot} = \sum{Q_{s,i}}` and :math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell.  
+where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink-cell *i*.
 
+Equations :ref:`npart_all_sink` and :ref:`npart_sink_i` does not produce necessarly an integer (i.e., entire number of particles). 
+:math:`np_{s,tot}^*` and :math:`np_{s,i}^*` are the differences between the number of particle actually extracted (integer) and the calculated number (real). 
+These residuals are added over each time step interation until reaching an *entire* particle, which will then be removed. 
+
+The distribution of particles among all sinks affecting in a single sink cell is favoring the sink requiring the larger number of particle. 
+In case the same number of particles is required, the sink in which the particle will assigned to is selected randomly. 
 
 .. _Wells:
 
