@@ -23,6 +23,10 @@ With the essential inputs from:
 Contents
 --------
 
+.. raw:: latex
+
+   \etocsettocstyle{}{}\localtableofcontents
+
 .. toctree::
 
    intro
@@ -39,7 +43,7 @@ Contents
    *GHS - Hydrogeology Group Department, Department of Civil and Environmental Engineering, Polytechnic University of Catalonia, Barcelona, Spain.* daniel.fernandez.g@upc.edu
 
 .. [3]
-   *Departmentof Land, Air and Water Resources, University of California, Davis, USA.* 
+   *Department of Land, Air and Water Resources, University of California, Davis, USA.* 
 
 | RW3D is released under the GNU LPGL License
 | This manual is licensed under the GNU Free Documentation License.
