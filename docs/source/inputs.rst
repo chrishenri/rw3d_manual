@@ -369,12 +369,12 @@ Time discretization
   |      |                                                                         |                    | *values*: description provided in section :ref:`Time discretization process`           |
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``constant_dt``                                                                   |
-  |      |                                                                         |                    |    - ``constant_cu``                                                                   |
-  |      |                                                                         |                    |    - ``constant_damt``                                                                 |
-  |      |                                                                         |                    |    - ``constant_dadecay``                                                              |
+  |      |                                                                         |                    |    - ``constant_move``                                                                 |
   |      |                                                                         |                    |    - ``optimum_dt``                                                                    |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``dt`` ``courant`` ``peclet`` ``DaKINETIC`` ``DaDECAY`` ``DaMMT``       | ``real``           | Time step restrictor, as defined in section :ref:`Time discretization process`         |
+  | 5    | ``dt`` ``mult_adv`` ``mult_disp`` ``mult_kf`` ``mult_kd`` ``mult_mt``   | ``real``           | Time step restrictors, as defined in section :ref:`Time discretization process`         |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 6    | ``dt_relax``                                                            | ``real``           | Time step relaxation factor, as defined in section :ref:`Time discretization process`  |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 **Example**: 
@@ -384,7 +384,7 @@ Time discretization
    -----------------------------------------------------------------
     Time discretization
    -----------------------------------------------------------------
-   constant_cu                                             !... 
+   constant_move                                           !... 
    1.0  0.5  0.2  0.1  0.1  0.1                            !... 
    0.99                                                    !... time step relaxation
 

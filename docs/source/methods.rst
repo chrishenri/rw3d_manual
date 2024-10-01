@@ -16,14 +16,14 @@ Advective motion
 
 RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`\mathbf{q}`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`). 
 Fluxes are then estimated at the particle location (:math:`\mathbf{q}_p`) using the interpolation schemes described in :ref:`Flux interpolation`.
-Using a simple linear interpolation scheme has been shown to be consistent with the finite difference formulation of the flow equation and conserves mass locally in each cell (:ref:`Pollock88`). 
+Using a simple linear interpolation scheme has been shown to be consistent with the finite difference formulation of the flow equation and conserves mass locally in each cell :cite:p:`Pollock88`. 
 
-Particle fluxes are then subsequently used to estimate the velocity of a particle (:math:`v_p(\mathbf{x}_{p})`) by simple scaling by the local porosity/water content (:math:`\phi`):  
+Particle fluxes are then subsequently used to estimate the velocity of a particle (:math:`\mathbf{v_p}(\mathbf{x}_{p})`) by simple scaling by the local porosity/water content (:math:`\phi`):  
 
 .. math::
     :label: vp
     
-    v_p(\mathbf{x}_{p}) = \frac{\mathbf{q}_p(\mathbf{x}_{p})}{\phi(\mathbf{x}_{p})}
+    \mathbf{v_p}(\mathbf{x}_{p}) = \frac{\mathbf{q}_p(\mathbf{x}_{p})}{\phi(\mathbf{x}_{p})}
 
 From now on, all parameters are considered at the particle location :math:`(\mathbf{x}_{p})`, unless mentioned otherwise. 
 
@@ -37,7 +37,7 @@ From now on, all parameters are considered at the particle location :math:`(\mat
 
 RW3D is proposing 2 options to simulate advective particle motion, i.e., :math:`\Delta\mathbf{x}_{p,adv}`, the particle displacement by advection only during a time step :math:`\Delta t`:
 
-- **Eulerian**: Standard Random-Walk with Eulerian integration of the velocity:
+- ``Eulerian``: Standard Random-Walk with Eulerian integration of the velocity:
 
 .. math::
     :label: eulerian
@@ -47,7 +47,7 @@ RW3D is proposing 2 options to simulate advective particle motion, i.e., :math:`
     \end{aligned}
 
 
-- **Exponential**: Pollock Method to integrate the velocity from finite-difference flow models:
+- ``Exponential``: Pollock Method to integrate the velocity from finite-difference flow models:
 
 .. math::
     :label: expo
@@ -103,7 +103,7 @@ Time discretization
 `````````````
 
 The appropriate determination of the time step between two particle jumps is essential for the RWPT method to properly solve the ADE. In general, the smaller the time step, the better. 
-The choice in this time step determination is left to the user. The time step (:math:`\Delta t`) can be made constant. This has to be used with caution. 
+The choice in this time step determination is left to the user. The time step (:math:`\Delta t`) can be made constant (``constant_dt`` option). This has to be used with caution. 
 
 To gain in efficiency and insure a good representation of key processes, we implemented few methods, based on characteristic times, that allows a generally satisfactorily estimation of the time step size while preserving computational efficiency. 
 Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv}`), the dispersive characteristic time (:math:`t_{c,disp}`), the reactive characteristic times (:math:`t_{c,kf}`, :math:`t_{c,kd}`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
@@ -116,11 +116,14 @@ At each time step, the characteristic times are evaluated for each particle of t
     \Delta t = \text{Mult} \times t_c,
     \end{aligned}
 
-The multiplier :math:`\text{Mult}` is specific to each considered process. Typically, the multiplicative inverse of the multiplier represents the number of particle jumps in a cell before the effect of the considered process is significantly modified. 
+The multiplier :math:`\text{Mult}` is specific to each considered process (``mult_adv``, ``mult_disp``, ``mult_kf``, ``mult_kd``, ``mult_mt``). Typically, the multiplicative inverse of the multiplier represents the number of particle jumps in a cell before the effect of the considered process is significantly modified. 
 We then advise to always keep :math:`\text{Mult}<1` and to lower the values as much as sharp interfaces are simulated in order to minimize errors when particles jumps from a cell to another. 
-If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from a single process only (here again, to be used with caution) or from all processes. 
+If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from advection only by selecting the ``constant_move`` option (here again, to be used with caution) or from all processes by selecting the ``optimum_dt`` option. 
 For the latter, the smaller time step will be considered. 
 
+In some case, considering the more restrictive characteristic time over the entire plume of particle can lead to impractically small time steps. This is required to properly simulate fast local processes, e.g., in case of high velocity zones near extraction wells. 
+However, if the solution near these more demanding zones is less relevant for the user, we provide an option to relax the time step. The coefficient ``dt_relax`` allows to consider only a given less restrictive portion of the characteristic times of the plume.   
+For example, if ``dt_relax`` is fixed to *0.9*, only the less restrictive 90% of characteristic times are considered in the time step evaluation. The 10% shorter characteristic times (e.g., associated to the 10% fastest particles) will be disregarded. 
 
 The characteristic times are defined for each particle of the plume and at any discretized time as follow: 
 
@@ -188,7 +191,7 @@ where :math:`k_d` is the first-order decay associated to the particle.
     :label: tcmrmt
 
     \begin{aligned}
-    t_{c,mt} = \frac{1}{\alpha*(1+\beta)},
+    t_{c,mt} = \frac{1}{\alpha \times (1+\beta)},
     \end{aligned}
 
 where :math:`\alpha` is the mass transfer coefficient and :math:`\beta` is the total capacity. 
@@ -415,7 +418,7 @@ We have assumed that only aqueous concentrations are susceptible to undergo chem
 
 **Diffusion into different geometries**
 
-The multirate model offers the advantage of also simulating diffusion into spheres, cylinders, and layers. This is achieved by selecting appropriate values for the first-order rates and capacity coefficients :cite:t:`Haggerty1995`. 
+The multirate model offers the advantage of also simulating diffusion into spheres, cylinders, and layers. This is achieved by selecting appropriate values for the first-order rates and capacity coefficients :cite:p:`Haggerty1995`. 
 More discussion about the modeling of diffusion into different geometries using RWPT can be found in :cite:t:`Salamon2006`. 
 
 The series of these coefficients for the different geometries are shown in the following table:
