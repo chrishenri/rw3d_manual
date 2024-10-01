@@ -102,19 +102,48 @@ where :math:`F_i` is the relative location of the particle with a cell defined a
 Time discretization
 `````````````
 
-The appropriate determination of the time step between two particles jumps is essential for the RWPT method to solve the ADE. In general, the smaller the time step, the better. 
-But, to gain in efficiency, we implemented few methods, based on characteristic times, that allows a satisfactorily relaxation of the time step size. 
+The appropriate determination of the time step between two particle jumps is essential for the RWPT method to properly solve the ADE. In general, the smaller the time step, the better. 
+The choice in this time step determination is left to the user. The time step can be made constant. This has to be used with caution. 
 
-The time step can be made constant or dependent on characteristic times for key processes that are advection :math:`t_{c,adv}`, dispersion :math:`t_{c,disp}` and reactions :math:`t_{c,k}`. 
-These characteristic times are defined as follow: 
+To gain in efficiency and insure a good representation of key processes, we implemented few methods, based on characteristic times, that allows a generally satisfactorily estimation of the time step size while preserving computational efficiency. 
+Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv}`), the dispersive characteristic time (:math:`t_{c,disp}`), the reactive characteristic times (:math:`t_{c,kf}`, :math:`t_{c,kd}`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
+At each time step, the characteristic times are evaluated for each particle of the plume and the more restrictive is considered. The new time step is then estimated by multiplying the selected characteristic time by a constant: 
 
+.. math::
+    :label: dt
+
+    \begin{aligned}
+    \Delta t = \text{Mult} \times t_c,
+    \end{aligned}
+
+The multiplier :math:`Mult` is specific to each considered process. If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from a single process only (here again, to be used with caution) or from all processes. 
+For the latter, the smaller time step will be considered. 
+
+
+The characteristic times are defined for each particle of the plume and at any discretized time as follow: 
+
+*Advective characteristic time*: 
 .. math::
     :label: tcadv
 
     \begin{aligned}
-    t_{c,adv} = \frac{\Delta_s}{\bar{v}},
+    t_{c,adv} = \frac{\Delta_s}{\bar{v_p}},
     \end{aligned}
 
+where :math:`\Delta_s` is the characteristic size of the cell where the particle is located: 
+
+.. math::
+    
+    \Delta_s = \frac{v_{p,x} \Delta x^2}{\bar{v_{p}}} + \frac{v_{p,y} \Delta y^2}{\bar{v_{p}}} + \frac{v_{p,z} \Delta z^2}{\bar{v_{p}}}
+
+:math:`\bar{v}` is the characteristic particle velocity estimated as:  
+
+.. math::
+    
+    \bar{v} = \sqrt{v_{p,x}^2 + v_{p,y}^2 + v_{p,z}^2}
+
+
+*Dispersive characteristic time*: 
 .. math::
     :label: tcdisp
 
@@ -122,28 +151,43 @@ These characteristic times are defined as follow:
     t_{c,disp} = \frac{\Delta_s^2}{\max(D_L,D_{TH},D_{TV}}),
     \end{aligned}
 
+where :math:`D_L`, :math:`D_{TH}`, :math:`D_{TV}` are the longitudinal, transverse horizontal and transverse vertical componenents of the dispersion tensor. 
+
+
+*Reactive characteristic time*:
+
+In case a kinetic reaction is simulated: 
 .. math::
     :label: tckinetic
 
     \begin{aligned}
-    t_{c,k} = \frac{1}{\max(kf)},
+    t_{c,kf} = \frac{R}{\max(k_f)},
     \end{aligned}
 
+where :math:`\max(k_f)` refers to the maximum values of the kinetic reaction rates in a bimolecular reaction network. 
 
-where 
+In case a first-order decay reaction is simulated: 
+.. math::
+    :label: tcdecay
+
+    \begin{aligned}
+    t_{c,kd} = \frac{1}{k_d},
+    \end{aligned}
+
+where :math:`k_d` is the first-order decay associated to the particle. 
+
+*Mass transfer characteristic time*:
 
 .. math::
-    
-    \Delta_s = \frac{v_x \Delta x^2}{\bar{v}} + \frac{v_y \Delta y^2}{\bar{v}} + \frac{v_z \Delta z^2}{\bar{v}}
+    :label: tcmrmt
 
-and 
+    \begin{aligned}
+    t_{c,mt} = \frac{1}{\alpha*(1+\beta)},
+    \end{aligned}
 
-.. math::
-    
-    \bar{v} = \sqrt{v_x^2 + v_y^2 + v_z^2}
+where :math:`\alpha` is the mass transfer coefficient and :math:`\beta` is the total capacity. 
 
 
-:math:`\max(kf)` refers to the maximum values of the reaction rates in a bimolecular reaction network. 
 
 Special cases
 `````````````
