@@ -103,7 +103,7 @@ Time discretization
 `````````````
 
 The appropriate determination of the time step between two particle jumps is essential for the RWPT method to properly solve the ADE. In general, the smaller the time step, the better. 
-The choice in this time step determination is left to the user. The time step can be made constant. This has to be used with caution. 
+The choice in this time step determination is left to the user. The time step (:math:`\Delta t`) can be made constant. This has to be used with caution. 
 
 To gain in efficiency and insure a good representation of key processes, we implemented few methods, based on characteristic times, that allows a generally satisfactorily estimation of the time step size while preserving computational efficiency. 
 Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv}`), the dispersive characteristic time (:math:`t_{c,disp}`), the reactive characteristic times (:math:`t_{c,kf}`, :math:`t_{c,kd}`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
@@ -116,13 +116,16 @@ At each time step, the characteristic times are evaluated for each particle of t
     \Delta t = \text{Mult} \times t_c,
     \end{aligned}
 
-The multiplier :math:`Mult` is specific to each considered process. If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from a single process only (here again, to be used with caution) or from all processes. 
+The multiplier :math:`\text{Mult}` is specific to each considered process. Typically, the multiplicative inverse of the multiplier represents the number of particle jumps in a cell before the effect of the considered process is significantly modified. 
+We then advise to always keep :math:`\text{Mult}<1` and to lower the values as much as sharp interfaces are simulated in order to minimize errors when particles jumps from a cell to another. 
+If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from a single process only (here again, to be used with caution) or from all processes. 
 For the latter, the smaller time step will be considered. 
 
 
 The characteristic times are defined for each particle of the plume and at any discretized time as follow: 
 
 *Advective characteristic time*: 
+
 .. math::
     :label: tcadv
 
@@ -144,6 +147,7 @@ where :math:`\Delta_s` is the characteristic size of the cell where the particle
 
 
 *Dispersive characteristic time*: 
+
 .. math::
     :label: tcdisp
 
@@ -157,6 +161,7 @@ where :math:`D_L`, :math:`D_{TH}`, :math:`D_{TV}` are the longitudinal, transver
 *Reactive characteristic time*:
 
 In case a kinetic reaction is simulated: 
+
 .. math::
     :label: tckinetic
 
@@ -167,6 +172,7 @@ In case a kinetic reaction is simulated:
 where :math:`\max(k_f)` refers to the maximum values of the kinetic reaction rates in a bimolecular reaction network. 
 
 In case a first-order decay reaction is simulated: 
+
 .. math::
     :label: tcdecay
 
