@@ -372,20 +372,21 @@ Time discretization
   |      |                                                                         |                    |    - ``constant_move``                                                                 |
   |      |                                                                         |                    |    - ``optimum_dt``                                                                    |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``dt`` ``mult_adv`` ``mult_disp`` ``mult_kf`` ``mult_kd`` ``mult_mt``   | ``real``           | Time step restrictors, as defined in section :ref:`Time discretization process`         |
+  | 5    | ``dt`` ``mult_adv`` ``mult_disp`` ``mult_kf`` ``mult_kd`` ``mult_mt``   | ``real``           | Time step restrictors, as defined in section :ref:`Time discretization process`        |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 6    | ``dt_relax``                                                            | ``real``           | Time step relaxation factor, as defined in section :ref:`Time discretization process`  |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
-**Example**: 
+**Example**: The time step is determined from the advective characteristic times only. The time step restrictors have to be provided, but only ``mult_adv`` will be used. It is fixed to 0.5.  
+The time step relaxation factor is set to 0.99, meaning that the 1% more restrictive characteristic times (1% fastest particles) will be disregarded in the time step determination. 
 
 ::
 
    -----------------------------------------------------------------
     Time discretization
    -----------------------------------------------------------------
-   constant_move                                           !... 
-   1.0  0.5  0.2  0.1  0.1  0.1                            !... 
+   constant_move                                           !... dt_method
+   1.0  0.5  0.2  0.1  0.1  0.1                            !... dt, mult_adv, mult_disp, mult_kf, mult_kd, mult_mt
    0.99                                                    !... time step relaxation
 
 
@@ -421,7 +422,8 @@ Advection
   |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
-**Example**: 
+**Example**: Advective displacements are simulated. The Eulerian scheme is used to interpolate velocities. 
+Darcy fluxes in x, y and z directions are provided in a respective netcdf file. 
 
 ::
 
@@ -478,7 +480,7 @@ Sinks
 
 .. _Diffusion / Dispersion:
 
-Dispersion / Disffusion
+Dispersion / Diffusion
 ~~~~~~~~~~
 
 .. _tbl-grid:
