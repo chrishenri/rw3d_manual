@@ -37,7 +37,7 @@ Build a solution
 Makefile
 """"""""""
 
-A makefile is provided in the folder ``make``. For Windows user, we advise using MinGW and its libraries to build the code. 
+A makefile is provided in the folder ``make``. For Windows user, we advise using `MinGW <MinGW>`_ and its libraries to build the code. 
 From our experience, this handles required dependencies in the most straighforward and stable manner. Instructions will come soon.  
 
 
@@ -45,7 +45,7 @@ Visual Studio
 """"""""""
 
 .. tip::
-    For Windows users, here are some brief instructions (as of 15/01/2025) to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
+    For Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
 
     *Download and Install:*
 
