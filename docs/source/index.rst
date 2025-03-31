@@ -19,6 +19,13 @@ With the essential inputs from:
 
    This project is under active development.
 
+.. note::
+
+   *How to cite?*
+
+   Henri and Fernàndez-Garcia. (2025). RW3D's User Manual. https://chrishenri-rw3d-manual.readthedocs.io
+
+
 
 Contents
 --------
@@ -48,5 +55,5 @@ Contents
 | RW3D is released under the GNU LPGL License
 | This manual is licensed under the GNU Free Documentation License.
 
-| Copyright © 2024 Christopher V. Henri, Daniel Fernandez-Garcia. 
+| Copyright © 2025 Christopher V. Henri, Daniel Fernandez-Garcia. 
   
