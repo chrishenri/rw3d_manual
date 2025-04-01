@@ -22,7 +22,7 @@ Get the code
 
 Clone the repository: 
 
-The code will be publically release here soon:
+The code will be publically release here soon (expected during spring 2025):
 
 ```
 git clone https://github.com/upc-ghs/RW3D
@@ -31,7 +31,7 @@ git clone https://github.com/upc-ghs/RW3D
 Build a solution
 ~~~~~~~~~~
 
-- RW3D is a Fortran 90 code. Intel Fortran compiler and gfortran have been successfully used to build the code. Other compilers haven't been tested yet.
+- RW3D is a Fortran 90 code. Intel Fortran compiler (ifort) and gfortran have been successfully used to build the code. Other compilers, including the newest Intel compiler (ifx), haven't been tested yet. Especially, issues concerning the compiling of the `netCDF-Fortran` library using ifx has been reported. In case you choose to work with Intel, the use of ifort is then still advised. 
 - Dependencies: `LAPACK <https://www.netlib.org/lapack/>`_ (llapack), `BLAS <https://www.netlib.org/blas/>`_ (lblas), `netCDF-Fortran <https://docs.unidata.ucar.edu/netcdf-fortran/current/>`_ (lnetcdff)
 
 Makefile
