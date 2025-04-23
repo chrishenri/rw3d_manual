@@ -409,11 +409,23 @@ Advection
   |      |                                                                         |                    |    - ``exponential``                                                                   |
   |      |                                                                         |                    |    - ``eulerian``                                                                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 6    | ``q_x``                                                                 | ``array``          | flux in the *x* direction                                                              |
+  | 6    | ``q_x``                                                                 | ``array, 1 option``| flux in the *x* direction                                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 7    | ``q_y``                                                                 | ``array``          | flux in the *y* direction                                                              |
+  | 7    | ``q_y``                                                                 | ``array, 1 option``| flux in the *y* direction                                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8    | ``q_z``                                                                 | ``array``          | flux in the *z* direction                                                              |
+  | 8    | ``q_z``                                                                 | ``array, 1 option``| flux in the *z* direction                                                              |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 9    | ``porosity``                                                            | ``array, 1 option``| porosity (or water content)                                                            |
   |      |                                                                         |                    |                                                                                        |
@@ -423,7 +435,7 @@ Advection
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 **Example**: Advective displacements are simulated. The Eulerian scheme is used to interpolate velocities. 
-Darcy fluxes in x, y and z directions are provided in a respective netcdf file. 
+Darcy fluxes in x, y and z directions are provided in a respective netcdf file. The porosity is spatially distributed and defined in a text (ascii) file. 
 
 ::
 
@@ -450,32 +462,74 @@ Heads
   +======+=========================================================================+====================+========================================================================================+
   | 4    | ``heads_action``                                                        | ``logical``        | True if the package is activated                                                       |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``heads``                                                               | ``array``          | cell-by-cell head elevation                                                            |
+  | 5    | ``heads``                                                               | ``array, 1 option``| cell-by-cell head elevation                                                            |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 6    | ``heads_threshold``                                                     | ``real``           | maximum head elevation for the cell to be considered dry                               |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
+**Example**: Hydrualic heads are accounted for to track particles reaching the water table. 
+Heads are provided in a netcdf file. A cell will be considered dry if heads are below 0.05 (space unit). 
+
+::
+
+   --------------------------------------------------------------------------------------------
+    Heads
+   --------------------------------------------------------------------------------------------
+   T                                                                              !... heads_action
+   heads_DK1.nc                        1.0   1    4   F                           !... heads
+   0.05                                                                           !... heads_threshold
+
 
 .. _Sinks:
+
 
 Sinks
 ~~~~~~~~~~
 
 .. _tbl-grid:
   
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  |Line  | Variable                                                                | Type               | Description                                                                            |
-  +======+=========================================================================+====================+========================================================================================+
-  | 4    | ``sinks_action``                                                        | ``logical``        | True if the package is activated                                                       |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``n_sinks``                                                             | ``integer``        | number of sink                                                                         |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | to be repeated :math:`n_{sinks}` times:                                                                                                                                                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 6... | ``sink_name`` ``Q_sink``                                                |``string`` ``array``| ``sink_name``: name of the sink                                                        |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | ``Q_sink``: flow going into the sink (:math:`L^3/T`)                                   |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type                         | Description                                                                            |
+  +======+=========================================================================+==============================+========================================================================================+
+  | 4    | ``sinks_action``                                                        | ``logical``                  | True if the package is activated                                                       |
+  +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
+  | 5    | ``n_sinks``                                                             | ``integer``                  | number of sink                                                                         |
+  +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
+  | to be repeated :math:`n_{sinks}` times:                                                                                                                                                                |
+  +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
+  | 6... | ``sink_name`` ``Q_sink``                                                |``string`` ``array, 2 option``| ``sink_name``: name of the sink                                                        |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              | ``Q_sink``: flow going into the sink (:math:`L^3/T`)                                   |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              | *option 1*: print_BTC                                                                  |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              |    - ``logical``: ``T`` BTC is printed, ``F`` BTC not printed                          |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              | *option 2*: transient conditions                                                       |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
+  +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
+
+
+**Example**: 4 types of cell sinks are considered: river, drain, uz, well. All sinks are read from a respective a netcdf file. 
+Breakthrough curves for all sinks will be saved, expect for the *well* sink. 
+
+
+::
+
+   --------------------------------------------------------------------------------------------
+    Sinks
+   --------------------------------------------------------------------------------------------
+   T                                                                              !... sink_action
+   4                                                                              !... number of sink
+   river     Qriver_DK1.nc          1.0   1   4   T   T                           !... name, qsink array
+   drain     Qdrain_DK1.nc          1.0   1   4   T   T                           !... name, qsink array
+   uz        Q_uz_DK1.nc            1.0   1   4   T   T                           !... name, qsink array
+   well      Qwell_DK1.nc           1.0   1   4   T   F                           !... name, qsink array
 
 
 .. _Diffusion / Dispersion:
@@ -524,6 +578,29 @@ Dispersion / Diffusion
   |      |                                                                         |                    | *for each aqueous species, the effective diffusion coefficient*                        |
   |      |                                                                         |                    | *is multiplied by the given factor*                                                    |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+
+
+**Example**: Dispersion and diffusion processes are simulated. All parameters are considered spatially homogeneous. 
+Longitudinal, transverse horizonal, and transverse vertical dispersivities are set to 5.0, 5.0 and 0.1, respectively. 
+Diffusion coefficients in all directions are set to 0.01. Two single aqueous species were considered. 
+Diffusion coefficients for the second specie are two times larger than the set values (*diffusion_factor* set to 2.0). 
+Set dispervities and diffusion coefficients are used otherwise (*dispersivity_factor* and *diffusion_factor* set to 1.0). 
+
+
+::
+
+   --------------------------------------------------------------------------------------------
+    Dispersion / diffusion
+   --------------------------------------------------------------------------------------------
+   T                                                                              !... dispersion_action
+   not_used                             5.0   1   0                               !... alpha_L array
+   not_used                             5.0   1   0                               !... alpha_TH array
+   not_used                             0.1   1   0                               !... alpha_TV array
+   not_used                             0.01   1   0   F                          !... Dm_L array
+   not_used                             0.01   1   0   F                          !... Dm_TH array
+   not_used                             0.01   1   0   F                          !... Dm_TV array
+   1.0   1.0                                                                      !... mult_alpha
+   1.0   2.0                                                                      !... mult_diff
 
 
 .. _Mass transfer:
