@@ -539,3 +539,52 @@ Our implementation does not account for this potential anisotropy in the hydraul
 Note that the well is here supposed to fully penetrate each well-cell and that the well could be located at any place horizontally in the cell (does not have to be located at the center). 
 
 The particle transport is terminated once it moves within the radius of the well (:math:`r_{w}`), which has to be specified. 
+
+
+.. _Outputs:
+
+Outputs
+----------------
+
+.. _Spatial moments:
+
+Spatial moments
+`````````````
+
+
+.. _Snapshots:
+
+Plume snapshots
+`````````````
+
+
+.. _Temporal moments:
+
+Temporal moments
+`````````````
+
+
+.. _Breakthrough curves:
+
+Breakthrough curves
+`````````````
+
+
+.. _Cumulative breakthrough curves:
+
+Cumulative breakthrough curves
+`````````````
+
+
+.. _Plume history:
+
+Plume history
+`````````````
+
+
+.. _Particle paths:
+
+Particle paths
+`````````````
+
+

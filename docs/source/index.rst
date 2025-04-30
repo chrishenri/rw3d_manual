@@ -23,7 +23,7 @@ With the essential inputs from:
 
    *How to cite?*
 
-   Henri and Fernàndez-Garcia. (2025). RW3D's User Manual. DOI: 10.5281/zenodo.15118405. https://chrishenri-rw3d-manual.readthedocs.io
+   Henri and Fernàndez-Garcia. (2025). RW3D's User Manual. DOI: 10.5281/zenodo.15118405. https://rw3d-manual.readthedocs.io
 
 
 

@@ -498,13 +498,13 @@ Sinks
   |      |                                                                         |                              |                                                                                        |
   |      |                                                                         |                              | ``Q_sink``: flow going into the sink (:math:`L^3/T`)                                   |
   |      |                                                                         |                              |                                                                                        |
-  |      |                                                                         |                              | *option 1*: print_BTC                                                                  |
-  |      |                                                                         |                              |                                                                                        |
-  |      |                                                                         |                              |    - ``logical``: ``T`` BTC is printed, ``F`` BTC not printed                          |
-  |      |                                                                         |                              |                                                                                        |
-  |      |                                                                         |                              | *option 2*: transient conditions                                                       |
+  |      |                                                                         |                              | *option 1*: transient conditions                                                       |
   |      |                                                                         |                              |                                                                                        |
   |      |                                                                         |                              |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              | *option 2*: print_BTC                                                                  |
+  |      |                                                                         |                              |                                                                                        |
+  |      |                                                                         |                              |    - ``logical``: ``T`` BTC is printed, ``F`` BTC not printed                          |
   +------+-------------------------------------------------------------------------+------------------------------+----------------------------------------------------------------------------------------+
 
 
