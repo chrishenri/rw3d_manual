@@ -6,12 +6,15 @@ Getting Started
 An Intro to RW3D
 ------------
 
-RW3D (Random-Walk in 3 Dimensions) is an object-oriented Fortran code solving the fate and transport of conservative and (some) reactive solute in porous media using the random-walk particle-tracking method. 
-RW3D was originally developed to run on (up to 3D) flow fields produced by MODFLOW. The code has developed over the years to solve more and more complex problem. 
-Each development was subject of a code validation by comparing solutions against well established Eulerian methods and, when possible, analytical solutions :cite:p:`Henri2014,Henri2015`. 
+**RW3D (Random-Walk in 3 Dimensions)** is an object-oriented Fortran code designed to solve the fate and transport of conservative and certain reactive solutes in porous media using the random-walk particle-tracking method. 
+Originally developed to operate on up to 3D flow fields produced by MODFLOW, RW3D has evolved over the years to tackle increasingly complex problems.
 
-Today, the code can solve conservative and reactive transport (first-order decay network, bimolecular reactions, linear sorption), with an option to represent all parameteres spatially and temporally variable. 
-Ampng other, a series of preprocessing codes (Python) allow to run reactive transport on outputs from (relatively) complex MIKE-She models. 
+Each development phase has undergone rigorous code validation by comparing solutions against well-established Eulerian methods and, when possible, analytical solutions :cite:p:`Henri2014,Henri2015`.
+
+Today, RW3D can solve both conservative and reactive transport problems, including first-order decay networks, bimolecular reactions, and linear sorption. 
+The code also offers the flexibility to represent all parameters as spatially and temporally variable.
+
+Additionally, a series of preprocessing codes written in Python enable the execution of reactive transport simulations on outputs from relatively complex MIKE-She models.
 
 
 How do I get set up?

@@ -546,21 +546,9 @@ The particle transport is terminated once it moves within the radius of the well
 Outputs
 ----------------
 
-.. _Spatial moments:
-
-Spatial moments
-`````````````
-
-
 .. _Snapshots:
 
 Plume snapshots
-`````````````
-
-
-.. _Temporal moments:
-
-Temporal moments
 `````````````
 
 
@@ -586,5 +574,34 @@ Plume history
 
 Particle paths
 `````````````
+
+
+.. _Spatial moments:
+
+Spatial moments
+`````````````
+
+The first spatial moments of the plume of particle is computed as follow: 
+
+.. math:: 
+    :label: first_moment
+    
+    \begin{aligned}
+	Xg_{i} = \frac{\sum_k{mp_{k} \times xp_{k}^{i} / R_{k}}}{\sum_k{mp_{k} / R_{k}}} 
+    \end{aligned}
+
+The second spatial moments of the plume of particle is computed as follow: 
+
+    \begin{aligned}
+	M_{i,j} = \frac{\sum_k{mp_{k} \times xp_{k}^{i} \times xp_{k}^{j} / R_{k}}}{\sum_k{mp_{k} / R_{k}}} - Xg_{i} \times Xg_{j}
+    \end{aligned}
+
+
+.. _Temporal moments:
+
+Temporal moments of BTCs from wells and planes
+`````````````
+
+
 
 
