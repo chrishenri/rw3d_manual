@@ -356,16 +356,22 @@ Multirate Mass Transfer
     Illustration of reactions and mass transfer between the mobile and a series of immobile spheres.
 
 
-The presence of stagnant water in micro and meso-pores at the grain scale and the inclusion of low permeability areas at the field scale typically leads to the conceptualization of the porous media as two distinct regions. 
-One region with mobile water where advection and dispersion takes place, and another with relatively immobile water where transport is diffusion limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`. 
-Mass transfer also occurs between the mobile and immobile region due to differences in concentrations. 
-Consequently, contaminants originally located in the mobile region can get trapped and slowly released in the immobile region :cite:p:`debarros13`. 
-This conceptual model has received great attention for its success in reproducing highly asymmetric concentration profiles from field observations :cite:p:`harvey00,huang00,li00,haggerty00`. 
-Albeit mass transfer models were originally characterized and widely employed with a single mass transfer coefficient :cite:p:`vangenuchten76,neretnieks80,harvey00`, this has shown drastic limitations on the long-term prediction of the concentrations :cite:p:`Young,haggerty95,haggerty00`. 
-The diverse mineralogical composition of a real soil and the complex spatial variability of aquifer properties leads to a mixture of mass transfer processes that occur over multiple time scales. 
-This phenomena cannot be properly represented by a single coefficient. The multirate mass transfer model presented by :cite:t:`haggerty95` overcomes this problem by including multiple immobile domains, each characterized with a different mass transfer coefficient and porosity. 
-By choosing appropriate parameter values, this model can simulate a large variety of diffusion processes such as diffusion into cylinders, spheres, layers, rock matrices, and others :cite:p:`haggerty95,carrera98`. 
-Moreover, various authors :cite:p:`Zinn,liu04,fernandez09` have demonstrated, that solute transport in heterogeneous aquifers is often better upscaled using also a mass transfer model.
+The presence of stagnant water in micro- and meso-pores at the grain scale, as well as the inclusion of low-permeability zones at the field scale, often leads to the conceptualization of porous media as comprising two distinct regions:
+
+- a mobile region, where advection and dispersion dominate transport, and
+- an immobile region, where transport is primarily diffusion-limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`.
+Mass exchange between these regions occurs due to concentration gradients, allowing solutes initially present in the mobile domain to diffuse into the immobile zone, where they may become temporarily trapped and subsequently released over time :cite:p:debarros13.
+
+This dual-domain conceptual model has gained significant attention for its ability to reproduce highly asymmetric concentration profiles observed in field studies :cite:p:`harvey00,huang00,li00,haggerty00`.
+
+While early mass transfer models typically employed a single mass transfer coefficient to characterize exchange between mobile and immobile zones :cite:p:`vangenuchten76,neretnieks80,harvey00`, this approach has shown substantial limitations in predicting long-term solute behavior :cite:p:`Young,haggerty95,haggerty00`. 
+The inherent mineralogical heterogeneity of natural soils and the complex spatial variability of aquifer properties result in a spectrum of mass transfer processes occurring over multiple time scales—phenomena that cannot be adequately captured by a single coefficient.
+
+To address this, the multirate mass transfer (MRMT) model introduced by :cite:t:`haggerty95` incorporates multiple immobile domains, each characterized by distinct mass transfer coefficients and porosities. 
+By selecting appropriate parameter values, the MRMT model can simulate a wide range of diffusion scenarios, including diffusion into cylindrical, spherical, planar, and fractured media :cite:p:`haggerty95,carrera98`.
+
+Furthermore, several studies :cite:p:`Zinn,liu04,fernandez09` have demonstrated that solute transport in heterogeneous aquifers is often more accurately upscaled using mass transfer models, reinforcing their relevance in large-scale transport simulations.
+
 
 **The MRMT model.** 
 
@@ -568,6 +574,17 @@ Cumulative breakthrough curves
 
 Plume history
 `````````````
+
+This option proposes to record all arrivals to sinks, observation surfaces, and/or registration lenses by providing the following particle information in an ascii or binary file:
+- "ID": particle ID assigned at the injection
+- "X-BIRTH", "Y-BIRTH", "Z-BIRTH": coordinates of the particle at the time of its injection
+- "IX-BIRTH", "IY-BIRTH", "IZ-BIRTH": 
+- "X-REG", "Y-REG", "Z-REG": 
+- "IX-REG", "IY-REG", "IZ-REG": 
+- "REGISTRATION_NUMBER": 
+- "TRAVEL_TIME": 
+- "SINKTYPE": 
+- "SPECIE": 
 
 
 .. _Particle paths:
