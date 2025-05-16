@@ -20,6 +20,36 @@ Type of inputs
 - ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
+
+.. raw:: latex
+  
+  \begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{|p{3.5cm}|p{2.5cm}|p{9cm}|}
+  \hline
+  \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
+  \hline
+  \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
+  \hline
+  \texttt{multiplier} & \texttt{real} & multiplier of the variable \\
+  \hline
+  \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
+  \hline
+  \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
+
+  \begin{itemize}
+  \item 0: the parameter is not read from a file and is defined as the multiplier
+  \item 1: the parameter is read from the ascii file specified in \texttt{file name}
+  \item 2: the parameter is read from a MODFLOW type file (only available for fluxes)
+  \item 3: the parameter is read from the ascii file specified in \texttt{file name} but from the bottom of the file
+  \item 4: the parameter is read from a netcdf file. For the moment, only NETCDF3\_64BIT file type is supported
+  \end{itemize} \\
+  \hline
+  \end{tabular}
+  \end{table}
+
+
 .. _tbl-grid:
   
   +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
