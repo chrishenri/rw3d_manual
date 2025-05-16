@@ -359,8 +359,8 @@ Multirate Mass Transfer
 The presence of stagnant water in micro- and meso-pores at the grain scale, as well as the inclusion of low-permeability zones at the field scale, often leads to the conceptualization of porous media as comprising two distinct regions:
 
 - a mobile region, where advection and dispersion dominate transport, and
-- an immobile region, where transport is primarily diffusion-limited :cite:p:`vangenuchten76,neretnieks80,Cunningham1997,carrera98,Zinn`.
-Mass exchange between these regions occurs due to concentration gradients, allowing solutes initially present in the mobile domain to diffuse into the immobile zone, where they may become temporarily trapped and subsequently released over time :cite:p:debarros13.
+- an immobile region, where transport is primarily diffusion-limited.
+Mass exchange between these regions occurs due to concentration gradients, allowing solutes initially present in the mobile domain to diffuse into the immobile zone, where they may become temporarily trapped and subsequently released over time.
 
 This dual-domain conceptual model has gained significant attention for its ability to reproduce highly asymmetric concentration profiles observed in field studies :cite:p:`harvey00,huang00,li00,haggerty00`.
 
@@ -368,9 +368,7 @@ While early mass transfer models typically employed a single mass transfer coeff
 The inherent mineralogical heterogeneity of natural soils and the complex spatial variability of aquifer properties result in a spectrum of mass transfer processes occurring over multiple time scales—phenomena that cannot be adequately captured by a single coefficient.
 
 To address this, the multirate mass transfer (MRMT) model introduced by :cite:t:`haggerty95` incorporates multiple immobile domains, each characterized by distinct mass transfer coefficients and porosities. 
-By selecting appropriate parameter values, the MRMT model can simulate a wide range of diffusion scenarios, including diffusion into cylindrical, spherical, planar, and fractured media :cite:p:`haggerty95,carrera98`.
-
-Furthermore, several studies :cite:p:`Zinn,liu04,fernandez09` have demonstrated that solute transport in heterogeneous aquifers is often more accurately upscaled using mass transfer models, reinforcing their relevance in large-scale transport simulations.
+By selecting appropriate parameter values, the *MRMT* model can simulate a wide range of diffusion scenarios, including diffusion into cylindrical, spherical, planar, and fractured media.
 
 
 **The MRMT model.** 
@@ -552,10 +550,20 @@ The particle transport is terminated once it moves within the radius of the well
 Outputs
 ----------------
 
-.. _Snapshots:
+The code provides options to: 
+
+- Record particle arrivals to a series of **observation objects** (sinks, control planes, observation wells, and/or registration lenses) by generating :ref:`Breakthrough curves`, :ref:`Cumulative breakthrough curves`, full :ref:`Plume history`. :ref:`Temporal moments` of arrivals to control planes and observation wells can also be provided. 
+- Capture and analyze the plume of particle by providing :ref:`Plume snapshots`, :ref:`Particle paths`, and by computing :ref:`Spatial moments` at specific times. 
+
+.. _Plume snapshots:
 
 Plume snapshots
 `````````````
+
+The location of all particles can be printed in a file at a series of user-defined time steps. The file will also provide the mass, the zone, the specie and the ID of the particles. 
+
+.. tip::
+    A postprocessing Python script is provided to generate a Paraview input file that allow to visualize the plume evolution as an animation. 
 
 
 .. _Breakthrough curves:
@@ -575,16 +583,17 @@ Cumulative breakthrough curves
 Plume history
 `````````````
 
-This option proposes to record all arrivals to sinks, observation surfaces, and/or registration lenses by providing the following particle information in an ascii or binary file:
-- "ID": particle ID assigned at the injection
-- "X-BIRTH", "Y-BIRTH", "Z-BIRTH": coordinates of the particle at the time of its injection
-- "IX-BIRTH", "IY-BIRTH", "IZ-BIRTH": 
-- "X-REG", "Y-REG", "Z-REG": 
-- "IX-REG", "IY-REG", "IZ-REG": 
-- "REGISTRATION_NUMBER": 
-- "TRAVEL_TIME": 
-- "SINKTYPE": 
-- "SPECIE": 
+This option proposes to record all arrivals to any observation object by providing the following particle information in an ascii or binary file:
+
+- ``ID``: particle ID assigned at the injection
+- ``X-BIRTH``, ``Y-BIRTH``, ``Z-BIRTH``: coordinates of the recorded particle at the time of its injection
+- ``IX-BIRTH``, ``IY-BIRTH``, ``IZ-BIRTH``: index of the cell where the particle was injected
+- ``X-REG``, ``Y-REG``, ``Z-REG``: coordinates of the recorded particle at the time of arrival to the observation object
+- ``IX-REG``, ``IY-REG``, ``IZ-REG``: index of the cell where the particle was registrated in the observation object
+- ``REGISTRATION_NUMBER``: index of the registration lense where the particle has been recorded, if registration lenses are used. The values 0 will be displayed otherwise (in case of arrival to sinks or other observation object) 
+- ``TRAVEL_TIME``: Time of the particle arrival to the observation object
+- ``SINKTYPE``: Sink name, or observation well name, 
+- ``SPECIE``: chemical species of the particle
 
 
 .. _Particle paths:
