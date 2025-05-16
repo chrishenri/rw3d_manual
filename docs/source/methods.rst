@@ -587,13 +587,16 @@ The first spatial moments of the plume of particle is computed as follow:
     :label: first_moment
     
     \begin{aligned}
-	Xg_{i} = \frac{\sum_k{mp_{k} \times xp_{k}^{i} / R_{k}}}{\sum_k{mp_{k} / R_{k}}} 
+	X_{g,i} = \frac{\sum_k{m_{p}_{k} \times x_{p}_{k}^{i} / R_{k}}}{\sum_k{m_{p}_{k} / R_{k}}} 
     \end{aligned}
 
 The second spatial moments of the plume of particle is computed as follow: 
 
+.. math:: 
+    :label: second_moment
+
     \begin{aligned}
-	M_{i,j} = \frac{\sum_k{mp_{k} \times xp_{k}^{i} \times xp_{k}^{j} / R_{k}}}{\sum_k{mp_{k} / R_{k}}} - Xg_{i} \times Xg_{j}
+	M_{i,j} = \frac{\sum_k{m_{p}_{k} \times x_{p}_{k}^{i} \times x_{p}_{k}^{j} / R_{k}}}{\sum_k{m_{p}_{k} / R_{k}}} - X_{g,i} \times X_{g,j}
     \end{aligned}
 
 
