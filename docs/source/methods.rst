@@ -593,7 +593,7 @@ This option proposes to record all arrivals to any observation object by providi
 - ``REGISTRATION_NUMBER``: index of the registration lense where the particle has been recorded, if registration lenses are used. The values 0 will be displayed otherwise (in case of arrival to sinks or other observation object) 
 - ``TRAVEL_TIME``: Time of the particle arrival to the observation object
 - ``SINKTYPE``: Sink name, or observation well name, 
-- ``SPECIE``: chemical species of the particle
+- ``SPECIE``: Name of the chemical species of the particle
 
 
 .. _Particle paths:

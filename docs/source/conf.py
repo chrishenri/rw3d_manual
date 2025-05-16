@@ -55,6 +55,8 @@ latex_elements = {
 
 # Additional stuff for the LaTeX preamble.
     'preamble': r'''
+        \usepackage{setspace}
+        \onehalfspacing
         \usepackage{charter}
         \usepackage[defaultsans]{lato}
         \usepackage{inconsolata}
