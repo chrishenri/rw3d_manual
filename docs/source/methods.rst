@@ -601,8 +601,9 @@ Particle tracking simulations produce discrete arrival times of particles at an 
 A reconstruction process is then needed to convert particle arrivals into concentrations. This reconstruction process is normally seen as the main disadvantage of PTMs. 
 RW3D uses Kernel density estimator (KDE) to transform these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
 
-
-**Kernel Density Estimation**
+.. _Kernel Density Estimation
+Kernel Density Estimation
+""""""""""
 
 Given a sample :math:`\{x_1, x_2, \dots, x_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
@@ -623,7 +624,9 @@ Conversely, a large bandwidth oversmooths the data, potentially obscuring import
 Selecting an appropriate bandwidth is essential for accurately representing the underlying transport dynamics.
 
 
-**PLUGIN Method: Iterative Bandwidth Selection for Kernel Density Estimation**
+.. _PLUGIN Method
+PLUGIN Method
+""""""""""
 
 The method proposed by Engel, Herrmann, and Gasser (1994) provides an iterative,
 data-driven approach to selecting the optimal bandwidth for kernel density estimation (KDE),
@@ -646,7 +649,6 @@ The Engel-Herrmann-Gasser method estimates these quantities from the data and re
 4. Update the bandwidth and repeat until convergence.
 
 This method is particularly effective for accurate estimation of density derivatives and is more robust than simple rule-of-thumb or fixed plug-in methods.
-
 
 
 .. _Plume history:
