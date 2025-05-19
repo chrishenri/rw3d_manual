@@ -27,9 +27,10 @@ Clone the repository:
 
 The code will be publically release here soon (expected during spring 2025):
 
-```
-git clone https://github.com/upc-ghs/RW3D
-```
+.. code-block::
+    
+    git clone https://github.com/upc-ghs/RW3D
+
 
 Build a solution
 ~~~~~~~~~~
@@ -41,7 +42,7 @@ Makefile
 """"""""""
 
 A makefile is provided in the folder ``make``. For Windows user, we advise using `MinGW <MinGW>`_ and its libraries to build the code. 
-From our experience, this handles required dependencies in the most straighforward and stable manner. Instructions will come soon.  
+From our experience, this handles required dependencies in the most straighforward and stable manner. *Instructions will come soon*.  
 
 
 Visual Studio
