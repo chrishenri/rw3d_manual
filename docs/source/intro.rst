@@ -23,9 +23,7 @@ How do I get set up?
 Get the code
 ~~~~~~~~~~
 
-Clone the repository: 
-
-The code will be publically release here soon (expected during spring 2025):
+The code will be released soon (expected during spring 2025). To access it, clone (or download) the project's repository here:
 
 .. code-block::
     
@@ -41,8 +39,7 @@ Build a solution
 Makefile
 """"""""""
 
-A makefile is provided in the folder ``make``. For Windows user, we advise using `MinGW <MinGW>`_ and its libraries to build the code. 
-From our experience, this handles required dependencies in the most straighforward and stable manner. *Instructions will come soon*.  
+A makefile is provided in the folder ``make``. 
 
 *Project Structure*
 
@@ -91,6 +88,35 @@ This will:
     - **Update library paths** or names in `SYSLIBS` if needed
 
 
+*Using MinGW via MSYS2*
+
+To build the project using the provided Makefile on Windows, we recommend using **MinGW** along with the **MSYS2** shell.
+From our experience, this handles required dependencies in the most straighforward and stable manner. 
+This `link <https://code.visualstudio.com/docs/cpp/config-mingw>`_ provides useful information to install MinGW and configure Viusal Studio Code. 
+Here, we summarize the installation process:
+
+.. tip::
+    **Install MSYS2**
+    1. Download and install MSYS2 from `https://www.msys2.org <https://www.msys2.org>`_ or directly from `here <https://github.com/msys2/msys2-installer/releases/>`_.
+    
+    2. Open the **MSYS2 MSYS** terminal and run:
+    
+    .. code-block::
+        pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
+    
+    3. Add the path of your MinGW-w64 bin folder to the Windows PATH environment variable (C:\msys64\ucrt64\bin)
+    
+    **Install Required Packages**
+    Install the required compilers and tools:
+    
+    .. code-block::
+        pacman -S mingw-w64-x86_64-gcc-fortran 
+        pacman -S mingw-w64-x86_64-gcc make
+        pacman -S mingw-w64-ucrt-x86_64-lapack
+        pacman -S mingw-w64-ucrt-x86_64-netcdf-fortran
+    
+    You should now be able to build the code using the ``make`` command. 
+
 
 Visual Studio
 """"""""""
@@ -98,13 +124,13 @@ Visual Studio
 .. tip::
     For Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
 
-    *Download and Install:*
+    **Download and Install**
 
     #. Build the `netCDF-Fortran` library. Some issues has been observed on Windows. If this is your case, this `thread <https://community.intel.com/t5/Intel-Fortran-Compiler/Include-netCDF-in-my-Fortran-projet/m-p/1529236#M168379/>`_ provides some guidance.  
     #. Download and Install `Microsoft Visual Studio <https://visualstudio.microsoft.com/>`_ following these `instructions <https://www.intel.com/content/www/us/en/developer/articles/guide/installing-microsoft-visual-studio-2019-for-use-with-intel-compilers.html>`_
     #. Download `Intel Fortran Essentials <https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?operatingsystem=windows>`_; Install (make sure that oneMKL is installed; this will install the `LAPACK` and `BLAS` libraries)
     
-    *Buildind RW3D:*
+    **Buildind RW3D**
 
     #. In Visual Studio: File :math:`\to` New :math:`\to` Project
     #. In the New Project window: Template :math:`\to` Intel(R) Visual Fortran (appear when the compiler has been correctly installed) :math:`\to` Empty Project (provide Name and Location)
