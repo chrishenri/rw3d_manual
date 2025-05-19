@@ -566,16 +566,78 @@ The location of all particles can be printed in a file at a series of user-defin
     A postprocessing Python script is provided to generate a Paraview input file that allow to visualize the plume evolution as an animation. 
 
 
+.. _Cumulative breakthrough curves:
+
+Cumulative breakthrough curves
+`````````````
+
+Mass arrival to observation objects can be recorded as cumulative breakthrough curves (CBTCs). CBTCs are simply obtained by adding particle mass at the time of their arrival and represent the total mass that has reached the observation object up to a given time. 
+CBTCs are useful for assessing the completeness of transport (i.e., how much of the total injected or released mass has reached the observation point) and/or for comparing total mass recovery.
+
+.. math:: 
+    :label: CBTC
+    
+    F(t) =  \int_0^t C(\tau) \, d\tau
+
+where :math:`F(t)` is the cumulative mass that has passed the observation point up to time *t*. 
+
+
 .. _Breakthrough curves:
 
 Breakthrough curves
 `````````````
 
+Mass arrival over time can be obtained under the form of breakthrough curves (BTCs). RW3D computes BTCs by estimating the derivative of the cumulative BTCs. BTCs are then mass fluxes over time (units M/T). 
+BTCs show how quickly and in what quantity particles reached an observation object over time, providing insight into transport dynamics such as advection and dispersion.
 
-.. _Cumulative breakthrough curves:
+.. math:: 
+    :label: BTC
+    
+    M(t) = \frac{dF(t)}{dt}
 
-Cumulative breakthrough curves
-`````````````
+where :math:`M(t)` is the mass flux at time *t*. 
+
+
+**PLUGIN Method: Iterative Bandwidth Selection for Kernel Density Estimation**
+
+The method proposed by Engel, Herrmann, and Gasser (1994) provides an iterative,
+data-driven approach to selecting the optimal bandwidth for kernel density estimation (KDE),
+particularly when estimating both densities and their derivatives.
+
+*Kernel Density Estimation*
+
+Given a sample :math:`\\{x_1, x_2, \\dots, x_n\\}`, the kernel density estimate of the
+underlying probability density function :math:`f(x)` is defined as:
+
+.. math::
+
+    \\hat{f}_h(x) = \\frac{1}{n h} \\sum_{i=1}^n K\\left( \\frac{x - x_i}{h} \\right)
+
+where:
+
+- :math:`K(\\cdot)` is a kernel function (e.g., Gaussian),
+- :math:`h` is the bandwidth (smoothing parameter).
+
+*Bandwidth Selection*
+
+The optimal bandwidth minimizes the Mean Integrated Squared Error (MISE):
+
+.. math::
+
+    \\text{MISE}(h) = \\mathbb{E} \\left[ \\int \\left( \\hat{f}_h(x) - f(x) \\right)^2 dx \\right]
+
+However, the optimal bandwidth depends on unknown quantities such as :math:`f''(x)`.
+The Engel-Herrmann-Gasser method estimates these quantities from the data and refines the bandwidth iteratively.
+
+*Iterative Procedure*
+
+1. Start with an initial pilot bandwidth :math:`h_0`.
+2. Estimate the density and its derivatives using :math:`h_0`.
+3. Plug these estimates into the formula for the optimal bandwidth.
+4. Update the bandwidth and repeat until convergence.
+
+This method is particularly effective for accurate estimation of density derivatives and is more robust than simple rule-of-thumb or fixed plug-in methods.
+
 
 
 .. _Plume history:
