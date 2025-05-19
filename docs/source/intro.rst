@@ -53,13 +53,15 @@ From our experience, this handles required dependencies in the most straighforwa
 
 *Build the Project*
 
-To compile all source files and create the executable::
+To compile all source files and create the executable:
 
 .. code-block::
     
     make
 
+
 This will:
+
 - Create the `objtemp` directory if it doesn't exist
 - Compile all `.f`, `.f90`, `.c`, etc. files into object files
 - Link them into the final executable `rw3d`
@@ -68,15 +70,15 @@ This will:
 .. tip::
     *Clean the Build*
     
-    To remove all compiled object files, module files, and the executable::
+    To remove all compiled object files, module files, and the executable:
 
     .. code-block::
     
         make clean
 
 
-    *Clean Only Object Files
-*
+    *Clean Only Object Files*
+
     .. code-block::
     
         make cleanobj
@@ -85,7 +87,7 @@ This will:
     *Customization Tips*
 
     - **Add new source files** to the `OBJECTS` list if you include more in `../src/`
-    - **Change compiler flags** by modifying `FFLAGS` (Fortran) or `CFLAGS` (C)
+    - **Change compiler flags** by modifying `FFLAGS` (Fortran) 
     - **Update library paths** or names in `SYSLIBS` if needed
 
 
