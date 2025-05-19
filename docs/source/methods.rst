@@ -597,16 +597,18 @@ BTCs show how quickly and in what quantity particles reached an observation obje
 
 where :math:`M(t)` is the mass flux at time *t*. 
 
+Particle tracking simulations produce discrete arrival times of particles at an observation object. 
+A reconstruction process is then needed to convert particle arrivals into concentrations. This reconstruction process is normally seen as the main disadvantage of PTMs. 
+RW3D uses Kernel density estimator (KDE) to transform these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
+
 
 **Kernel Density Estimation**
-Particle tracking simulations produce discrete arrival times of particles at an observation object. 
-Kernel density estimator (KDE) transforms these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
 
 Given a sample :math:`\{x_1, x_2, \dots, x_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
 
-    \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\\left( \frac{x - x_i}{h} \right)
+    \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\left( \frac{x - x_i}{h} \right)
 
 where:
 
