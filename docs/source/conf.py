@@ -68,7 +68,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'rw3d.tex', u'RW3D Documentation',
-   u'the RW3D Developers', 'manual'),
+   u'the RW3D Developers', 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

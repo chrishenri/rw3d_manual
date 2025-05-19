@@ -587,8 +587,8 @@ where :math:`F(t)` is the cumulative mass that has passed the observation point 
 Breakthrough curves
 `````````````
 
-Mass arrival over time can be obtained under the form of breakthrough curves (BTCs). RW3D computes BTCs by estimating the derivative of the cumulative BTCs. BTCs are then mass fluxes over time (units M/T). 
-BTCs show how quickly and in what quantity particles reached an observation object over time, providing insight into transport dynamics such as advection and dispersion.
+Mass arrival over time can be obtained under the form of breakthrough curves (BTCs), i.e, the evolution of mass fluxes over time (units M/T). 
+BTCs are useful in showing how quickly and in what quantity particles reached an observation object over time, providing insight into transport dynamics such as advection and dispersion.
 
 .. math:: 
     :label: BTC
@@ -605,14 +605,14 @@ RW3D uses Kernel density estimator (KDE) to transform these discrete events into
 Kernel Density Estimation
 """"""""""
 
-Given a sample :math:`\{x_1, x_2, \dots, x_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
+Given a sample of  particle travel times :math:`\{t_1, t_2, \dots, t_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
 
-    \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\left( \frac{x - x_i}{h} \right)
+    \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\left( \frac{t - t_i}{h} \right)
 
 where:
-
+- :math:`n` is the number of particles reaching the observation object,
 - :math:`K(\cdot)` is a kernel function (e.g., Gaussian),
 - :math:`h` is the bandwidth (smoothing parameter).
 
