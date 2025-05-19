@@ -602,15 +602,15 @@ where :math:`M(t)` is the mass flux at time *t*.
 Particle tracking simulations produce discrete arrival times of particles at an observation object. 
 Kernel density estimator (KDE) transforms these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
 
-Given a sample :math:`\\{x_1, x_2, \\dots, x_n\\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
+Given a sample :math:`\{x_1, x_2, \dots, x_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
 
-    \\hat{f}_h(x) = \\frac{1}{n h} \\sum_{i=1}^n K\\left( \\frac{x - x_i}{h} \\right)
+    \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\\left( \frac{x - x_i}{h} \right)
 
 where:
 
-- :math:`K(\\cdot)` is a kernel function (e.g., Gaussian),
+- :math:`K(\cdot)` is a kernel function (e.g., Gaussian),
 - :math:`h` is the bandwidth (smoothing parameter).
 
 *Bandwidth Selection*
@@ -631,7 +631,7 @@ The optimal bandwidth minimizes the Mean Integrated Squared Error (MISE):
 
 .. math::
 
-    \\text{MISE}(h) = \\mathbb{E} \\left[ \\int \\left( \\hat{f}_h(x) - f(x) \\right)^2 dx \\right]
+    \text{MISE}(h) = \mathbb{E} \left[ \int \left( \hat{f}_h(x) - f(x) \right)^2 dx \right]
 
 However, the optimal bandwidth depends on unknown quantities such as :math:`f''(x)`.
 The Engel-Herrmann-Gasser method estimates these quantities from the data and refines the bandwidth iteratively.
