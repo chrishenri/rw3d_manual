@@ -97,19 +97,23 @@ Here, we summarize the installation process:
 
 .. tip::
     **Install MSYS2**
+    
     1. Download and install MSYS2 from `https://www.msys2.org <https://www.msys2.org>`_ or directly from `here <https://github.com/msys2/msys2-installer/releases/>`_.
     
     2. Open the **MSYS2 MSYS** terminal and run:
     
     .. code-block::
+
         pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
     
     3. Add the path of your MinGW-w64 bin folder to the Windows PATH environment variable (C:\msys64\ucrt64\bin)
     
     **Install Required Packages**
+    
     Install the required compilers and tools:
     
     .. code-block::
+
         pacman -S mingw-w64-x86_64-gcc-fortran 
         pacman -S mingw-w64-x86_64-gcc make
         pacman -S mingw-w64-ucrt-x86_64-lapack
@@ -120,6 +124,8 @@ Here, we summarize the installation process:
 
 Visual Studio
 """"""""""
+
+The code was developed using Visual Studio. It provides the 
 
 .. tip::
     For Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
