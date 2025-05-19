@@ -598,16 +598,11 @@ BTCs show how quickly and in what quantity particles reached an observation obje
 where :math:`M(t)` is the mass flux at time *t*. 
 
 
-**PLUGIN Method: Iterative Bandwidth Selection for Kernel Density Estimation**
+**Kernel Density Estimation**
+Particle tracking simulations produce discrete arrival times of particles at an observation object. 
+Kernel density estimator (KDE) transforms these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
 
-The method proposed by Engel, Herrmann, and Gasser (1994) provides an iterative,
-data-driven approach to selecting the optimal bandwidth for kernel density estimation (KDE),
-particularly when estimating both densities and their derivatives.
-
-*Kernel Density Estimation*
-
-Given a sample :math:`\\{x_1, x_2, \\dots, x_n\\}`, the kernel density estimate of the
-underlying probability density function :math:`f(x)` is defined as:
+Given a sample :math:`\\{x_1, x_2, \\dots, x_n\\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
 
@@ -619,6 +614,18 @@ where:
 - :math:`h` is the bandwidth (smoothing parameter).
 
 *Bandwidth Selection*
+
+In kernel density estimation, the bandwidth is a critical parameter that controls the degree of smoothing applied to the data. 
+A small bandwidth results in a curve that closely follows the individual particle arrival times, potentially capturing noise and producing a jagged breakthrough curve. 
+Conversely, a large bandwidth oversmooths the data, potentially obscuring important features such as peaks or multimodal behavior. 
+Selecting an appropriate bandwidth is essential for accurately representing the underlying transport dynamics.
+
+
+**PLUGIN Method: Iterative Bandwidth Selection for Kernel Density Estimation**
+
+The method proposed by Engel, Herrmann, and Gasser (1994) provides an iterative,
+data-driven approach to selecting the optimal bandwidth for kernel density estimation (KDE),
+particularly when estimating both densities and their derivatives.
 
 The optimal bandwidth minimizes the Mean Integrated Squared Error (MISE):
 
