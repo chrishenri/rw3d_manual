@@ -65,37 +65,14 @@ This will:
 
 
 .. tip::
-    *Clean the Build*
     
-    To remove all compiled object files, module files, and the executable:
-
-    .. code-block::
+    *Using MinGW via MSYS2*
     
-        make clean
-
-
-    *Clean Only Object Files*
-
-    .. code-block::
+    To build the project using the provided Makefile on Windows, we recommend using **MinGW** along with the **MSYS2** shell.
+    From our experience, this handles required dependencies in the most straighforward and stable manner. 
+    This `link <https://code.visualstudio.com/docs/cpp/config-mingw>`_ provides useful information to install MinGW and configure Viusal Studio Code. 
+    Here, we summarize the installation process:
     
-        make cleanobj
-
-
-    *Customization Tips*
-
-    - **Add new source files** to the `OBJECTS` list if you include more in `../src/`
-    - **Change compiler flags** by modifying `FFLAGS` (Fortran) 
-    - **Update library paths** or names in `SYSLIBS` if needed
-
-
-*Using MinGW via MSYS2*
-
-To build the project using the provided Makefile on Windows, we recommend using **MinGW** along with the **MSYS2** shell.
-From our experience, this handles required dependencies in the most straighforward and stable manner. 
-This `link <https://code.visualstudio.com/docs/cpp/config-mingw>`_ provides useful information to install MinGW and configure Viusal Studio Code. 
-Here, we summarize the installation process:
-
-.. tip::
     **Install MSYS2**
     
     1. Download and install MSYS2 from `https://www.msys2.org <https://www.msys2.org>`_ or directly from `here <https://github.com/msys2/msys2-installer/releases/>`_.
@@ -103,7 +80,7 @@ Here, we summarize the installation process:
     2. Open the **MSYS2 MSYS** terminal and run:
     
     .. code-block::
-
+    
         pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
     
     3. Add the path of your MinGW-w64 bin folder to the Windows PATH environment variable (C:\msys64\ucrt64\bin)
@@ -113,7 +90,7 @@ Here, we summarize the installation process:
     Install the required compilers and tools:
     
     .. code-block::
-
+        
         pacman -S mingw-w64-x86_64-gcc-fortran 
         pacman -S mingw-w64-x86_64-gcc make
         pacman -S mingw-w64-ucrt-x86_64-lapack
