@@ -102,10 +102,11 @@ This will:
 Visual Studio
 """"""""""
 
-The code was developed using Visual Studio. It provides the 
+The code was mostly developed on Windows, using Visual Studio. The IDE has the benefit of streamlining the software development process by offering intelligent code completion, some debugging tools, and an integration with version control systems like Git.
+From our experience, one of the main challenge in using Visual Studio is the linking with the netcdf-Fortran library that needs to be previously built. 
+If you are a relatively new Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Visual Studio IDE and Intel Fortran:
 
 .. tip::
-    For Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Microsoft Visual Studio IDE and Intel Fortran:
 
     **Download and Install**
 
