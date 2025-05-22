@@ -691,7 +691,7 @@ RW3D uses Kernel density estimator (KDE) to transform these discrete events into
 .. _Kernel Density Estimation
 Kernel Density Estimation
 """"""""""
-""""""""""
+
 Given a sample of  particle travel times :math:`\{t_1, t_2, \dots, t_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
@@ -699,9 +699,10 @@ Given a sample of  particle travel times :math:`\{t_1, t_2, \dots, t_n\}`, the k
     \hat{f}_h(x) = \frac{1}{n h} \sum_{i=1}^n K\left( \frac{t - t_i}{h} \right)
 
 where:
-- :math:`n` is the number of particles reaching the observation object,
-- :math:`K(\cdot)` is a kernel function (e.g., Gaussian),
-- :math:`h` is the bandwidth (smoothing parameter).
+
+  - :math:`n` is the number of particles reaching the observation object,
+  - :math:`K(\cdot)` is a kernel function (e.g., Gaussian),
+  - :math:`h` is the bandwidth (smoothing parameter).
 
 *Bandwidth Selection*
 
