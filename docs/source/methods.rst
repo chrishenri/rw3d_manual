@@ -1,61 +1,64 @@
 .. _methods:
 
 Method
-=====
+======
 
 Transport
-----------------
+---------
 
-RW3D solves the typical transport processes that are: advection, dispersion, and diffusion. This is done by solving the RWPT scheme defined in the chapter :ref:`randomwalk`. 
-Here, we describe key interpolation schemes and available options. 
+RW3D simulates the key transport processes in porous media: **advection**, **dispersion**, and **diffusion**. These are modeled using the Random Walk Particle Tracking (RWPT) scheme described in the section :ref:`randomwalk`.
+
+Here, we outline the interpolation schemes and available options for simulating particle motion.
 
 .. _Advective motion:
 
-Advective motion
-`````````````
+Advective Motion
+----------------
 
-RW3D is using fluxes described on an Eulerian grid. Fluxes in each considered direction (:math:`\mathbf{q}`) must be provided at each face of each cell of the Eulerian grid (see figure :ref:`finite-difference_cell`). 
-Fluxes are then estimated at the particle location (:math:`\mathbf{q}_p`) using the interpolation schemes described in :ref:`Flux interpolation`.
-Using a simple linear interpolation scheme has been shown to be consistent with the finite difference formulation of the flow equation and conserves mass locally in each cell :cite:p:`Pollock88`. 
+RW3D uses fluxes defined on an Eulerian grid. For each spatial direction, the Darcy flux :math:`\mathbf{q}` must be specified at the faces of each finite-difference cell (see Figure :ref:`finite-difference_cell`). 
 
-Particle fluxes are then subsequently used to estimate the velocity of a particle (:math:`\mathbf{v_p}(\mathbf{x}_{p})`) by simple scaling by the local porosity/water content (:math:`\phi`):  
+To compute the flux at the particle location, :math:`\mathbf{q}_p`, RW3D applies interpolation schemes described in :ref:`Flux interpolation`. A simple linear interpolation has been shown to be consistent with the finite-difference formulation of the flow equation and ensures local mass conservation :cite:p:`Pollock88`.
+
+The particle velocity :math:`\mathbf{v}_p(\mathbf{x}_p)` is then computed by scaling the interpolated flux by the local porosity or water content, :math:`\phi`:
 
 .. math::
-    :label: vp
-    
-    \mathbf{v_p}(\mathbf{x}_{p}) = \frac{\mathbf{q}_p(\mathbf{x}_{p})}{\phi(\mathbf{x}_{p})}
+   :label: vp
 
-From now on, all parameters are considered at the particle location :math:`(\mathbf{x}_{p})`, unless mentioned otherwise. 
+   \mathbf{v}_p(\mathbf{x}_p) = \frac{\mathbf{q}_p(\mathbf{x}_p)}{\phi(\mathbf{x}_p)}
+
+Unless otherwise noted, all parameters are evaluated at the particle location :math:`\mathbf{x}_p`.
 
 .. _finite-difference_cell:
 
 .. figure:: finite-difference_cell.jpg
-    :align: center
-    :scale: 50 %
+   :align: center
+   :scale: 50 %
 
-    Fluxes crossing the faces of a finite-difference cell.
+   Fluxes crossing the faces of a finite-difference cell.
 
-RW3D is proposing 2 options to simulate advective particle motion, i.e., :math:`\Delta\mathbf{x}_{p,adv}`, the particle displacement by advection only during a time step :math:`\Delta t`:
+RW3D provides two options for simulating advective particle motion, i.e., the displacement due to advection during a time step :math:`\Delta t`, denoted :math:`\Delta \mathbf{x}_{p,\text{adv}}`:
 
-- ``Eulerian``: Standard Random-Walk with Eulerian integration of the velocity:
+- **Eulerian**: Standard random-walk using Eulerian integration of the velocity:
 
-.. math::
-    :label: eulerian
+  .. math::
+     :label: eulerian
 
-    \begin{aligned}
-    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx v_p(t)\Delta t,
-    \end{aligned}
+     \Delta \mathbf{x}_{p,\text{adv}} = \int v_p(\tau) \, d\tau \approx v_p(t) \, \Delta t
 
+- **Exponential**: Pollock’s method for integrating velocity in finite-difference flow models:
 
-- ``Exponential``: Pollock Method to integrate the velocity from finite-difference flow models:
+  .. math::
+     :label: expo
 
-.. math::
-    :label: expo
+     \Delta \mathbf{x}_{p,\text{adv}} = \frac{v_{p,i}(t)}{A_i} \left( \exp(A_i \, \Delta t) - 1 \right)
 
-    \Delta\mathbf{x}_{p,adv} = \int v_p(\tau)d\tau \approx \dfrac{v_{p,i}(t)}{A_i}(\exp(A_i\,\Delta t)-1), 
-    
-with :math:`A_i = \dfrac{v_{i,face(2)} - v_{i,face(1)}}{\Delta x_i}`, where :math:`v_{i,face(j)}` is the velocity in the `i`-th direction calculated at the `j`-th face of the cell, and :math:`\Delta x_i` is the cell size in the `i`-th direction.
+  where:
 
+  - :math:`A_i = \dfrac{v_{i,\text{face}(2)} - v_{i,\text{face}(1)}}{\Delta x_i}`  
+  - :math:`v_{i,\text{face}(j)}` is the velocity in the :math:`i`-th direction at the :math:`j`-th face of the cell  
+  - :math:`\Delta x_i` is the cell size in the :math:`i`-th direction
+
+The exponential scheme provides a more accurate integration of velocity in regions with strong gradients and is particularly useful in heterogeneous domains.
 
 
 .. _Flux interpolation:
@@ -93,7 +96,10 @@ If dispersion is accounted for, the local flux in the `i`-th direction used to c
     F_x     \times F_y     \times F_z     \times q_{i,node(2,2,2)}
     \end{multline}
 
-where :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`, and :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`. 
+where:
+
+  - :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`
+  - :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`
 
 
 
@@ -194,7 +200,10 @@ where :math:`k_d` is the first-order decay associated to the particle.
     t_{c,mt} = \frac{1}{\alpha \times (1+\beta)},
     \end{aligned}
 
-where :math:`\alpha` is the mass transfer coefficient and :math:`\beta` is the total capacity. 
+where:
+
+  - :math:`\alpha` is the mass transfer coefficient
+  - :math:`\beta` is the total capacity
 
 
 
@@ -222,7 +231,10 @@ In case of horizontal motion to a cell with a different thickness after a time s
     z_{p}(t+\Delta t) = \frac{z_{p}(t)-z_{c,bot}(t)}{z_{c,top}(t)-z_{c,bot}(t)} \times (z_{c,top}(t+\Delta t)-z_{c,bot}(t+\Delta t)) + z_{c,bot}(t+\Delta t)
     \end{aligned}
 
-where :math:`t` and :math:`t + \Delta t` refers to time before and after the horizontal jump in another cell, respectively, :math:`z_{c,bot}` and :math:`z_{c,top}` are the bottom and the top elevation of the cell. 
+where:
+
+  - :math:`t` and :math:`t + \Delta t` refers to time before and after the horizontal jump in another cell, respectively
+  - :math:`z_{c,bot}` and :math:`z_{c,top}` are the bottom and the top elevation of the cell
 
 ..
     z_{new} = \frac{z_{old}-bot_{old}}{top_{old}-bot_{old}} \times (top_{new}-bot_{new}) + bot_{new}
@@ -253,11 +265,25 @@ The transport equations governing the behavior of network reactions is given by 
 	\frac{\partial (\theta c_i)}{\partial t} + \nabla\cdot({\theta \mathbf{u} c_i}) - \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right) = \sum_{j=1}^{n_s} y_{ij}k{j}\theta c_j 
 	\end{aligned}
 
-where the ith-equation represents the mass balance of the ith species, :math:`n_s` is the number of the species involved, :math:`\theta [-]` is the porosity of the media, :math:`q [L T^{–1}]` is the Darcy velocity vector, and :math:`D [L^{2} T^{–1}]` is the dispersion tensor. 
-For any given species i, :math:`c_i [M L^{–3}]` is the concentration in the liquid phase, :math:`k_i [T^{–1}]` is the first-order contaminant destruction rate constant, and :math:`y_{ij} [M M^{–1}]` is the effective yield coefficient for any reactant or product pair. 
-These coefficients are defined as the ratio of mass of species i generated to the amount of mass of species j consumed.
+where:
+
+  - the ith-equation represents the mass balance of the ith species
+  - :math:`n_s` is the number of the species involved
+  - :math:`\theta [-]` is the porosity of the media
+  - :math:`q [L T^{–1}]` is the Darcy velocity vector 
+  - :math:`D [L^{2} T^{–1}]` is the dispersion tensor
+
+For any given species i:
+
+  - :math:`c_i [M L^{–3}]` is the concentration in the liquid phase
+  - :math:`k_i [T^{–1}]` is the first-order contaminant destruction rate constant
+  - :math:`y_{ij} [M M^{–1}]` is the effective yield coefficient for any reactant or product pair
+
+These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed.
 
 RW3D solves this network by estimating the probability for a particle at a given state (i.e., species) at a given time to turn into another species after a given time step. The derivation, validation and application of the method is presented in :cite:t:`Henri2014`.
+
+
 
 Bimolecular reaction networks
 `````````````
@@ -270,7 +296,13 @@ RW3D is solving few types of bimolecular reactions. The reactive transport of su
     \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right) + r(c_A,c_B)
     \end{aligned}
 
-where :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`, :math:`\theta [L^2 L^{-2}]` is the water content, :math:`\mathbf{u}` is the pore water velocity :math:`[L T^{-1}]` and :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source. 
+where:
+
+  - :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`
+  - :math:`\theta [L^2 L^{-2}]` is the water content
+  - :math:`\mathbf{u}` is the pore water velocity :math:`[L T^{-1}]`
+  - :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source
+
 For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f [L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
 
 For the moment, RW3D is solving the following bimolecular reactions: 
@@ -285,47 +317,56 @@ In this package, these reactions can be associated to first-order reactions of t
 - 1 product: :math:`A \to C`
 - 2 products: :math:`A \to C + D`
 
-The particle-based method used here simulates bimolecular reactions through probabilistic rules of particle collisions and transformation, as described by :cite:t:`Benson2008`. 
+.. note::
 
-To illustrate the method, let's consider a reaction :math:`A + B \to C`. For this reaction to take place, a A particle should be close enough to a B particle, so they can interact. 
-Under natural, not well mixed conditions, this process is controlled by the distance that a particle might diffuse or hydro-dynamically disperse, especially in the transverse direction to flow. 
-Let’s assume two independent particles A and B, with initial locations :math:`x_t^A` and :math:`x_t^B`, respectively. 
-After a small time-step :math:`\Delta t`, the particles have moved to new positions, :math:`x_{t+\Delta t}^A` and :math:`x_{t+\Delta t}^B`, respectively, with :math:`dx^A` and :math:`dx^B` is the actual displacement of each particle during :math:`\Delta t`.
-The probability that the two particles will occupy the same position, after :math:`\Delta t`, is given by:
+   **How to solve bimolecular reactions using RWPT?**
 
-.. math::
-    :label: Pcolloc
+    The particle-based method used here simulates bimolecular reactions through probabilistic rules of particle collisions and transformation, as described by :cite:t:`Benson2008`. 
 
-    \begin{split}
-    P\left(x_{t+\Delta t}^A = x_{t+\Delta t}^B \right) & = P\left( x_t^A+dx^A=x_{t+\Delta t}^B+dx^B \right) \\ 
-    & = P\left(dx^A-dx^B = x_{t+\Delta t}^B-x_{t+\Delta t}^A \right) \\ 
-    & = P\left(D=s\right) = P\left(D-s=0\right),
-    \end{split}
+    To illustrate the method, let's consider a reaction :math:`A + B \to C`. For this reaction to take place, a A particle should be close enough to a B particle, so they can interact. 
+    Under natural, not well-mixed conditions, this process is controlled by the distance that a particle might diffuse or hydro-dynamically disperse, especially in the transverse direction to flow. 
+    Let’s assume two independent particles *A* and *B*, with initial locations :math:`x_t^A` and :math:`x_t^B`, respectively. 
+    After a small time-step :math:`\Delta t`, the particles have moved to new positions, :math:`x_{t+\Delta t}^A` and :math:`x_{t+\Delta t}^B`, respectively, with :math:`dx^A` and :math:`dx^B` is the actual displacement of each particle during :math:`\Delta t`.
+    The probability that the two particles will occupy the same position, after :math:`\Delta t`, is given by:
 
-where :math:`D=dx^A-dx^B` is the relative displacement of the two particles and :math:`s=x_t^B-x_t^A` is the initial separation distance. 
-We assume that the two particles will be in contact (and react) if :math:`D` is equal to :math:`s` and the final displacement, :math:`D-s` is equal to 0. :cite:t:`Benson2008` define the encounter density function :math:`v(s)` as the density of :math:`D`.
-Now, assuming that the movement of the particles during :math:`\Delta t` is symmetric, then for the case of B particles, :math:`{dx}^B` is identically distributed with :math:`-dx^B`, and since the displacements :math:`dx^A` and :math:`dx^B` are independent, :math:`D` is identically distributed with :math:`dx^A+dx^B`. 
-:math:`v(s)` can then be considered as the sum of two independent random variables :math:`dx^A` and :math:`dx^B`, which is known to be equal to the convolution of the two densities. 
-Defining :math:`f_A(x)` and :math:`f_B(x)` as the densities of :math:`dx^A` and :math:`dx^B` (i.e., the densities of the motions away from the current positions :math:`x_t^A` and :math:`x_t^B`), we can write the following convolution equation: 
+    .. math::
+        :label: Pcolloc
 
-.. math::
-    :label: vs
+        \begin{split}
+        P\left(x_{t+\Delta t}^A = x_{t+\Delta t}^B \right) & = P\left( x_t^A+dx^A=x_{t+\Delta t}^B+dx^B \right) \\ 
+        & = P\left(dx^A-dx^B = x_{t+\Delta t}^B-x_{t+\Delta t}^A \right) \\ 
+        & = P\left(D=s\right) = P\left(D-s=0\right),
+        \end{split}
 
-    v(s)=\int{f_A(x)f_B(s-x)dx}.
+    where:
 
-In RW3D, both :math:`f_A(x)` and :math:`f_B(x)` are considered as Gaussian densities to represent the mechanical dispersion of particles.
+    - :math:`D=dx^A-dx^B` is the relative displacement of the two particles 
+    - :math:`s=x_t^B-x_t^A` is the initial separation distance
 
-The probability density that a pair of particles A and B react is then given by:
+    We assume that the two particles will be in contact (and react) if :math:`D` is equal to :math:`s` and the final displacement, :math:`D-s` is equal to 0. :cite:t:`Benson2008` define the encounter density function :math:`v(s)` as the density of :math:`D`.
+    Now, assuming that the movement of the particles during :math:`\Delta t` is symmetric, then for the case of *B* particles, :math:`{dx}^B` is identically distributed with :math:`-dx^B`, and since the displacements :math:`dx^A` and :math:`dx^B` are independent, :math:`D` is identically distributed with :math:`dx^A+dx^B`. 
+    :math:`v(s)` can then be considered as the sum of two independent random variables :math:`dx^A` and :math:`dx^B`, which is known to be equal to the convolution of the two densities. 
+    Defining :math:`f_A(x)` and :math:`f_B(x)` as the densities of :math:`dx^A` and :math:`dx^B` (i.e., the densities of the motions away from the current positions :math:`x_t^A` and :math:`x_t^B`), we can write the following convolution equation: 
 
-.. math::
-    :label: Preact
-    
-    P\left(react\right) = k_f\times\Delta t\times m_p\times v(s)
+    .. math::
+        :label: vs
 
-where :math:`m_p` [M] is the mass of a particle.
+        v(s)=\int{f_A(x)f_B(s-x)dx}.
 
-The reaction probability `P(react)` is finally compared with a random number that is uniformly distributed between 0 and 1. 
-If the probability of the reaction is larger than the random number, the two reactant particles are converted to a product particle. The location of the product particle is considered to be half-way between the two reactant particles.  
+    In RW3D, both :math:`f_A(x)` and :math:`f_B(x)` are considered as Gaussian densities to represent the mechanical dispersion of particles.
+
+    The probability density that a pair of particles A and B react is then given by:
+
+    .. math::
+        :label: Preact
+        
+        P\left(react\right) = k_f\times\Delta t\times m_p\times v(s)
+
+    where :math:`m_p` [M] is the mass of a particle.
+
+    The reaction probability `P(react)` is finally compared with a random number that is uniformly distributed between 0 and 1. 
+    If the probability of the reaction is larger than the random number, the two reactant particles are converted to a product particle. The location of the product particle is considered to be half-way between the two reactant particles.  
+
 
 Linear Sorption
 `````````````
@@ -339,7 +380,12 @@ Linear instantaneous sorption, i.e., retardation, is simply solved by scaling th
     R_i \frac{\partial (\theta c_i)}{\partial t} = - \nabla\cdot({\theta \mathbf{u} c_i}) + \nabla \cdot \left(\theta\mathbf{D}\cdot\nabla c_i \right)
     \end{aligned}
 	
-where :math:`c` :math:`[g.m^{-3}]` is the solute concentration, :math:`\phi` is the effective porosity, :math:`\mathbf{D}` is the dispersion tensor, and :math:`R_i` is the i-th species specific retardation factor.  
+where:
+
+  - :math:`c` :math:`[g.m^{-3}]` is the solute concentration
+  - :math:`\phi` is the effective porosity
+  - :math:`\mathbf{D}` is the dispersion tensor 
+  - :math:`R_i` is the i-th species specific retardation factor
 
 
 .. _Multirate Mass Transfer process:
@@ -367,14 +413,14 @@ This dual-domain conceptual model has gained significant attention for its abili
 While early mass transfer models typically employed a single mass transfer coefficient to characterize exchange between mobile and immobile zones :cite:p:`vangenuchten76,neretnieks80,harvey00`, this approach has shown substantial limitations in predicting long-term solute behavior :cite:p:`Young,haggerty95,haggerty00`. 
 The inherent mineralogical heterogeneity of natural soils and the complex spatial variability of aquifer properties result in a spectrum of mass transfer processes occurring over multiple time scales—phenomena that cannot be adequately captured by a single coefficient.
 
-To address this, the multirate mass transfer (MRMT) model introduced by :cite:t:`haggerty95` incorporates multiple immobile domains, each characterized by distinct mass transfer coefficients and porosities. 
+To address this, the multirate mass transfer (**MRMT**) model introduced by :cite:t:`haggerty95` incorporates multiple immobile domains, each characterized by distinct mass transfer coefficients and porosities. 
 By selecting appropriate parameter values, the *MRMT* model can simulate a wide range of diffusion scenarios, including diffusion into cylindrical, spherical, planar, and fractured media.
 
 
 **The MRMT model.** 
 
-Parameters of the multirate mass transfer model are species specific. In theory, reaction can occur in the mobile and immobile domains with specific reaction parameters. 
-In a general form, and associated to a multispecies reactive system, the multirate mass transfer model is given by:  
+Parameters of the multirate mass transfer model are species specific. In theory, reaction can occur in the mobile and immobile domains with specific reaction parameters. So, we present equations considering theoretical reactions.  
+In a general form, and associated to a multispecies reactive system characterized by a first-order decay network, the *MRMT* model is given by: 
 
 .. math::
     :label: MRMT
@@ -397,28 +443,47 @@ In a general form, and associated to a multispecies reactive system, the multira
     \\ \qquad\forall\, k=1,2,\cdots,N_{im}, \qquad \forall\, i=1,2,\cdots,N_s. 
     \end{multline}
 
-The left-hand-side of these equations form the standard multirate mass transfer model :cite:p:`haggerty95` that describes advective-dispersive transport with rate-limited mass transfer between a mobile domain and any number of immobile domains for each species. 
-These immobile domains can represent a wide variety of common field site conditions that exits in almost all porous media and over multiple scales.
+where: 
 
-In these equations, the variable :math:`c_{i0} \left[M\, L^{-3}\right]` is the concentration of the *i*-th species in the mobile domain (denoted always by the subscript index :math:`k=0`), :math:`c_{ik} \left[M\, L^{-3}\right]`, for :math:`k=1,...,N_{im}`, is the concentration of the i-th species in the k-th immobile domain, :math:`N_s` is the number of species, :math:`N_{im}` is the number of immobile domains, :math:`\phi_0 [-]` is the porosity of the media in the mobile domain, :math:`\phi_{k} [-]` for :math:`k=1,...,N_{im}` is the porosity of the media in the *k*-th immobile domain,  :math:`R_{i0}\ [-]` is the retardation factor of the *i*-th species in the mobile domain, and :math:`R_{ik} [-]` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})`. 
-Sorption is considered in local equilibrium (linear isotherm), and :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by
+  - :math:`c_{i0} \left[M\, L^{-3}\right]` is the concentration of the *i*-th species in the mobile domain (denoted always by the subscript index :math:`k=0`) 
+  - :math:`c_{ik} \left[M\, L^{-3}\right]`, for :math:`k=1,...,N_{im}`, is the concentration of the i-th species in the k-th immobile domain 
+  - :math:`N_s` is the number of species 
+  - :math:`N_{im}` is the number of immobile domains 
+  - :math:`\phi_0 [-]` is the porosity of the media in the mobile domain 
+  - :math:`\phi_{k} [-]` for :math:`k=1,...,N_{im}` is the porosity of the media in the *k*-th immobile domain  
+  - :math:`R_{i0}\ [-]` is the retardation factor of the *i*-th species in the mobile domain, and 
+  - :math:`R_{ik} [-]` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})` 
+  - :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by:
+
+  .. math::
+     :label: transop
+    
+     \begin{aligned}
+	 \mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
+     \end{aligned}
+
+     where:
+
+     - :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector 
+     - :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`
+
+The first equation (:ref:`MRMT`) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (:ref:`MRMT2`) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
+
+This mass transfer process is characterized by the apparent mass transfer coefficient :math:`\alpha_{ik} [T^{-1}]`, which is defined as 
 
 .. math:: 
-    :label: transop
     
-    \begin{aligned}
-	\mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
-    \end{aligned}
+    `\alpha_{ik}=\alpha^\prime_k/R_{ik}`
+    
+where :math:`\alpha^\prime_k` is the first-order mass transfer rate coefficient between the mobile domain :math:`(k=0)` and the *k*-th immobile domain :math:`(k=1,...,N_{im})`.
 
-where :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector, and :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`. The first equation (\ref{eq:governGene}) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (\ref{eq:governImmo}) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
-%This mass transfer process is characterized by the apparent mass transfer coefficient :math:`\alpha_{ik} [T^{-1}]`, which is defined as :math:`\alpha_{ik}=\alpha^\prime_k/R_{ik}`, where  :math:`\alpha^\prime_k` is the first-order mass transfer rate coefficient between the mobile domain :math:`(k=0)` and the *k*-th immobile domain :math:`(k=1,...,N_{im})`.
+The right-hand-side of equation :ref:`MRMT` represents the destruction and production of the different species driven by first-order kinetic reactions, where:
 
-The right-hand-side of equation (\ref{eq:governGene}) represents the destruction and production of the different species driven by first-order kinetic reactions, where :math:`k{}_{i\ell} \left[T^{-1}\right]` is the first-order contaminant destruction rate constant associated with the *i*-th species and :math:`\ell` domain, :math:`y{}_{ij} \left[M\, M^{-1}\right]` is the effective yield coefficient for any reactant or product pair *(i,j)*. 
-It is a stoichiometric coefficient that is assumed constant for all domains. 
-These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed. 
-The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent the first-order decay of the *i*-*the species. 
-Similar reaction terms have been presented by many authors :cite:t:`clement97,clement01,sun99,Falta07`. 
-We have assumed that only aqueous concentrations are susceptible to undergo chemical reactions, i.e., no biodegradation in the sorbed phase occurs. Nevertheless, we note that other situations can be simulated by properly redefining the degradation rates \citep{vanGenuchten85}.
+  - :math:`k{}_{i\ell} \left[T^{-1}\right]` is the first-order contaminant destruction rate constant associated with the *i*-th species and :math:`\ell` domain
+  - :math:`y{}_{ij} \left[M\, M^{-1}\right]` is the effective yield coefficient for any reactant or product pair *(i,j)*. It is a stoichiometric coefficient that is assumed constant for all domains. These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed. The yield coefficients :math:`y{}_{ii}` are equal to :math:`-1` and represent the first-order decay of the *i*-*the species. 
+
+In our implementation, only aqueous concentrations can undergo chemical reactions, i.e., no reactions occur in the sorbed (immobile) phase. 
+
 
 **Diffusion into different geometries**
 
