@@ -83,7 +83,7 @@ This will:
     
         pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain
     
-    3. Add the path of your MinGW-w64 bin folder to the Windows PATH environment variable (C:\msys64\ucrt64\bin)
+    3. Add the path of your MinGW-w64 bin folder to the Windows PATH environment variable (by default this path should be ``C:\\msys64\\ucrt64\\bin``)
     
     **Install Required Packages**
     

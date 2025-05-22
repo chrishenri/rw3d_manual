@@ -604,7 +604,7 @@ RW3D uses Kernel density estimator (KDE) to transform these discrete events into
 .. _Kernel Density Estimation
 Kernel Density Estimation
 """"""""""
-
+""""""""""
 Given a sample of  particle travel times :math:`\{t_1, t_2, \dots, t_n\}`, the kernel density estimate of the underlying probability density function :math:`f(x)` is defined as:
 
 .. math::
@@ -625,7 +625,7 @@ Selecting an appropriate bandwidth is essential for accurately representing the 
 
 
 .. _PLUGIN Method
-PLUGIN Method
+*Plugin* Method
 """"""""""
 
 The method proposed by Engel, Herrmann, and Gasser (1994) provides an iterative,
