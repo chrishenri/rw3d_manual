@@ -532,7 +532,7 @@ For each time step, the number of particles extracted in a sink cell (n_{p_{s,to
 where:
 
   - :math:`n_{p_{c}}` is the number of particle located in the sink cell
-  - :math:`np_{s,tot}^*` is the residual number of particle to be extracted from the previous time step
+  - :math:`n_{p_{s,tot}}^*` is the residual number of particle to be extracted from the previous time step
   - :math:`S_s` is the total sink strength, which is estimated by: 
 
 .. math::
@@ -543,8 +543,22 @@ where:
     \end{aligned}
 
 where :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sinks located in the cell, and :math:`V_{c} [L^3]` is the volume of water in the cell. 
-These volumes are calculated as: :math:`V_{s,tot} = \sum{Q_{s,i}} \times \Delta t`, where :math:`Q_{s,i}` is the volume of water extracted by each sink *i* located in the sink cell; 
-:math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell. 
+
+These volumes are calculated as: 
+
+.. math::
+    :label: Vtot
+    
+    V_{s,tot} = \sum{Q_{s,i}} \times \Delta t
+    
+where :math:`Q_{s,i}` is the volume of water extracted by each sink *i* located in the sink cell.
+
+.. math::
+    :label: Vc
+    
+    V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta
+    
+where :math:`\Delta z^*` is the saturated thickness of the cell. 
 
 The number of particles to be extracted by each sink *i* located in this sink cell (:math:`n_{p_{s,i}}`) is then given by: 
 
@@ -570,7 +584,7 @@ where:
 where :math:`V_{s,i} [L^3]` is the volume of water extracted by the sink-cell *i*.
 
 Equations :ref:`npart_all_sink` and :ref:`npart_sink_i` does not produce necessarly an integer (i.e., entire number of particles). 
-:math:`np_{s,tot}^*` and :math:`np_{s,i}^*` are the differences between the number of particle actually extracted (integer) and the calculated number (real). 
+:math:`n_{p_{s,tot}}^*` and :math:`n_{p_{s,i}}^*` are the differences between the number of particle actually extracted (integer) and the calculated number (real). 
 These residuals are added over each time step interation until reaching an *entire* particle, which will then be removed. 
 
 The distribution of particles among all sinks affecting in a single sink cell is favoring the sink requiring the larger number of particle. 
