@@ -854,8 +854,8 @@ The skewness and excess kurtosis of the breakthrough curve are computed as:
 
 .. math::
    \begin{aligned}
-   \text{Skewness} &= \frac{\mu_3}{\mu_2^{3/2}} \\
-   \text{Kurtosis} &= \frac{\mu_4}{\mu_2^2} - 3
+   \text{Skewness} &= \frac{\mu_3}{\mu_2^3} \\
+   \text{Kurtosis} &= \frac{\mu_4}{\mu_2^4} - 3
    \end{aligned}
 
 If the variance :math:`\mu_2` is zero (i.e., all particles arrive at the same time), skewness and kurtosis are set to zero, and a warning is issued.
