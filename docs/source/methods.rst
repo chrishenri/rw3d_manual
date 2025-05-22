@@ -270,14 +270,14 @@ where:
   - the ith-equation represents the mass balance of the ith species
   - :math:`n_s` is the number of the species involved
   - :math:`\theta` [-] is the porosity of the media
-  - :math:`q` [L T:math:`^{–1}`] is the Darcy velocity vector 
-  - :math:`D` [L:math:`^{2}` T:math:`^{–1}`] is the dispersion tensor
+  - :math:`q \; [L \, T^{-1}]` is the Darcy velocity vector 
+  - :math:`D \; [L^{2} \, T^{–1}]` is the dispersion tensor
 
 For any given species i:
 
-  - :math:`c_i` [M L :math:`^{–3}`] is the concentration in the liquid phase
-  - :math:`k_i` [T :math:`^{–1}`] is the first-order contaminant destruction rate constant
-  - :math:`y_{ij}` [M M:math:`^{–1}`] is the effective yield coefficient for any reactant or product pair
+  - :math:`c_i \; [M \, L^{–3}]` is the concentration in the liquid phase
+  - :math:`k_i \; [T^{–1}]` is the first-order contaminant destruction rate constant
+  - :math:`y_{ij} \; [M \, M^{–1}]` is the effective yield coefficient for any reactant or product pair
 
 These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed.
 
