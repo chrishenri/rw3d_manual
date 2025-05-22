@@ -17,9 +17,9 @@ Advective Motion
 
 RW3D uses fluxes defined on an Eulerian grid. For each spatial direction, the Darcy flux :math:`\mathbf{q}` must be specified at the faces of each finite-difference cell (see Figure :ref:`finite-difference_cell`). 
 
-To compute the flux at the particle location, :math:`\mathbf{q}_p`, RW3D applies interpolation schemes described in :ref:`Flux interpolation`. A simple linear interpolation has been shown to be consistent with the finite-difference formulation of the flow equation and ensures local mass conservation :cite:p:`Pollock88`.
+To compute the flux at the particle location, :math:`\mathbf{q}_p \; [L \, T^{-3}]`, RW3D applies interpolation schemes described in :ref:`Flux interpolation`. A simple linear interpolation has been shown to be consistent with the finite-difference formulation of the flow equation and ensures local mass conservation :cite:p:`Pollock88`.
 
-The particle velocity :math:`\mathbf{v}_p(\mathbf{x}_p)` is then computed by scaling the interpolated flux by the local porosity or water content, :math:`\phi`:
+The particle velocity :math:`\mathbf{v}_p(\mathbf{x}_p) \; [L \, T^{-3}]` is then computed by scaling the interpolated flux by the local porosity or water content, :math:`\phi \; [-]`:
 
 .. math::
    :label: vp
@@ -55,8 +55,8 @@ RW3D provides two options for simulating advective particle motion, i.e., the di
   where:
 
   - :math:`A_i = \dfrac{v_{i,\text{face}(2)} - v_{i,\text{face}(1)}}{\Delta x_i}`  
-  - :math:`v_{i,\text{face}(j)}` is the velocity in the :math:`i`-th direction at the :math:`j`-th face of the cell  
-  - :math:`\Delta x_i` is the cell size in the :math:`i`-th direction
+  - :math:`v_{i,\text{face}(j)} \; [L \, T^{-3}]` is the velocity in the :math:`i`-th direction at the :math:`j`-th face of the cell  
+  - :math:`\Delta x_i \; [L]` is the cell size in the :math:`i`-th direction
 
 The exponential scheme provides a more accurate integration of velocity in regions with strong gradients and is particularly useful in heterogeneous domains.
 
@@ -112,7 +112,7 @@ The appropriate determination of the time step between two particle jumps is ess
 The choice in this time step determination is left to the user. The time step (:math:`\Delta t`) can be made constant (``constant_dt`` option). This has to be used with caution. 
 
 To gain in efficiency and insure a good representation of key processes, we implemented few methods, based on characteristic times, that allows a generally satisfactorily estimation of the time step size while preserving computational efficiency. 
-Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv}`), the dispersive characteristic time (:math:`t_{c,disp}`), the reactive characteristic times (:math:`t_{c,kf}`, :math:`t_{c,kd}`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
+Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv} \; [T]`), the dispersive characteristic time (:math:`t_{c,disp} \; [T]`), the reactive characteristic times (:math:`t_{c,kf} \; [T]`, :math:`t_{c,kd} \; [T]`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
 At each time step, the characteristic times are evaluated for each particle of the plume and the more restrictive is considered. The new time step is then estimated by multiplying the selected characteristic time by a constant: 
 
 .. math::
@@ -122,7 +122,7 @@ At each time step, the characteristic times are evaluated for each particle of t
     \Delta t = \text{Mult} \times t_c,
     \end{aligned}
 
-The multiplier :math:`\text{Mult}` is specific to each considered process (``mult_adv``, ``mult_disp``, ``mult_kf``, ``mult_kd``, ``mult_mt``). Typically, the multiplicative inverse of the multiplier represents the number of particle jumps in a cell before the effect of the considered process is significantly modified. 
+The multiplier :math:`\text{Mult} \; [-]` is specific to each considered process (``mult_adv``, ``mult_disp``, ``mult_kf``, ``mult_kd``, ``mult_mt``). Typically, the multiplicative inverse of the multiplier represents the number of particle jumps in a cell before the effect of the considered process is significantly modified. 
 We then advise to always keep :math:`\text{Mult}<1` and to lower the values as much as sharp interfaces are simulated in order to minimize errors when particles jumps from a cell to another. 
 If many processes are simultaneously simulated (as it often occurs), the time step can be evaluated from advection only by selecting the ``constant_move`` option (here again, to be used with caution) or from all processes by selecting the ``optimum_dt`` option. 
 For the latter, the smaller time step will be considered. 
@@ -133,7 +133,7 @@ For example, if ``dt_relax`` is fixed to *0.9*, only the less restrictive 90% of
 
 The characteristic times are defined for each particle of the plume and at any discretized time as follow: 
 
-*Advective characteristic time*: 
+**Advective characteristic time**: 
 
 .. math::
     :label: tcadv
@@ -142,20 +142,20 @@ The characteristic times are defined for each particle of the plume and at any d
     t_{c,adv} = \frac{\Delta_s}{\bar{v_p}},
     \end{aligned}
 
-where :math:`\Delta_s` is the characteristic size of the cell where the particle is located: 
+where :math:`\Delta_s \; [L]` is the characteristic size of the cell where the particle is located: 
 
 .. math::
     
-    \Delta_s = \frac{v_{p,x} \Delta x^2}{\bar{v_{p}}} + \frac{v_{p,y} \Delta y^2}{\bar{v_{p}}} + \frac{v_{p,z} \Delta z^2}{\bar{v_{p}}}
+    \Delta_s = \sqrt{ \frac{v_{p,x} \Delta x^2}{\bar{v_{p}}} + \frac{v_{p,y} \Delta y^2}{\bar{v_{p}}} + \frac{v_{p,z} \Delta z^2}{\bar{v_{p}}} }
 
-:math:`\bar{v}` is the characteristic particle velocity estimated as:  
+:math:`\bar{v} \; [L \, T^{-3}]` is the characteristic particle velocity estimated as:  
 
 .. math::
     
     \bar{v} = \sqrt{v_{p,x}^2 + v_{p,y}^2 + v_{p,z}^2}
 
 
-*Dispersive characteristic time*: 
+**Dispersive characteristic time**: 
 
 .. math::
     :label: tcdisp
@@ -167,7 +167,7 @@ where :math:`\Delta_s` is the characteristic size of the cell where the particle
 where :math:`D_L`, :math:`D_{TH}`, :math:`D_{TV}` are the longitudinal, transverse horizontal and transverse vertical componenents of the dispersion tensor. 
 
 
-*Reactive characteristic time*:
+**Reactive characteristic time**:
 
 In case a kinetic reaction is simulated: 
 
@@ -269,7 +269,7 @@ where:
 
   - the ith-equation represents the mass balance of the ith species
   - :math:`n_s` is the number of the species involved
-  - :math:`\theta` [-] is the porosity of the media
+  - :math:`\theta \; [-]` is the porosity of the media
   - :math:`q \; [L \, T^{-1}]` is the Darcy velocity vector 
   - :math:`D \; [L^{2} \, T^{–1}]` is the dispersion tensor
 
@@ -298,12 +298,12 @@ RW3D is solving few types of bimolecular reactions. The reactive transport of su
 
 where:
 
-  - :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`
-  - :math:`\theta` :math:`[L^2 L^{-2}]` is the water content
-  - :math:`\mathbf{u}` is the pore water velocity :math:`[L T^{-1}]`
+  - :math:`c_i \; [M \, L^{–3}]` is the solute concentration of each species :math:`i`
+  - :math:`\theta \; [L^2 \, L^{-2}]` is the water content
+  - :math:`\mathbf{u} \; [L \, T^{-1}]` is the pore water velocity
   - :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source
 
-For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f` :math:`[L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
+For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f \; [L^{2} \, M^{-1} \, T^{-1}]` is the reaction rate coefficient. 
 
 For the moment, RW3D is solving the following bimolecular reactions: 
 
