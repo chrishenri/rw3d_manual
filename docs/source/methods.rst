@@ -473,7 +473,7 @@ This mass transfer process is characterized by the apparent mass transfer coeffi
 
 .. math:: 
     
-    `\alpha_{ik}=\alpha^\prime_k/R_{ik}`
+    \alpha_{ik}=\alpha^\prime_k/R_{ik}
     
 where :math:`\alpha^\prime_k` is the first-order mass transfer rate coefficient between the mobile domain :math:`(k=0)` and the *k*-th immobile domain :math:`(k=1,...,N_{im})`.
 
@@ -520,16 +520,20 @@ Sink-cells
 `````````````
 
 The mass transfered to a sink during a time step is estimated cell by cell. 
-For each time step, the number of particles extracted in a sink cell (np_{s,tot}), i.e., a cell affected by at least one sink and for which the total flux into sinks (:math:`Q_{s,tot}`) is larger than 0, is given by: 
+For each time step, the number of particles extracted in a sink cell (n_{p_{s,tot}}), i.e., a cell affected by at least one sink and for which the total flux into sinks (:math:`Q_{s,tot}`) is larger than 0, is given by: 
 
 .. math:: 
     :label: npart_all_sink
     
     \begin{aligned}
-	np_{s,tot} = np_{s,tot}^* + np_{c} \times S_s
+	n_{p_{s,tot}} = n_{p_{s,tot}}^* + n_{p_{c}} \times S_s
     \end{aligned}
 
-where :math:`np_{c}` is the number of particle located in the sink cell; :math:`np_{s,tot}^*` is the residual number of particle to be extracted from the previous time step, and :math:`S_s` is the total sink strength, which is estimated by: 
+where:
+
+  - :math:`n_{p_{c}}` is the number of particle located in the sink cell
+  - :math:`np_{s,tot}^*` is the residual number of particle to be extracted from the previous time step
+  - :math:`S_s` is the total sink strength, which is estimated by: 
 
 .. math::
     :label: sink_strength
@@ -542,16 +546,19 @@ where :math:`V_{s,tot} [L^3]` is the total volume of water extracted by all sink
 These volumes are calculated as: :math:`V_{s,tot} = \sum{Q_{s,i}} \times \Delta t`, where :math:`Q_{s,i}` is the volume of water extracted by each sink *i* located in the sink cell; 
 :math:`V_{c} = \Delta x \times \Delta y \times \Delta z^* \times \Theta`, where :math:`\Delta z^*` is the saturated thickness of the cell. 
 
-The number of particles to be extracted by each sink *i* located in this sink cell (:math:`np_{s,i}`) is then given by: 
+The number of particles to be extracted by each sink *i* located in this sink cell (:math:`n_{p_{s,i}}`) is then given by: 
 
 .. math:: 
     :label: npart_sink_i
     
     \begin{aligned}
-	np_{s,i} = np_{s,i}^* + np_{s,tot} \times S_i
+	n_{p_{s,i}} = n_{p_{s,i}}^* + n_{p_{s,tot}} \times S_i
     \end{aligned}
 
-where :math:`np_{s,i}^*` is the residual number of particle to be extracted by the sink *i* from the previous time step, and :math:`S_i` is the relative sink strength, which is estimated by: 
+where:
+
+  - :math:`n_{p_{s,i}}^*` is the residual number of particle to be extracted by the sink *i* from the previous time step
+  - :math:`S_i` is the relative sink strength, which is estimated by: 
 
 .. math:: 
     :label: sink_strength
@@ -568,6 +575,7 @@ These residuals are added over each time step interation until reaching an *enti
 
 The distribution of particles among all sinks affecting in a single sink cell is favoring the sink requiring the larger number of particle. 
 In case the same number of particles is required, the sink in which the particle will assigned to is selected randomly. 
+
 
 .. _Wells:
 
