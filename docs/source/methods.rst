@@ -112,7 +112,7 @@ The appropriate determination of the time step between two particle jumps is ess
 The choice in this time step determination is left to the user. The time step (:math:`\Delta t`) can be made constant (``constant_dt`` option). This has to be used with caution. 
 
 To gain in efficiency and insure a good representation of key processes, we implemented few methods, based on characteristic times, that allows a generally satisfactorily estimation of the time step size while preserving computational efficiency. 
-Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv} \; [T]`), the dispersive characteristic time (:math:`t_{c,disp} \; [T]`), the reactive characteristic times (:math:`t_{c,kf} \; [T]`, :math:`t_{c,kd} \; [T]`) and the mass transfer characteristic time (:math:`t_{c,mt}`). 
+Time steps can take in consideration the advective characteristic time (:math:`t_{c,adv} \; [T]`), the dispersive characteristic time (:math:`t_{c,disp} \; [T]`), the reactive characteristic times (:math:`t_{c,kf} \; [T]`, :math:`t_{c,kd} \; [T]`) and the mass transfer characteristic time (:math:`t_{c,mt} \; [T]`). 
 At each time step, the characteristic times are evaluated for each particle of the plume and the more restrictive is considered. The new time step is then estimated by multiplying the selected characteristic time by a constant: 
 
 .. math::
@@ -164,7 +164,7 @@ where :math:`\Delta_s \; [L]` is the characteristic size of the cell where the p
     t_{c,disp} = \frac{\Delta_s^2}{\max(D_L,D_{TH},D_{TV}}),
     \end{aligned}
 
-where :math:`D_L`, :math:`D_{TH}`, :math:`D_{TV}` are the longitudinal, transverse horizontal and transverse vertical componenents of the dispersion tensor. 
+where :math:`D_L \; [L^{2} \, T^{–1}]`, :math:`D_{TH} \; [L^{2} \, T^{–1}]`, :math:`D_{TV} \; [L^{2} \, T^{–1}]` are the longitudinal, transverse horizontal and transverse vertical componenents of the dispersion tensor. 
 
 
 **Reactive characteristic time**:
@@ -765,26 +765,46 @@ Particle paths
 
 .. _Spatial moments:
 
-Spatial moments
+Spatial Moments
 `````````````
 
-The first spatial moments of the plume of particle is computed as follow: 
+Spatial moments are statistical measures used to characterize the distribution of a solute plume in space. In RW3D, the first and second spatial moments are computed from the particle distribution to quantify the plume's location and spread over time.
 
-.. math:: 
-    :label: first_moment
-    
-    \begin{aligned}
-	X_{g}^{i} = \frac{\sum_k{m_{p_k} \times x_{p_k}^{i} / R_{k}}}{\sum_k{m_{p_k} / R_{k}}} 
-    \end{aligned}
+**First spatial moment**  
+The first spatial moment represents the **center of mass** (or centroid) of the plume in each spatial direction:
 
-The second spatial moments of the plume of particle is computed as follow: 
+.. math::
+   :label: first_moment
 
-.. math:: 
-    :label: second_moment
+   X_{g}^{i} = \frac{\sum_k{m_{p_k} \, x_{p_k}^{i} / R_{k}}}{\sum_k{m_{p_k} / R_{k}}}
 
-    \begin{aligned}
-	M^{i,j} = \frac{\sum_k{m_{p_k} \times x_{p_k}^{i} \times x_{p_k}^{j} / R_{k}}}{\sum_k{m_{p_k} / R_{k}}} - X_{g}^{i} \times X_{g}^{j}
-    \end{aligned}
+where:
+
+- :math:`X_g^i` is the centroid in the :math:`i`-th direction  
+- :math:`m_{p_k}` is the mass of particle :math:`k`  
+- :math:`x_{p_k}^i` is the position of particle :math:`k` in the :math:`i`-th direction  
+- :math:`R_k` is a weighting factor (e.g., accounting for residence time or detection probability)
+
+**Second spatial moment**  
+The second spatial moment quantifies the **spread or variance** of the plume, and is used to compute the covariance matrix of the particle distribution:
+
+.. math::
+   :label: second_moment
+
+   M^{i,j} = \frac{\sum_k{m_{p_k} \, x_{p_k}^{i} \, x_{p_k}^{j} / R_{k}}}{\sum_k{m_{p_k} / R_{k}}} - X_{g}^{i} \, X_{g}^{j}
+
+where:
+
+- :math:`M^{i,j}` is the covariance between the :math:`i`-th and :math:`j`-th spatial directions  
+- The second term subtracts the product of the first moments to center the distribution
+
+**Applications in Contaminant Transport Modeling**
+
+Spatial moments are powerful tools for analyzing solute transport:
+
+- The **first moment** tracks the **advective movement** of the plume, indicating how far and in which direction the contaminant has traveled.
+- The **second moment** characterizes **dispersion and spreading**, helping to quantify how the plume evolves over time due to heterogeneity, diffusion, and mechanical dispersion.
+- The **covariance matrix** derived from second moments can reveal **anisotropy** in spreading, such as preferential flow paths or barriers.
 
 
 .. _Temporal moments:
