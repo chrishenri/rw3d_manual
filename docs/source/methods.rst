@@ -812,6 +812,62 @@ Spatial moments are powerful tools for analyzing solute transport:
 Temporal moments of BTCs from wells and planes
 `````````````
 
+RW3D computes temporal moments from particle arrival times to characterize the shape and timing of breakthrough curves (BTCs). These moments are calculated directly from the arrival times of particles recorded at a given observation point or control plane.
+
+The following statistical moments are computed:
+
+**Non-central (raw) moments**
+
+The first four non-central moments of the particle arrival times :math:`t_p` are computed as:
+
+.. math::
+   \alpha_n = \frac{1}{N} \sum_{k=1}^{N} t_{p_k}^n \quad \text{for } n = 1, 2, 3, 4
+
+where:
+
+- :math:`t_{p_k}` is the arrival time of particle :math:`k`
+- :math:`N` is the total number of particles
+- :math:`\alpha_n` is the :math:`n`-th raw moment
+
+**Central moments**
+
+The central moments are then derived from the raw moments using standard transformations:
+
+.. math::
+   \begin{aligned}
+   \mu_1 &= \alpha_1 \\
+   \mu_2 &= \alpha_2 - \alpha_1^2 \\
+   \mu_3 &= \alpha_3 - 3\alpha_2 \alpha_1 + 2\alpha_1^3 \\
+   \mu_4 &= \alpha_4 - 4\alpha_3 \alpha_1 + 6\alpha_2 \alpha_1^2 - 3\alpha_1^4
+   \end{aligned}
+
+These correspond to:
+
+- :math:`\mu_1`: Mean arrival time  
+- :math:`\mu_2`: Variance of arrival times  
+- :math:`\mu_3`: Third central moment (used for skewness)  
+- :math:`\mu_4`: Fourth central moment (used for kurtosis)
+
+**Skewness and kurtosis**
+
+The skewness and excess kurtosis of the breakthrough curve are computed as:
+
+.. math::
+   \begin{aligned}
+   \text{Skewness} &= \frac{\mu_3}{\mu_2^{3/2}} \\
+   \text{Kurtosis} &= \frac{\mu_4}{\mu_2^2} - 3
+   \end{aligned}
+
+If the variance :math:`\mu_2` is zero (i.e., all particles arrive at the same time), skewness and kurtosis are set to zero, and a warning is issued.
+
+
+**Applications in Contaminant Transport Modeling**
+
+Temporal moments are valuable for:
+
+- **Characterizing breakthrough curves**: They summarize the timing and duration of solute arrival in a compact form.
+- **Estimating transport parameters**: Moments can be used to infer effective velocity, dispersion coefficients, and retardation factors.
+- **Quantifying tailing and non-Fickian behavior**: Higher-order moments reveal asymmetry and long-term persistence in solute arrival.
 
 
 
