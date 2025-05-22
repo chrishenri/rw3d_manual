@@ -455,17 +455,17 @@ where:
   - :math:`R_{ik} [-]` is the retardation factor of the *i*-th species in the *k*-th immobile domain :math:`(k=1,...,N_{im})` 
   - :math:`\mathscr{L}(c)` is the mechanical operator of the mobile concentrations defined by:
 
-  .. math::
-     :label: transop
+.. math::
+    :label: transop
     
-     \begin{aligned}
-	 \mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
-     \end{aligned}
+    \begin{aligned}
+    \mathscr{L}(c) = \nabla \cdot (\phi_0\mathbf{D}\nabla c) - \nabla\cdot\left(\mathbf{q}c\right),
+    \end{aligned}
 
-     where:
+where:
 
-     - :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector 
-     - :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`
+  - :math:`\mathbf{q} \left[L\, T^{-1}\right]` is the Darcy velocity vector 
+  - :math:`\mathbf{D}` is the dispersion tensor :math:`\left[L^{2}\, T^{-1}\right]`
 
 The first equation (:ref:`MRMT`) is actually the mass balance associated with any of the species involved in the network reaction system, and equation (:ref:`MRMT2`) describes the mass transfer of the *i*-th species between the mobile domain and the *k*-th immobile domain. 
 
