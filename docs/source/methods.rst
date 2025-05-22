@@ -269,15 +269,15 @@ where:
 
   - the ith-equation represents the mass balance of the ith species
   - :math:`n_s` is the number of the species involved
-  - :math:`\theta [-]` is the porosity of the media
-  - :math:`q [L T^{–1}]` is the Darcy velocity vector 
-  - :math:`D [L^{2} T^{–1}]` is the dispersion tensor
+  - :math:`\theta` [-] is the porosity of the media
+  - :math:`q ` [:math:`L T^{–1}`] is the Darcy velocity vector 
+  - :math:`D` [:math:`L^{2} T^{–1}`] is the dispersion tensor
 
 For any given species i:
 
-  - :math:`c_i [M L^{–3}]` is the concentration in the liquid phase
-  - :math:`k_i [T^{–1}]` is the first-order contaminant destruction rate constant
-  - :math:`y_{ij} [M M^{–1}]` is the effective yield coefficient for any reactant or product pair
+  - :math:`c_i` [:math:`M L^{–3}`] is the concentration in the liquid phase
+  - :math:`k_i` [:math:`T^{–1}`] is the first-order contaminant destruction rate constant
+  - :math:`y_{ij}` [:math:`M M^{–1}`] is the effective yield coefficient for any reactant or product pair
 
 These coefficients are defined as the ratio of mass of species *i* generated to the amount of mass of species *j* consumed.
 
@@ -299,11 +299,11 @@ RW3D is solving few types of bimolecular reactions. The reactive transport of su
 where:
 
   - :math:`c_i` (:math:`i=A,B`) :math:`[M L^{-3}`, units given for 3 dimensions] is the solute concentration of each species :math:`i`
-  - :math:`\theta [L^2 L^{-2}]` is the water content
+  - :math:`\theta` :math:`[L^2 L^{-2}]` is the water content
   - :math:`\mathbf{u}` is the pore water velocity :math:`[L T^{-1}]`
   - :math:`r(c_A, c_B)` is the total rate of product creation via reaction and source
 
-For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f [L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
+For instance, for a :math:`A + B \to C`, this reaction term is :math:`r(c_A, c_B) = -k_f c_A c_B`, where :math:`k_f` :math:`[L^{2}M^{-1}T^{-1}]` is the reaction rate coefficient. 
 
 For the moment, RW3D is solving the following bimolecular reactions: 
 
