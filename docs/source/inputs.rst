@@ -3,14 +3,16 @@
 Input Instructions
 ===============
 
-2 files have to be provided: 
+To run RW3D, 2 files have to be provided: 
 
-- Name file: File with names for input and output files (by default: **rw3d.nam**)
-- Parameter file: File with parameters (file name to be defined in the name file)
+- **Name file**: File with names for input and output files (by default, the file is called: *rw3d.nam*)
+- **Parameter file**: File with parameters (file name to be defined in the *Name file*)
 
 
 Type of inputs
 ------------
+
+In the *Parameter file*, input parameters can be specified following these different formats: 
 
 - ``logical``: ``T`` for True; ``F`` for False
 - ``string``
@@ -20,7 +22,7 @@ Type of inputs
 - ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
-
+ 
 .. raw:: latex
   
   \begin{table}[H]
@@ -40,9 +42,9 @@ Type of inputs
 
   \begin{itemize}
   \item 0: the parameter is not read from a file and is defined as the multiplier
-  \item 1: the parameter is read from the ascii file specified in \texttt{file name}
+  \item 1: the parameter is read from the text file specified in \texttt{file name}
   \item 2: the parameter is read from a MODFLOW type file (only available for fluxes)
-  \item 3: the parameter is read from the ascii file specified in \texttt{file name} but from the bottom of the file
+  \item 3: the parameter is read from the text file specified in \texttt{file name} but from the bottom of the file
   \item 4: the parameter is read from a netcdf file. For the moment, only NETCDF3\_64BIT file type is supported
   \end{itemize} \\
   \hline
@@ -50,41 +52,47 @@ Type of inputs
   \end{table}
 
 
-.. _tbl-grid:
-  
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | Variable                    | Type               | Description                                                                                               |
-  +======+======================+====================+===========================================================================================================+
-  | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-  | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-  |                             |                    |                                                                                                           |
-  |                             |                    | values:                                                                                                   |
-  |                             |                    |                                                                                                           |
-  |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-  |                             |                    | - 1: the parameter is read from the ascii file specified in ``file name``                                 |
-  |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-  |                             |                    | - 3: the parameter is read from the ascii file specified in ``file name``but from the bottom of the file  |
-  |                             |                    | - 4: the parameter is read from a netcdf file. For the moment, only NETCDF3_64BIT file type is supported  |
-  |                             |                    |                                                                                                           |
-  +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+.. container::
+   :name: table-array
+
+   .. table:: Parameters to be specified for a parameter of type ``array``
+ 
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | Variable                    | Type               | Description                                                                                               |
+      +======+======================+====================+===========================================================================================================+
+      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | values:                                                                                                   |
+      |                             |                    |                                                                                                           |
+      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+      |                             |                    | - 1: the parameter is read from the text file specified in ``file name``                                 |
+      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+      |                             |                    | - 3: the parameter is read from the text file specified in ``file name``but from the bottom of the file  |
+      |                             |                    | - 4: the parameter is read from a NetCDF file. For the moment, only NETCDF3_64BIT file type is supported  |
+      |                             |                    |                                                                                                           |
+      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
 
-File format for *arrays*
+File format for a parameter of type ``array``
 ~~~~~~~~~~
 
-- **ascii file**: ``flag``=1 or 3
+A parameter of type ``array`` can be read from a file (with name ``file name``) using a ``flag`` integer other than 0. 
+The file can be an **text** file or a **NetCDF** file. 
 
-A text file (with name ``file name``) must follow the following format: 
+- **Text file**
+
+A text file (``flag``set to 1 or 3) must follow the following format: 
 
 .. container::
    :name: table-array
 
-   .. table:: Ascii file format.
+   .. table:: Ascii file format
  
       +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
       |Line  | Variable                                                                | Type               | Description                                                                            |
@@ -120,7 +128,60 @@ The values of the variable with index ``ivar`` are read as follow:
     end do
 
 
-- **netcdf file**: ``flag``=4
+- **NetCDF file**: 
+
+RW3D supports reading input data from **NetCDF** files (``flag``set to 4), specifically using the **NETCDF3_64BIT** format.
+
+**NetCDF (Network Common Data Form)** is a widely used, self-describing binary file format designed for storing array-oriented scientific data. 
+
+The **NETCDF3_64BIT** allows for:
+
+- Larger file sizes (up to 64 GB and beyond)
+- More variables and dimensions than the original NetCDF3
+
+Support for additional NetCDF formats (e.g., NetCDF4 with compression and groups) may be added in future versions.
+For more information on the NetCDF format, see the official documentation: https://www.unidata.ucar.edu/software/netcdf/
+
+The NetCDF file must follow a specific format. I must contain **4 dimensions** (*t, x, y, z*) that fits the temporal and spatial discretizations of the model. 
+
+So far, reading NetCDF files is not implemented for all parameters. The option is available only for the following parameters:
+
+**fluxes**
+
+- ``qx``: vname = 'groundwater flux in x-direction'
+- ``qy``: vname = 'groundwater flux in y-direction'
+- ``qz``: vname = 'groundwater flux in z-direction'
+
+**porosity**
+
+- ``porosity``: vname = 'porosity'
+
+**diffusion**
+
+- ``Dm_L``: vname = 'diffusion'
+- ``Dm_TH``: vname = 'diffusion'
+- ``Dm_TV``: vname = 'diffusion'
+
+**heads**
+
+- ``heads``: vname = 'head elevation in saturated zone'
+
+**registration lenses**
+
+- ``top elevation``: vname = 'reglens_elevation'
+- ``bottom elevation``: vname = 'reglens_elevation'
+- ``horizontal_extent``: vname = 'reglens_elevation'
+
+**sinks**
+
+- if sink_name = ``RIVER``: vname = 'SZ exchange flow with river'
+- if sink_name = ``DRAIN``: vname = 'SZ drainage flow from point'
+- if sink_name = ``UZ``: vname = 'Total recharge to SZ (pos.down)'
+- if sink_name = ``WELL``: vname = 'groundwater extraction'
+
+**source**
+
+- ``horizontal extent`` of ``LAYER`` injection type: vname = 'injection_extent'
 
 
 File format for *time function*
@@ -231,11 +292,11 @@ General setup
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | if ``transient_flag`` == ``F``, go to :ref:`Geometry`; if ``transient_flag`` == ``T``, fill up the following:                                                                                |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 10   | ``read_dt_from_file``  ``loop_dt``                                      | ``logical``        | ``read_dt_from_file``: True if the time steps are read from an ascii file              |
+  | 10   | ``read_dt_from_file``  ``loop_dt``                                      | ``logical``        | ``read_dt_from_file``: True if the time steps are read from a text file                |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | if ``read_dt_from_file`` == ``T``:                                                                                                                                                           |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 11   | ``dt_file``                                                             | ``string``         | ``dt_file``: name of the ascii file listing the time steps                             |
+  | 11   | ``dt_file``                                                             | ``string``         | ``dt_file``: name of the text file listing the time steps                              |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | if ``read_dt_from_file`` == ``T``, go to :ref:`Geometry`; if ``read_dt_from_file`` == ``F``:                                                                                                 |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
@@ -428,7 +489,7 @@ Advection
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 **Example**: Advective displacements are simulated. The Eulerian scheme is used to interpolate velocities. 
-Darcy fluxes in x, y and z directions are provided in a respective netcdf file. The porosity is spatially distributed and defined in a text (ascii) file. 
+Darcy fluxes in x, y and z directions are provided in a respective *netcdf* file. The porosity is spatially distributed and defined in a text file. 
 
 ::
 
