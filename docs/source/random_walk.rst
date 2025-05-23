@@ -1,6 +1,6 @@
 .. _randomwalk:
 
-Random-Walk Particle-Tracking (RW3D)
+Random-Walk Particle-Tracking
 ====================================
 
 Background

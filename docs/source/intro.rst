@@ -60,7 +60,7 @@ To compile all source files and create the executable:
 This will:
 
 - Create the `objtemp` directory if it doesn't exist
-- Compile all `.f`, `.f90`, `.c`, etc. files into object files
+- Compile all `.f90` files into object files
 - Link them into the final executable `rw3d`
 
 

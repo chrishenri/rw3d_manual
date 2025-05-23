@@ -596,8 +596,8 @@ In case the same number of particles is required, the sink in which the particle
 Wells
 `````````````
 
-Mass extraction by pumping wells is implemented in 2 ways. First, wells can be considered as a sink cell. In this case, the convergence of travel paths toward the actual well location is not considered. 
-Particles will be extracted uniformly in the sink-cell following the weak sink-cell extraction algorithm as specified in the section :ref:`Sink cells`. 
+Mass extraction by pumping wells is implemented in two ways. First, wells can be considered as a sink cell. In this case, the convergence of travel paths toward the actual well location is not considered. 
+Particles will be extracted uniformly in the sink-cell following the weak sink-cell extraction algorithm, as described in the section :ref:`Sink cells`. 
 
 Particle extraction in wells can also be more explicitly simulated by estimating the path of particles toward a well located in a cell. 
 In case of weak sink due to the presence of an extraction well, using the simple interpolation scheme described in :ref:`Advective motion` fails to reproduce the increase of velocity the closer the well is and to identify if a particle should be captured by the well or leave the cell from the face where an outflow exists. 
@@ -625,8 +625,14 @@ The components of the velocity of a particle located in a cell affected by a wel
 	v_{p,z} = \frac{1}{\phi} \left[ \frac{q_{z,face(2)} - q_{z,face(1)}}{\Delta z}(z-\Delta z/2) + q_{z,face(2)} \right] 
     \end{aligned}
 
-where :math:`x_{w}` and :math:`y_{w}` are the coordinates of the well, :math:`Q_{w} [L^3/T]` is the volumetric extraction flux of water extracted by the well, and :math:`a [-]` is the horizontal anisotropy of the hydraulic conductivity. 
-Our implementation does not account for this potential anisotropy in the hydraulic conductivity. The coefficient *a* is then fixed to *1.0*. 
+where:
+
+  - :math:`x_{w}` and :math:`y_{w}` are the coordinates of the well
+  - :math:`Q_{w} [L^3/T]` is the volumetric extraction flux of water extracted by the well 
+  - :math:`a [-]` is the horizontal anisotropy of the hydraulic conductivity.
+
+For the moment, our implementation does not account for this potential anisotropy in the hydraulic conductivity. The coefficient *a* is then fixed to *1.0*. 
+
 Note that the well is here supposed to fully penetrate each well-cell and that the well could be located at any place horizontally in the cell (does not have to be located at the center). 
 
 The particle transport is terminated once it moves within the radius of the well (:math:`r_{w}`), which has to be specified. 
@@ -688,7 +694,8 @@ Particle tracking simulations produce discrete arrival times of particles at an 
 A reconstruction process is then needed to convert particle arrivals into concentrations. This reconstruction process is normally seen as the main disadvantage of PTMs. 
 RW3D uses Kernel density estimator (KDE) to transform these discrete events into a continuous, smooth estimate of the breakthrough curve, which can be more interpretable and suitable for analysis.
 
-.. _Kernel Density Estimation
+.. _Kernel Density Estimation:
+
 Kernel Density Estimation
 """"""""""
 
@@ -712,7 +719,8 @@ Conversely, a large bandwidth oversmooths the data, potentially obscuring import
 Selecting an appropriate bandwidth is essential for accurately representing the underlying transport dynamics.
 
 
-.. _PLUGIN Method
+.. _PLUGIN Method: 
+
 *Plugin* Method
 """"""""""
 
@@ -762,6 +770,7 @@ This option proposes to record all arrivals to any observation object by providi
 Particle paths
 `````````````
 
+The path of 
 
 .. _Spatial moments:
 
