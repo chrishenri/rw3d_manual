@@ -71,9 +71,9 @@ In the *Parameter file*, input parameters can be specified following these diffe
       |                             |                    | values:                                                                                                   |
       |                             |                    |                                                                                                           |
       |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-      |                             |                    | - 1: the parameter is read from the text file specified in ``file name``                                 |
+      |                             |                    | - 1: the parameter is read from the text file specified in ``file name``                                  |
       |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-      |                             |                    | - 3: the parameter is read from the text file specified in ``file name``but from the bottom of the file  |
+      |                             |                    | - 3: the parameter is read from the text file specified in ``file name``but from the bottom of the file   |
       |                             |                    | - 4: the parameter is read from a NetCDF file. For the moment, only NETCDF3_64BIT file type is supported  |
       |                             |                    |                                                                                                           |
       +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
@@ -87,7 +87,7 @@ The file can be an **text** file or a **NetCDF** file.
 
 - **Text file**
 
-A text file (``flag``set to 1 or 3) must follow the following format: 
+A text file (``flag`` set to 1 or 3) must follow the following format: 
 
 .. container::
    :name: table-array
@@ -130,21 +130,15 @@ The values of the variable with index ``ivar`` are read as follow:
 
 - **NetCDF file**: 
 
-RW3D supports reading input data from **NetCDF** files (``flag``set to 4), specifically using the **NETCDF3_64BIT** format.
-
+RW3D supports reading input data from **NetCDF** files (``flag`` set to 4). 
 **NetCDF (Network Common Data Form)** is a widely used, self-describing binary file format designed for storing array-oriented scientific data. 
-
-The **NETCDF3_64BIT** allows for:
-
-- Larger file sizes (up to 64 GB and beyond)
-- More variables and dimensions than the original NetCDF3
-
-Support for additional NetCDF formats (e.g., NetCDF4 with compression and groups) may be added in future versions.
 For more information on the NetCDF format, see the official documentation: https://www.unidata.ucar.edu/software/netcdf/
+
+So far, only the **NETCDF3_64BIT** format has been tested. The format to be used will have to follow the specifications of your instalation of the NetCDF library. 
 
 The NetCDF file must follow a specific format. I must contain **4 dimensions** (*t, x, y, z*) that fits the temporal and spatial discretizations of the model. 
 
-So far, reading NetCDF files is not implemented for all parameters. The option is available only for the following parameters:
+Reading NetCDF files is still not implemented for all parameters. The option is available only for the following parameters:
 
 **fluxes**
 
@@ -1202,24 +1196,6 @@ Injection
     |                                                                         |                                                                              |    - line 3-line ``np+1`: x, y, z, mp, izone, ispecie; particle coordinates, mass, zone and specie index          |
     +-------------------------------------------------------------------------+------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+
 
-..
-    block:                                      idwn,jdwn,kdwn,iup,jup,kup
-    point:                                      xinj,yinj,zinj
-    line:                                       xinj,yinj,zbot,ztop
-    circle or radial:                           xinj,yinj,zbot,ztop,rcyr
-    plane or plane_random:                      xdist,width,height
-    line_by_points or line_by_points_random:    xinj_1,yinj_1,zinj_1,xinj_2,yinj_2,zinj_2
-    read_particle_file:                         file
-    read_concentration_file:                    file, const
-    line_flux_weighted:                         xinj_1,yinj_1,zinj_1,xinj_2,yinj_2,zinj_2
-    vertical_line_flux_weighted:                i,j,kdwn,kup
-    horizontal_line_flux_weighted:              idwn,iup,j,k
-    vertical_block_flux_weighted:               i,j,kdwn,kup    looks the same than vertical_line_flux_weighted
-    cell_file_flux_weighted:                    file
-    cell_file_flux_inv_weighted:                file
-    layer:                                      lay_inj,np_cell,lay_loc
-
-
 
 .. _Well recirculation:
 
@@ -1359,3 +1335,55 @@ Ouputs
    0   1   1                                                             !... iwcbtc, inc, bin
    1   0   0                                                             !... iwhistory, bin, print_out
    0   1   35496                                                         !... iwpath, pathfreq, pathpart
+
+
+
+
+Inputs from MIKE-She 
+------------
+
+A Python script (*rw3d_inputs_from_mike.py*) has been designed to extract and convert hydrological model outputs from MIKE-SHE simulations into input files for RW3D. 
+It processes a variety of hydrological variables from `.dfs2` and `.dfs3` files and outputs them as `.dat` or `.netCDF (.nc)` files.
+
+The script is modular and can be configured to extract specific variables such as groundwater heads, fluxes, porosity, recharge, and more.
+
+Input Files
+~~~~~~~~~~
+
+The script expects the following MIKE-SHE output files for a given domain:
+
+- **3D Saturated Zone Head**: `*_3DSZ.dfs3`
+- **3D Saturated Zone Flow**: `*_3DSZflow.dfs3`
+- **2D Unsaturated Zone**: `*_2DUZ_AllCells.dfs2`
+- **2D Saturated Zone Flow**: `*_2DSZflow.dfs2`
+- **3D Preprocessed Data**: `*_PreProcessed_3DSZ.dfs3`
+
+Output Files
+~~~~~~~~~~
+
+The script generates a series of `.dat` and `.nc` (NetCDF) files, including:
+
+- `dz.dat`: Layer thicknesses
+- `floor.dat`: Bottom elevations
+- `InactCell.dat`: Inactive cells
+- `porosity.dat`: Porosity field
+- `Qriver.nc`: River exchange fluxes
+- `Qdrain.nc`: Drainage fluxes
+- `Qwell.nc`: Groundwater extractions
+- `heads.nc`: Groundwater heads
+- `Qtotal_recharge.nc`: Total recharge
+- `qz.nc`: Vertical groundwater flux
+- `qx.nc`, `qy.nc`: Horizontal fluxes from flow
+
+How to Use
+~~~~~~~~~~
+
+1. **Set Parameters**:
+   - `simul_time`: Start and end dates of the simulation (e.g., `["2000-1-5", "2010-1-6"]`)
+   - `domain`: Spatial extent `[left, bottom, right, top]` in model coordinates
+
+2. **Define Input Paths**:
+   - Set the paths to the required `.dfs2` and `.dfs3` files using `types.SimpleNamespace()`.
+
+3. **Run the Script**:
+   - Call `get_rw3d_inputs(filein, pathout, simul_time[0], simul_time[1], domain)` to generate the output files.

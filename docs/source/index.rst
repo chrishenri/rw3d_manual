@@ -52,7 +52,7 @@ Contents
 .. [3]
    *Department of Land, Air and Water Resources, University of California, Davis, USA.* 
 
-| RW3D is released under the GNU LPGL License
+| RW3D is released under the GNU LGPL License
 | This manual is licensed under the GNU Free Documentation License.
 
 | Copyright © 2025 Christopher V. Henri, Daniel Fernandez-Garcia. 
