@@ -113,7 +113,7 @@ If you are a relatively new Windows developers, here are some brief instructions
     1. Build the `netCDF-Fortran` library. Some issues has been observed on Windows. If this is your case, this `thread <https://community.intel.com/t5/Intel-Fortran-Compiler/Include-netCDF-in-my-Fortran-projet/m-p/1529236#M168379/>`_ provides some guidance.  
 
     2. Download and Install `Microsoft Visual Studio <https://visualstudio.microsoft.com/>`_ following these `instructions <https://www.intel.com/content/www/us/en/developer/articles/guide/installing-microsoft-visual-studio-2019-for-use-with-intel-compilers.html>`_
-    
+
     3. Download `Intel Fortran Essentials <https://www.intel.com/content/www/us/en/developer/tools/oneapi/hpc-toolkit-download.html?operatingsystem=windows>`_; Install (make sure that oneMKL is installed; this will install the `LAPACK` and `BLAS` libraries)
     
     **Buildind RW3D**
@@ -121,43 +121,50 @@ If you are a relatively new Windows developers, here are some brief instructions
     Follow these steps to build the RW3D project using Visual Studio with Intel® Visual Fortran:
 
     1. **Create a New Project**
+
     - Open **Visual Studio**.
-    - Navigate to **File :math:`\to` New :math:`\to` Project**.
+    - Navigate to **File** :math:`\to` **New** :math:`\to` **Project**.
     - In the **New Project** window:
-        - Select **Template :math:`\to` Intel® Visual Fortran** (this appears only if the compiler is correctly installed).
+        - Select **Template** :math:`\to` **Intel® Visual Fortran** (this appears only if the compiler is correctly installed).
         - Choose **Empty Project**.
         - Provide a **Name** and **Location** for your project.
 
     2. **Add Source Files**
+
     - In the **Solution Explorer** panel:
         - Drag all Fortran input files into the **"Source Files"** folder.
 
     3. **Open Project Properties**
+
     - Right-click on the project name.
     - Select **Properties** to open the **Property Pages**.
 
     4. **Select Build Configuration**
+
     - Choose either:
         - **Debug**: Slower execution, but detailed error messages.
         - **Release**: Faster execution, optimized for performance.
 
     5. **Configure Fortran Settings**
-    - Go to **Configuration Properties :math:`\to` Fortran :math:`\to` General**:
+
+    - Go to **Configuration Properties** :math:`\to` **Fortran** :math:`\to` **General**:
         - Set **Additional Include Directories** to the path of the `netcdff.lib` (netCDF-Fortran library).
 
     6. **Enable Parallel Math Kernel Library**
-    - Go to **Configuration Properties :math:`\to` Fortran :math:`\to` Libraries**:
+
+    - Go to **Configuration Properties** :math:`\to` **Fortran** :math:`\to` **Libraries**:
         - Set **Use Intel Math Kernel Library** to **Parallel**.
 
     7. **Linker Settings**
-    - Under **Configuration Properties :math:`\to` Linker :math:`\to` General**:
+
+    - Under **Configuration Properties** :math:`\to` **Linker** :math:`\to` **General**:
         - Set **Link Library Dependencies** to **Yes**.
     - Under **Linker :math:`\to` Input**:
         - Add the paths to the **netCDF-Fortran** and **netCDF-C** libraries in **Additional Dependencies**.
         - Click **OK** to apply changes.
 
     8. **Build the Solution**
-    - In Visual Studio, go to **Build :math:`\to` Build Solution**.
+    - In Visual Studio, go to **Build** :math:`\to` **Build Solution**.
 
     9. **Locate the Executable**
     - The compiled executable will be located in the **Debug** or **Release** folder, depending on the selected configuration.
