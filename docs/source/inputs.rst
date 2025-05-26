@@ -1343,9 +1343,7 @@ Inputs from MIKE-She
 ------------
 
 A Python script (*rw3d_inputs_from_mike.py*) has been designed to extract and convert hydrological model outputs from MIKE-SHE simulations into input files for RW3D. 
-It processes a variety of hydrological variables from `.dfs2` and `.dfs3` files and outputs them as `.dat` or `.netCDF (.nc)` files.
-
-The script is modular and can be configured to extract specific variables such as groundwater heads, fluxes, porosity, recharge, and more.
+It processes a variety of hydrological variables from `.dfs2` and `.dfs3` files and outputs them as text (`.dat`) or NetCDF (`.nc`) files. 
 
 Input Files
 ~~~~~~~~~~
@@ -1361,19 +1359,29 @@ The script expects the following MIKE-SHE output files for a given domain:
 Output Files
 ~~~~~~~~~~
 
-The script generates a series of `.dat` and `.nc` (NetCDF) files, including:
+The script generates the following series of `.dat` and `.nc` (NetCDF) files:
+
+*Domain description*: 
 
 - `dz.dat`: Layer thicknesses
 - `floor.dat`: Bottom elevations
 - `InactCell.dat`: Inactive cells
+
+*Water and Flow*:
+
 - `porosity.dat`: Porosity field
+- `heads.nc`: Groundwater heads
+- `qx.nc`: Horizontal fluxes (in x axis) from flow
+- `qy.nc`: Horizontal fluxes (in y axis) from flow
+- `qz.nc`: Vertical groundwater flux
+
+*Sinks* (delete or add more):
+
+- `Qtotal_recharge.nc`: Total recharge
 - `Qriver.nc`: River exchange fluxes
 - `Qdrain.nc`: Drainage fluxes
 - `Qwell.nc`: Groundwater extractions
-- `heads.nc`: Groundwater heads
-- `Qtotal_recharge.nc`: Total recharge
-- `qz.nc`: Vertical groundwater flux
-- `qx.nc`, `qy.nc`: Horizontal fluxes from flow
+
 
 How to Use
 ~~~~~~~~~~
