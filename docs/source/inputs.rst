@@ -1339,7 +1339,7 @@ Ouputs
 
 
 
-Inputs from MIKE-She 
+Inputs from MIKE-SHE 
 ------------
 
 A Python script (`../python_utilities/rw3d_inputs_from_mikeshe.py`) has been designed to extract and convert hydrological model outputs from MIKE-SHE simulations into input files for RW3D. 
