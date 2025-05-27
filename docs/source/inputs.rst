@@ -23,60 +23,83 @@ In the *Parameter file*, input parameters can be specified following these diffe
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
  
-.. raw:: latex
+.. only:: html
+
+   .. list-table:: Variable Descriptions
+      :widths: 20 20 60
+      :header-rows: 1
+
+      * - Variable
+        - Type
+        - Description
+      * - ``file name``
+        - ``string``
+        - name of the file. Put some text even if no file is used
+      * - ``multiplier``
+        - ``real``
+        - multiplier of the variable
+      * - ``ivar``
+        - ``integer``
+        - variable index of the variable in the gslib array
+      * - ``flag``
+        - ``integer``
+        - way to read the values of the parameter (see PDF for full details)
+
+.. only:: latex
+
+   \begin{table}[H]
+   \centering
+   \renewcommand{\arraystretch}{1.2}
+   \begin{tabular}{|p{3.5cm}|p{2.5cm}|p{9cm}|}
+   \hline
+   \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
+   \hline
+   \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
+   \hline
+   \texttt{multiplier} & \texttt{real} & multiplier of the variable \\
+   \hline
+   \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
+   \hline
+   \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
+
+   \begin{itemize}
+     \item 0: not read from a file, defined as the multiplier
+     \item 1: read from the ascii file specified in \texttt{file name}
+     \item 2: read from a MODFLOW type file (only for fluxes)
+     \item 3: read from the bottom of the ascii file
+     \item 4: read from a netcdf file (only NETCDF3\_64BIT supported)
+   \end{itemize} \\
+   \hline
+   \end{tabular}
+   \end{table}
+
+
+.. 
+  .. container::
+    :name: table-array
+
+    .. table:: Parameters to be specified for a parameter of type ``array``
   
-  \begin{table}[H]
-  \centering
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{|p{3.5cm}|p{2.5cm}|p{9cm}|}
-  \hline
-  \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
-  \hline
-  \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
-  \hline
-  \texttt{multiplier} & \texttt{real} & multiplier of the variable \\
-  \hline
-  \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
-  \hline
-  \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
-
-  \begin{itemize}
-  \item 0: the parameter is not read from a file and is defined as the multiplier
-  \item 1: the parameter is read from the text file specified in \texttt{file name}
-  \item 2: the parameter is read from a MODFLOW type file (only available for fluxes)
-  \item 3: the parameter is read from the text file specified in \texttt{file name} but from the bottom of the file
-  \item 4: the parameter is read from a netcdf file. For the moment, only NETCDF3\_64BIT file type is supported
-  \end{itemize} \\
-  \hline
-  \end{tabular}
-  \end{table}
-
-
-.. container::
-   :name: table-array
-
-   .. table:: Parameters to be specified for a parameter of type ``array``
- 
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | Variable                    | Type               | Description                                                                                               |
-      +======+======================+====================+===========================================================================================================+
-      | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
-      | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | values:                                                                                                   |
-      |                             |                    |                                                                                                           |
-      |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
-      |                             |                    | - 1: the parameter is read from the text file specified in ``file name``                                  |
-      |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
-      |                             |                    | - 3: the parameter is read from the text file specified in ``file name``but from the bottom of the file   |
-      |                             |                    | - 4: the parameter is read from a NetCDF file. For the moment, only NETCDF3_64BIT file type is supported  |
-      |                             |                    |                                                                                                           |
-      +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+        +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+        | Variable                    | Type               | Description                                                                                               |
+        +======+======================+====================+===========================================================================================================+
+        | ``file name``               | ``string``         | name of the file. Put some text even if no file is used                                                   |
+        +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+        | ``multiplier``              | ``real``           | multiplier of the variable                                                                                |
+        +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+        | ``ivar``                    | ``integer``        | variable index of the variable in the gslib array                                                         |
+        +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
+        | ``flag``                    | ``integer``        | way to read the values of the parameter                                                                   |
+        |                             |                    |                                                                                                           |
+        |                             |                    | values:                                                                                                   |
+        |                             |                    |                                                                                                           |
+        |                             |                    | - 0: the parameter is not read from a file and is defined as the multiplier                               |
+        |                             |                    | - 1: the parameter is read from the text file specified in ``file name``                                  |
+        |                             |                    | - 2: the parameter is read from a MODFLOW type file (only available for fluxes)                           |
+        |                             |                    | - 3: the parameter is read from the text file specified in ``file name``but from the bottom of the file   |
+        |                             |                    | - 4: the parameter is read from a NetCDF file                                                             |
+        |                             |                    |                                                                                                           |
+        +-----------------------------+--------------------+-----------------------------------------------------------------------------------------------------------+
 
 
 File format for a parameter of type ``array``
