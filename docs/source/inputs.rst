@@ -43,7 +43,14 @@ In the *Parameter file*, input parameters can be specified following these diffe
         - variable index of the variable in the gslib array
       * - ``flag``
         - ``integer``
-        - way to read the values of the parameter (see PDF for full details)
+        - way to read the values of the parameter:
+          
+          - 0: not read from a file, defined as the multiplier  
+          - 1: read from the ascii file specified in ``file name``  
+          - 2: read from a MODFLOW type file (only for fluxes)  
+          - 3: read from the bottom of the ascii file  
+          - 4: read from a netcdf file (only NETCDF3\_64BIT supported)
+
 
 .. only:: latex
 
