@@ -61,6 +61,10 @@ latex_elements = {
         \usepackage[defaultsans]{lato}
         \usepackage{inconsolata}
         \usepackage{lscape}
+        \usepackage[table]{xcolor}
+        \usepackage{booktabs}
+        \renewcommand{\arraystretch}{1.3}
+        \rowcolors{2}{gray!10}{white}
     ''',
 }
 

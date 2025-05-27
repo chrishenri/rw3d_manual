@@ -54,19 +54,20 @@ In the *Parameter file*, input parameters can be specified following these diffe
 
 .. only:: latex
 
+   \usepackage[table]{xcolor}
+   \usepackage{booktabs}
+   \rowcolors{2}{gray!10}{white}
+
    \begin{table}[H]
    \centering
-   \renewcommand{\arraystretch}{1.2}
-   \begin{tabular}{|p{3.5cm}|p{2.5cm}|p{9cm}|}
-   \hline
+   \renewcommand{\arraystretch}{1.3}
+   \begin{tabular}{p{3.5cm} p{2.5cm} p{9cm}}
+   \toprule
    \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
-   \hline
+   \midrule
    \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
-   \hline
    \texttt{multiplier} & \texttt{real} & multiplier of the variable \\
-   \hline
    \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
-   \hline
    \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
 
    \begin{itemize}
@@ -76,9 +77,10 @@ In the *Parameter file*, input parameters can be specified following these diffe
      \item 3: read from the bottom of the ascii file
      \item 4: read from a netcdf file (only NETCDF3\_64BIT supported)
    \end{itemize} \\
-   \hline
+   \bottomrule
    \end{tabular}
    \end{table}
+
 
 
 .. 
