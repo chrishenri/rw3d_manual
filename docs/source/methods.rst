@@ -26,7 +26,7 @@ The particle velocity :math:`\mathbf{v}_p(\mathbf{x}_p) \; [L \, T^{-3}]` is the
 
    \mathbf{v}_p(\mathbf{x}_p) = \frac{\mathbf{q}_p(\mathbf{x}_p)}{\phi(\mathbf{x}_p)}
 
-Unless otherwise noted, all parameters are evaluated at the particle location :math:`\mathbf{x}_p`.
+Unless otherwise noted, all parameters are specified or evaluated at the particle location :math:`\mathbf{x}_p`.
 
 .. _finite-difference_cell:
 

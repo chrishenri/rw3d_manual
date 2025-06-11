@@ -67,11 +67,11 @@ The drift vector :math:`\mathbf{A}` is defined as:
 .. math::
    :label: eqA
 
-   \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\phi(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p) \cdot \nabla \phi(\mathbf{x}_p)
+   \mathbf{A} = \mathbf{v}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\phi(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p) \cdot \nabla \phi(\mathbf{x}_p)
 
 where:
 
-- :math:`\mathbf{u}` is the pore water velocity,  
+- :math:`\mathbf{v}` is the pore water velocity,  
 - :math:`\mathbf{D}` is the dispersion tensor, and  
 - :math:`\phi` is the porosity or volumetric water content (depending on context).
 
