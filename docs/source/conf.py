@@ -65,24 +65,8 @@ latex_elements = {
         \usepackage{booktabs}
         \renewcommand{\arraystretch}{1.3}
         \rowcolors{2}{gray!10}{white}
-        \usepackage{titlesec}
-        \titleformat{\chapter}[display]
-          {\normalfont\huge\bfseries}{}{0pt}{\Huge}
-        \renewcommand{\thechapter}{}
-        \usepackage{etoolbox}
-        \makeatletter
-        \patchcmd{\@makechapterhead}{\thechapter}{\relax}{}{}
-        \patchcmd{\@makechapterhead}{Chapter \thechapter}{\relax}{}{}
-        \makeatother
     ''',
 }
-
-latex_elements = {
-    'preamble': r'''
-        
-    ''',
-}
-
 
 
 # Grouping the document tree into LaTeX files. List of tuples

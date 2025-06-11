@@ -67,13 +67,13 @@ The drift vector :math:`\mathbf{A}` is defined as:
 .. math::
    :label: eqA
 
-   \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\theta(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p) \cdot \nabla \theta(\mathbf{x}_p)
+   \mathbf{A} = \mathbf{u}(\mathbf{x}_p) + \nabla \cdot \mathbf{D}(\mathbf{x}_p) + \frac{1}{\phi(\mathbf{x}_p)} \mathbf{D}(\mathbf{x}_p) \cdot \nabla \phi(\mathbf{x}_p)
 
 where:
 
 - :math:`\mathbf{u}` is the pore water velocity,  
 - :math:`\mathbf{D}` is the dispersion tensor, and  
-- :math:`\theta` is the volumetric water content or porosity (depending on context).
+- :math:`\phi` is the porosity or volumetric water content (depending on context).
 
 The displacement matrix :math:`\mathbf{B}` is related to the dispersion tensor by:
 
@@ -104,7 +104,7 @@ Despite its advantages, the RWPT method has some limitations:
 
 - **Statistical noise in concentration estimates**: Because concentrations are estimated from a finite number of particles, random fluctuations (subsampling noise) can occur. This is especially noticeable in regions with low particle density.
 - **Trade-off between accuracy and computational cost**: Reducing statistical noise requires increasing the number of particles, which can significantly raise computational demands. The standard deviation of concentration estimates is inversely proportional to the square root of the number of particles per cell.
-- **Post-processing requirements**: To mitigate noise without excessive particle counts, post-processing techniques such as the **Kernel Density Estimator (KDE)** can be applied. KDE smooths particle distributions and improves concentration estimates without compromising accuracy :cite:t:`Fernandez11`.
+- **Post-processing requirements**: To mitigate noise without excessive particle counts, post-processing techniques such as the **Kernel Density Estimator (KDE)** can be applied. KDE smooths particle distributions and improves concentration estimates without compromising accuracy :cite:p:`Fernandez11`.
 - **Breakthrough curve smoothing**: RW3D includes an option to apply KDE to smooth temporal particle arrival data (i.e., breakthrough curves), enhancing the interpretability of simulation results.
 
 While these limitations are manageable, they highlight the importance of careful model design and post-processing when using RWPT methods.
