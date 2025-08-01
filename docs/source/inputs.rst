@@ -49,7 +49,7 @@ In the *Parameter file*, input parameters can be specified following these diffe
           - 1: read from the ascii file specified in ``file name``  
           - 2: read from a MODFLOW type file (only for fluxes)  
           - 3: read from the bottom of the ascii file  
-          - 4: read from a netcdf file (only NETCDF3\_64BIT supported)
+          - 4: read from a netcdf file
 
 
 .. only:: latex
@@ -75,7 +75,7 @@ In the *Parameter file*, input parameters can be specified following these diffe
      \item 1: read from the ascii file specified in \texttt{file name}
      \item 2: read from a MODFLOW type file (only for fluxes)
      \item 3: read from the bottom of the ascii file
-     \item 4: read from a netcdf file (only NETCDF3\_64BIT supported)
+     \item 4: read from a netcdf file
    \end{itemize} \\
    \bottomrule
    \end{tabular}
@@ -132,7 +132,7 @@ The values of the variable with index ``ivar`` are read as follow:
     end do
 
 
-- **NetCDF file**: 
+- **NetCDF file**
 
 RW3D supports reading input data from **NetCDF** files (``flag`` set to 4). 
 **NetCDF (Network Common Data Form)** is a widely used, self-describing binary file format designed for storing array-oriented scientific data. 
@@ -140,51 +140,49 @@ For more information on the NetCDF format, see the official documentation: https
 
 So far, only the **NETCDF3_64BIT** format has been tested. The format to be used will have to follow the specifications of your instalation of the NetCDF library. 
 
-The NetCDF file must follow a specific format. I must contain **4 dimensions** (*t, x, y, z*) that fits the temporal and spatial discretizations of the model. 
+The NetCDF file must follow a specific format. It must contain **4 dimensions** (*t, x, y, z*) that fits the temporal and spatial discretizations of the model, even for time-invariant and 1D/2D parameters. 
+Also, the NetCDF dataset must contain only one variable (i.e., the parameter to be specified). The name of the variable that the code read and use is recalled in the log file. 
 
-Reading NetCDF files is still not implemented for all parameters. The option is available only for the following parameters:
+Reading NetCDF files is still not implemented for all parameters. Typically, the option is available for potentially transient parameters, i.e.,:
 
-**fluxes**
-
-- ``qx``: vname = 'groundwater flux in x-direction'
-- ``qy``: vname = 'groundwater flux in y-direction'
-- ``qz``: vname = 'groundwater flux in z-direction'
-
-**porosity**
-
-- ``porosity``: vname = 'porosity'
-
-**diffusion**
-
-- ``Dm_L``: vname = 'diffusion'
-- ``Dm_TH``: vname = 'diffusion'
-- ``Dm_TV``: vname = 'diffusion'
-
-**heads**
-
-- ``heads``: vname = 'head elevation in saturated zone'
-
-**registration lenses**
-
-- ``top elevation``: vname = 'reglens_elevation'
-- ``bottom elevation``: vname = 'reglens_elevation'
-- ``horizontal_extent``: vname = 'reglens_elevation'
-
-**sinks**
-
-- if sink_name = ``RIVER``: vname = 'SZ exchange flow with river'
-- if sink_name = ``DRAIN``: vname = 'SZ drainage flow from point'
-- if sink_name = ``UZ``: vname = 'Total recharge to SZ (pos.down)'
-- if sink_name = ``WELL``: vname = 'groundwater extraction'
-
-**source**
-
-- ``horizontal extent`` of ``LAYER`` injection type: vname = 'injection_extent'
-
+- **fluxes**: ``qx``, ``qy``, ``qz``
+- **porosity / water content**: ``porosity``
+- **diffusion**: ``Dm_L``, ``Dm_TH``, ``Dm_TV``
+- **heads**: ``heads``
+- **registration lenses**: ``top elevation``, ``bottom elevation``, ``horizontal_extent``
+- **sinks**: ``Q_sink``
+- **source**: ``horizontal extent`` of ``LAYER`` injection type
 
 File format for *time function*
 ~~~~~~~~~~
 
+This file is a plain text file used to define a time-dependent function. 
+It provides a sequence of time-value pairs that describe how a quantity evolves over time. The file is read when `flag == 1`.
+
+**File Structure**
+
+The file must follow this structure:
+
+1. *Heading line* (ignored by the subroutine).
+2. *Name line*: a string that will be stored in `func%name`.
+3. *Number of time points*: an integer value `nt`.
+4. *Time-function data*: `nt` lines, each containing:
+   - A real number representing the time value.
+   - A real number representing the corresponding function value.
+
+Ensure that the number of time-value pairs matches the integer specified in line 3.
+
+**Example**
+
+.. code-block:: text
+
+   # Time function data for simulation
+   MyTimeFunction
+   4
+   0.0  1.0
+   1.0  2.0
+   2.0  1.5
+   3.0  0.5
 
 
 Name file

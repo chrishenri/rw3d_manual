@@ -67,7 +67,7 @@ Flux interpolation
 `````````````
 Subsurface systems are inherently heterogeneous and often characterized by abrupt changes in soil and geological materials. 
 Physical properties of grid-based flow solvers used under heterogeneous conditions are parameterized at a series of discrete points, which generates discontinuities in output parameters (e.g., velocities) that are subsequently used to solve transport. 
-Yet, the RWPT algorithm require smooth transitions in the water front in order to preserve local solute mass conservation. 
+Yet, the RWPT algorithm requires smooth transitions in the water front in order to preserve local solute mass conservation. 
 RW3D uses interpolation schemes to deal with discontinuities in the veocities and in the dispersion tensor. 
 
 To estimated the advective motion of the particle, the flux in the `i`-th direction is estimated using the following linear interpolation: 
@@ -98,7 +98,7 @@ If dispersion is accounted for, the local flux in the `i`-th direction used to c
 
 where:
 
-  - :math:`F_i` is the relative location of the particle with a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`
+  - :math:`F_i` is the relative location of the particle within a cell defined as :math:`F_i = (x_{p,i}-xc_{i,face(1)})/\Delta i`
   - :math:`q_{i,node(j,k,l)}` is flux in the `i`-th direction at the node `{j,k,l}`
 
 

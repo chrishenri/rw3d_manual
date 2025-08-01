@@ -64,7 +64,7 @@ latex_elements = {
         \usepackage[table]{xcolor}
         \usepackage{booktabs}
         \renewcommand{\arraystretch}{1.3}
-        \rowcolors{2}{gray!10}{white}
+        #\rowcolors{2}{gray!10}{white}
     ''',
 }
 
