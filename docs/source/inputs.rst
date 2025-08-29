@@ -3,10 +3,7 @@
 Input Instructions
 ===============
 
-To run RW3D, 2 files have to be provided: 
-
-- **Name file**: File with names for input and output files (by default, the file is called: *rw3d.nam*)
-- **Parameter file**: File with parameters (file name to be defined in the *Name file*)
+To run RW3D, a single **parameter file** has to be provided.
 
 
 Type of inputs
@@ -37,7 +34,7 @@ In the *Parameter file*, input parameters can be specified following these diffe
         - name of the file. Put some text even if no file is used
       * - ``multiplier``
         - ``real``
-        - multiplier of the variable
+        - Fixed parameter values (for ``flag``=0), or multiplier of the variable
       * - ``ivar``
         - ``integer``
         - variable index of the variable in the gslib array
@@ -45,11 +42,11 @@ In the *Parameter file*, input parameters can be specified following these diffe
         - ``integer``
         - way to read the values of the parameter:
           
-          - 0: not read from a file, defined as the multiplier  
-          - 1: read from the ascii file specified in ``file name``  
-          - 2: read from a MODFLOW type file (only for fluxes)  
-          - 3: read from the bottom of the ascii file  
-          - 4: read from a netcdf file
+          - 0: spatially and temporally constant parameter, defined as the multiplier 
+          - 1: read from the ascii file specified in ``file name`` 
+          - 2: read from a MODFLOW type file (only for fluxes) 
+          - 3: read from a DFS file 
+          - 4: read from a NetCDF file 
 
 
 .. only:: latex
@@ -66,7 +63,7 @@ In the *Parameter file*, input parameters can be specified following these diffe
    \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
    \midrule
    \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
-   \texttt{multiplier} & \texttt{real} & multiplier of the variable \\
+   \texttt{multiplier} & \texttt{real} & Fixed parameter values (for \texttt{flag}=0), or multiplier of the variable \\
    \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
    \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
 
@@ -74,8 +71,8 @@ In the *Parameter file*, input parameters can be specified following these diffe
      \item 0: not read from a file, defined as the multiplier
      \item 1: read from the ascii file specified in \texttt{file name}
      \item 2: read from a MODFLOW type file (only for fluxes)
-     \item 3: read from the bottom of the ascii file
-     \item 4: read from a netcdf file
+     \item 3: read from a DFS file
+     \item 4: read from a NetCDF file
    \end{itemize} \\
    \bottomrule
    \end{tabular}
@@ -131,6 +128,13 @@ The values of the variable with index ``ivar`` are read as follow:
         end do
     end do
 
+- **DFS file**
+
+RW3D supports reading input data from **DFS** files (``flag`` set to 3). 
+The **DFS (Data File System)** is a binary data file format typically used in the MIKE Powered by DHI software. 
+
+For an extensive description of what DFS files are, follow the link https://docs.mikepoweredbydhi.com/core_libraries/dfs/dfs-file-system/
+
 
 - **NetCDF file**
 
@@ -138,20 +142,11 @@ RW3D supports reading input data from **NetCDF** files (``flag`` set to 4).
 **NetCDF (Network Common Data Form)** is a widely used, self-describing binary file format designed for storing array-oriented scientific data. 
 For more information on the NetCDF format, see the official documentation: https://www.unidata.ucar.edu/software/netcdf/
 
-So far, only the **NETCDF3_64BIT** format has been tested. The format to be used will have to follow the specifications of your instalation of the NetCDF library. 
-
 The NetCDF file must follow a specific format. It must contain **4 dimensions** (*t, x, y, z*) that fits the temporal and spatial discretizations of the model, even for time-invariant and 1D/2D parameters. 
 Also, the NetCDF dataset must contain only one variable (i.e., the parameter to be specified). The name of the variable that the code read and use is recalled in the log file. 
 
-Reading NetCDF files is still not implemented for all parameters. Typically, the option is available for potentially transient parameters, i.e.,:
+Note that the NetCDF format of the file will have to follow the specifications of your instalation of the NetCDF library. 
 
-- **fluxes**: ``qx``, ``qy``, ``qz``
-- **porosity / water content**: ``porosity``
-- **diffusion**: ``Dm_L``, ``Dm_TH``, ``Dm_TV``
-- **heads**: ``heads``
-- **registration lenses**: ``top elevation``, ``bottom elevation``, ``horizontal_extent``
-- **sinks**: ``Q_sink``
-- **source**: ``horizontal extent`` of ``LAYER`` injection type
 
 File format for *time function*
 ~~~~~~~~~~
@@ -183,48 +178,6 @@ Ensure that the number of time-value pairs matches the integer specified in line
    1.0  2.0
    2.0  1.5
    3.0  0.5
-
-
-Name file
-------------
-
-The file consists in 15 lines that must be defined as follow (even if the output option is disabled in the parameter file): 
-
-.. _tbl-grid:
- 
-  +------+--------------+------------------------------------------------------------+
-  |Line  | item type    | Description                                                |
-  +======+==============+============================================================+
-  | 1    | File name    | Parameter file                                             |
-  +------+--------------+------------------------------------------------------------+
-  | 2    | File name    | Output histogram (pdf) of particle arrival times (btcs)    |
-  +------+--------------+------------------------------------------------------------+
-  | 3    | File name    | Output with cumulative pdf particle arrival times (cbtcs)  |
-  +------+--------------+------------------------------------------------------------+
-  | 4    | File name    | Output with particle snapshots with time                   |
-  +------+--------------+------------------------------------------------------------+
-  | 5    | File name    | Output with particle paths                                 |
-  +------+--------------+------------------------------------------------------------+
-  | 6    | File name    | Output with cartesian spatial moments                      |
-  +------+--------------+------------------------------------------------------------+
-  | 7    | File name    | Output with temporal moments of breakthrough curves        |
-  +------+--------------+------------------------------------------------------------+
-  | 8    | File name    | Output with velocity field (for idebug :math:`\geq 1`)     |
-  +------+--------------+------------------------------------------------------------+
-  | 9    | File name    | Output with debug file                                     |
-  +------+--------------+------------------------------------------------------------+
-  | 10   | File name    | Output with information about particle exiting the domain  |
-  +------+--------------+------------------------------------------------------------+
-  | 11   | File name    | Output with btcs of particle entering registration lenses  |
-  +------+--------------+------------------------------------------------------------+
-  | 12   | File name    | Output with cbtcs of particle entering registration lenses |
-  +------+--------------+------------------------------------------------------------+
-  | 13   | File name    | Output with btcs of particle exiting registration lenses   |
-  +------+--------------+------------------------------------------------------------+
-  | 14   | File name    | Output with cbtcs of particle exiting registration lenses  |
-  +------+--------------+------------------------------------------------------------+
-  | 15   | File name    | Output with plume history                                  |
-  +------+--------------+------------------------------------------------------------+
 
 
 Parameter file
@@ -628,11 +581,23 @@ Dispersion / Diffusion
   +======+=========================================================================+====================+========================================================================================+
   | 4    | ``dispersion_action``                                                   | ``logical``        | True if the package is activated                                                       |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``dispersivity_L``                                                      | ``array``          | dispersivity in the longitudinal direction                                             |
+  | 5    | ``dispersivity_L``                                                      | ``array, 1 option``| dispersivity in the longitudinal direction                                             |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 6    | ``dispersivity_TH``                                                     | ``array``          | dispersivity in the transverse horizontal direction                                    |
+  | 6    | ``dispersivity_TH``                                                     | ``array, 1 option``| dispersivity in the transverse horizontal direction                                    |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 7    | ``dispersivity_TV``                                                     | ``array``          | dispersivity in the transverse vertical direction                                      |
+  | 7    | ``dispersivity_TV``                                                     | ``array, 1 option``| dispersivity in the transverse vertical direction                                      |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    | *option*: transient conditions                                                         |
+  |      |                                                                         |                    |                                                                                        |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 8    | ``diffusion_L``                                                         | ``array, 1 option``| effective molecular diffusion in the longitudinal direction                            |
   |      |                                                                         |                    |                                                                                        |
