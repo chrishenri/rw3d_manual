@@ -94,7 +94,7 @@ In the *Parameter file*, input parameters can be specified following these diffe
           - name of the file. Put some text even if no file is used
         * - ``multiplier``
           - ``real``
-          - Fixed parameter values (for ``flag``=0), or multiplier of the variable
+          - Fixed parameter values (for ``flag`` = 0), or multiplier of the variable
         * - ``ivar``
           - ``integer``
           - variable index of the variable in the gslib array
@@ -160,10 +160,10 @@ The values of the variable with index ``ivar`` are read as follow:
 
 To read a parameter from a text file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``: 
 
-- ``file name`` (``string``) is the name of the DFS file; 
-- ``multiplier`` (``real``) is a number multiplying all values; 
-- ``ivar`` (``integer``) is the column index to be used (set to 1 for a unique column of values in the text file); 
-- ``flag`` (``integer``) is set to *1*.
+  - ``file name`` (``string``) is the name of the DFS file; 
+  - ``multiplier`` (``real``) is a number multiplying all values; 
+  - ``ivar`` (``integer``) is the column index to be used (set to 1 for a unique column of values in the text file); 
+  - ``flag`` (``integer``) is set to *1*.
 
 
 - **DFS file**
@@ -175,10 +175,10 @@ For an extensive description of what DFS files are, follow the link https://docs
 
 To read a parameter from a DFS file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``: 
 
-- ``file name`` (``string``) is the name of the DFS file; 
-- ``multiplier`` (``real``) is a number multiplying all values; 
-- ``ivar`` (``integer``) is the item index to be used (set to 1 for a unique item in the DFS file); 
-- ``flag`` (``integer``) is set to *3*.
+  - ``file name`` (``string``) is the name of the DFS file; 
+  - ``multiplier`` (``real``) is a number multiplying all values; 
+  - ``ivar`` (``integer``) is the item index to be used (set to 1 for a unique item in the DFS file); 
+  - ``flag`` (``integer``) is set to *3*.
 
 
 - **NetCDF file**
@@ -194,10 +194,10 @@ Note that the NetCDF format of the file will have to follow the specifications o
 
 To read a parameter from a NetCDF file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``:
 
-- ``file name`` (``string``) is the name of the NetCDF file; 
-- ``multiplier`` (``real``) is a number multiplying all values; 
-- ``ivar`` (``integer``) has to be specified but will not be used; 
-- ``flag`` (``integer``) is set to *4*.
+  - ``file name`` (``string``) is the name of the NetCDF file; 
+  - ``multiplier`` (``real``) is a number multiplying all values; 
+  - ``ivar`` (``integer``) has to be specified but will not be used; 
+  - ``flag`` (``integer``) is set to *4*.
 
 
 File format for *time function*
@@ -430,9 +430,10 @@ Geometry
 
 
 **Example**: The domain is discretized in 1200 cells in the *x*-direction, 1400 cells in the *y*-direction and 11 cells in the *z*-direction. 
-The cell size in *x* and *y* is fixed to 100 space units. The cell size in the *z*-direction is variable in space and specified in the file *dz.dat*. 
-The bottom elevation of the domain (floor) is also variable in space and specified in the file *floor.dat*.  
-The location of inactive cells is provided in the file *InactCell.dat* and particles reaching an inactive cell will be killed. 
+The cell size in *x* and *y* is fixed to 100 space units. The cell size in the *z*-direction is variable in space and specified in the first column of the text file *dz.dat*. 
+The bottom elevation of the domain (floor) is also variable in space and specified in the text file *floor.dat*. 
+The location of inactive cells is provided in the text file *InactCell.dat* and particles reaching an inactive cell will be killed. 
+No multipliers are to be used (all set to 1.0). 
 Finally, particles reaching the boundary of the domain will be killed, expect at the top of the domain, where particles will bounce.  
 
 ::
@@ -493,45 +494,59 @@ Advection
 
 .. _tbl-grid:
   
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  |Line  | Variable                                                                | Type               | Description                                                                            |
-  +======+=========================================================================+====================+========================================================================================+
-  | 4    | ``advection_action``                                                    | ``logical``        | True if the package is activated                                                       |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 5    | ``advection_method``                                                    | ``logical``        | Method for advective motion of particles, as defined in :ref:`Advective motion`        |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | *values*:                                                                              |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    |    - ``exponential``                                                                   |
-  |      |                                                                         |                    |    - ``eulerian``                                                                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 6    | ``q_x``                                                                 | ``array, 1 option``| flux in the *x* direction                                                              |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | *option*: transient conditions                                                         |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 7    | ``q_y``                                                                 | ``array, 1 option``| flux in the *y* direction                                                              |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | *option*: transient conditions                                                         |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8    | ``q_z``                                                                 | ``array, 1 option``| flux in the *z* direction                                                              |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | *option*: transient conditions                                                         |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 9    | ``porosity``                                                            | ``array, 1 option``| porosity (or water content)                                                            |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    | *option*: transient conditions                                                         |
-  |      |                                                                         |                    |                                                                                        |
-  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                      |
-  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  |Line  | Variable                                                                | Type               | Description                                                                                                         |
+  +======+=========================================================================+====================+=====================================================================================================================+
+  | 4    | ``advection_action``                                                    | ``logical``        | True if the package is activated                                                                                    |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  | 5    | ``advection_method``                                                    | ``logical``        | Method for advective motion of particles, as defined in :ref:`Advective motion`                                     |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *values*:                                                                                                           |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``exponential``                                                                                                |
+  |      |                                                                         |                    |    - ``eulerian``                                                                                                   |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  | 6    | ``q_x``                                                                 | ``array, 2 option``| flow/flux in the *x* direction                                                                                      |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 1*: transient conditions                                                                                    |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                                                   |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 2*: flow to flux                                                                                            |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` if flows are provided and need to be converted into fluxes, ``F`` if fluxes are provided    |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  | 7    | ``q_y``                                                                 | ``array, 2 option``| flow/flux in the *y* direction                                                                                      |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 1*: transient conditions                                                                                    |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                                                   |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 2*: flow to flux                                                                                            |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` if flows are provided and need to be converted into fluxes, ``F`` if fluxes are provided    |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  | 8    | ``q_z``                                                                 | ``array, 2 option``| flow/flux in the *z* direction                                                                                      |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 1*: transient conditions                                                                                    |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` transient field, ``F`` steady-state field                                                   |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 2*: flow to flux                                                                                            |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` if flows are provided and need to be converted into fluxes, ``F`` if fluxes are provided    |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
+  | 9    | ``porosity``                                                            | ``array, 1 option``| porosity (or water content)                                                                                         |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    | *option 1*: transient conditions                                                                                    |
+  |      |                                                                         |                    |                                                                                                                     |
+  |      |                                                                         |                    |    - ``logical``: ``T`` if flows are provided and need to be converted into fluxes, ``F`` if fluxes are provided    |
+  +------+-------------------------------------------------------------------------+--------------------+---------------------------------------------------------------------------------------------------------------------+
 
 **Example**: Advective displacements are simulated. The Eulerian scheme is used to interpolate velocities. 
-Darcy fluxes in x, y and z directions are provided in a respective *netcdf* file. The porosity is spatially distributed and defined in a text file. 
+Darcy flows in x, and y directions are provided in a respective *netcdf* file. Flows will then have to be converted into fluxes within RW3D.
+The fluxes in z are directly provided, also in a *netcdf* file. All flows and fluxes are transient. The fluxes in z are to be multiplied by a factor of 2.0. 
+The porosity field does not change in time and its spatial distribution is defined in a text file. 
 
 ::
 
@@ -540,9 +555,9 @@ Darcy fluxes in x, y and z directions are provided in a respective *netcdf* file
    -----------------------------------------------------------------
    T                                                                              !... advection_action
    Eulerian                                                                       !... advection_method
-   qx_DK1.nc                            1.0   1   4   T                           !... qx array
-   qy_DK1.nc                            1.0   1   4   T                           !... qy array
-   qz_DK1.nc                            1.0   1   4   T                           !... qz array
+   qx_DK1.nc                            1.0   1   4   T   T                       !... qx array
+   qy_DK1.nc                            1.0   1   4   T   T                       !... qy array
+   qz_DK1.nc                            2.0   1   4   T   T                       !... qz array
    porosity_DK1.dat                     1.0   1   1   F                           !... porosity array
 
 
