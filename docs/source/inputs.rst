@@ -395,7 +395,7 @@ Geometry
   |      |                                                                         |                    |                                                                                        |
   |      |                                                                         |                    |    - ``logical``: ``T`` if constant layer thickness, ``F`` if variable layer thickess  |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8    | ``floor``                                                               | ``array``          | ``floor``: floor elevation                                                             |
+  | 8    | ``topography``                                                          | ``array``          | ``topography``: topography elevation                                                   |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 9    | ``inactive_cell``                                                       | ``array, 1 option``| ``inactive_cell``: binary characteriztion of active/inactive cells                     |
   |      |                                                                         |                    |                                                                                        |
@@ -425,16 +425,17 @@ Geometry
   |      |                                                                         |                    |    - 1: The particle bounces at the boundary                                           |
   |      |                                                                         |                    |    - 2: The particle is sent to the opposite side of the domain                        |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 8    | ``write_vtu``                                                           | ``logical``        | ``T`` Write the grid, inactive cells and topography in a vtu file, ``F`` otherwise     |
+  | 8    | ``write_vtu``                                                           | ``logical``        | ``T`` Write the grid, (in)active cells and topography in a vtu file, ``F`` otherwise   |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 
 **Example**: The domain is discretized in 1200 cells in the *x*-direction, 1400 cells in the *y*-direction and 11 cells in the *z*-direction. 
 The cell size in *x* and *y* is fixed to 100 space units. The cell size in the *z*-direction is variable in space and specified in the first column of the text file *dz.dat*. 
-The bottom elevation of the domain (floor) is also variable in space and specified in the text file *floor.dat*. 
+The top elevation of the domain (topography) is also variable in space and specified in the text file *topography.dat*. 
 The location of inactive cells is provided in the text file *InactCell.dat* and particles reaching an inactive cell will be killed. 
 No multipliers are to be used (all set to 1.0). 
 Finally, particles reaching the boundary of the domain will be killed, expect at the top of the domain, where particles will bounce.  
+We would also like to produce a vtu file to visualize the grid, the active/innactive cells and the topography elevation in Paraview. 
 
 ::
 
@@ -445,7 +446,7 @@ Finally, particles reaching the boundary of the domain will be killed, expect at
    not_used             100.0    1    0             !dx
    not_used             100.0    1    0             !dy
    dz.dat               1.0      1    1    F        !dz
-   floor.dat            1.0      1    1             !floor
+   topography.dat       1.0      1    1             !topography
    InactCell.dat        1.0      1    1    T        !inactive_cell
    0   0   0   0   0   1                            !ib(1,1); ib(1,2); ib(2,1); ib(2,2); ib(3,1); ib(3,2)
    T                                                !write_vtu
