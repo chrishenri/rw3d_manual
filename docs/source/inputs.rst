@@ -15,68 +15,98 @@ In the *Parameter file*, input parameters can be specified following these diffe
 - ``string``
 - ``integer``
 - ``real``
-- ``time_function``: A text file describing the temporal evolution of a parameter. 
-- ``array``: The parameter is potentially spatially variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag``. 
+- ``time_function``: A text file describing the temporal evolution of a non-array parameter. 
+- ``array``: The parameter is potentially spatially and/or temporally variable and can be read from a file. The following information have to be provided in a single line: ``file name`` ``multiplier`` ``ivar`` ``flag`` (see specifications in the Table below). 
   In some specific cases, one or two additional parameters (*options*) must also be provided. 
 
- 
-.. only:: html
+.. 
+  .. only:: html
+..
+    .. list-table:: Variable Descriptions
+        :widths: 20 20 60
+        :header-rows: 1
 
-   .. list-table:: Variable Descriptions
-      :widths: 20 20 60
-      :header-rows: 1
-
-      * - Variable
-        - Type
-        - Description
-      * - ``file name``
-        - ``string``
-        - name of the file. Put some text even if no file is used
-      * - ``multiplier``
-        - ``real``
-        - Fixed parameter values (for ``flag``=0), or multiplier of the variable
-      * - ``ivar``
-        - ``integer``
-        - variable index of the variable in the gslib array
-      * - ``flag``
-        - ``integer``
-        - way to read the values of the parameter:
-          
-          - 0: spatially and temporally constant parameter, defined as the multiplier 
-          - 1: read from the ascii file specified in ``file name`` 
-          - 2: read from a MODFLOW type file (only for fluxes) 
-          - 3: read from a DFS file 
-          - 4: read from a NetCDF file 
+        * - Variable
+          - Type
+          - Description
+        * - ``file name``
+          - ``string``
+          - name of the file. Put some text even if no file is used
+        * - ``multiplier``
+          - ``real``
+          - Fixed parameter values (for ``flag``=0), or multiplier of the variable
+        * - ``ivar``
+          - ``integer``
+          - variable index of the variable in the gslib array
+        * - ``flag``
+          - ``integer``
+          - way to read the values of the parameter:
+            
+            - 0: spatially and temporally constant parameter, defined as the multiplier 
+            - 1: read from the ascii file specified in ``file name`` 
+            - 2: read from a MODFLOW type file (only for fluxes) 
+            - 3: read from a DFS file 
+            - 4: read from a NetCDF file 
 
 
-.. only:: latex
+  .. only:: latex
+..
+    \usepackage[table]{xcolor}
+    \usepackage{booktabs}
+    \rowcolors{2}{gray!10}{white}
 
-   \usepackage[table]{xcolor}
-   \usepackage{booktabs}
-   \rowcolors{2}{gray!10}{white}
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{p{3.5cm} p{2.5cm} p{9cm}}
+    \toprule
+    \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
+    \midrule
+    \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
+    \texttt{multiplier} & \texttt{real} & Fixed parameter values (for \texttt{flag}=0), or multiplier of the variable \\
+    \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
+    \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
 
-   \begin{table}[H]
-   \centering
-   \renewcommand{\arraystretch}{1.3}
-   \begin{tabular}{p{3.5cm} p{2.5cm} p{9cm}}
-   \toprule
-   \textbf{Variable} & \textbf{Type} & \textbf{Description} \\
-   \midrule
-   \texttt{file name} & \texttt{string} & name of the file. Put some text even if no file is used \\
-   \texttt{multiplier} & \texttt{real} & Fixed parameter values (for \texttt{flag}=0), or multiplier of the variable \\
-   \texttt{ivar} & \texttt{integer} & variable index of the variable in the gslib array \\
-   \texttt{flag} & \texttt{integer} & way to read the values of the parameter:
+    \begin{itemize}
+      \item 0: not read from a file, defined as the multiplier
+      \item 1: read from the ascii file specified in \texttt{file name}
+      \item 2: read from a MODFLOW type file (only for fluxes)
+      \item 3: read from a DFS file
+      \item 4: read from a NetCDF file
+    \end{itemize} \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
 
-   \begin{itemize}
-     \item 0: not read from a file, defined as the multiplier
-     \item 1: read from the ascii file specified in \texttt{file name}
-     \item 2: read from a MODFLOW type file (only for fluxes)
-     \item 3: read from a DFS file
-     \item 4: read from a NetCDF file
-   \end{itemize} \\
-   \bottomrule
-   \end{tabular}
-   \end{table}
+
+.. container::
+   :name: table-variable
+
+    .. list-table:: Required inputs for an Array-type parameter
+        :widths: 20 20 60
+        :header-rows: 1
+
+        * - Variable
+          - Type
+          - Description
+        * - ``file name``
+          - ``string``
+          - name of the file. Put some text even if no file is used
+        * - ``multiplier``
+          - ``real``
+          - Fixed parameter values (for ``flag``=0), or multiplier of the variable
+        * - ``ivar``
+          - ``integer``
+          - variable index of the variable in the gslib array
+        * - ``flag``
+          - ``integer``
+          - way to read the values of the parameter:
+            
+            - 0: spatially and temporally constant parameter, defined as the multiplier 
+            - 1: read from the ascii file specified in ``file name`` 
+            - 2: read from a MODFLOW type file (only for fluxes) 
+            - 3: read from a DFS file 
+            - 4: read from a NetCDF file 
 
 
 
@@ -84,11 +114,11 @@ File format for a parameter of type ``array``
 ~~~~~~~~~~
 
 A parameter of type ``array`` can be read from a file (with name ``file name``) using a ``flag`` integer other than 0. 
-The file can be an **text** file or a **NetCDF** file. 
+The file can be an **text** file, a **DFS** file, or a **NetCDF** file. 
 
 - **Text file**
 
-A text file (``flag`` set to 1 or 3) must follow the following format: 
+A text file (``flag`` set to *1*) must follow the following format: 
 
 .. container::
    :name: table-array
@@ -128,17 +158,32 @@ The values of the variable with index ``ivar`` are read as follow:
         end do
     end do
 
+To read a parameter from a text file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``: 
+
+- ``file name`` (``string``) is the name of the DFS file; 
+- ``multiplier`` (``real``) is a number multiplying all values; 
+- ``ivar`` (``integer``) is the column index to be used (set to 1 for a unique column of values in the text file); 
+- ``flag`` (``integer``) is set to *1*.
+
+
 - **DFS file**
 
-RW3D supports reading input data from **DFS** files (``flag`` set to 3). 
+RW3D supports reading input data from **DFS** files (``flag`` set to *3*). 
 The **DFS (Data File System)** is a binary data file format typically used in the MIKE Powered by DHI software. 
 
 For an extensive description of what DFS files are, follow the link https://docs.mikepoweredbydhi.com/core_libraries/dfs/dfs-file-system/
 
+To read a parameter from a DFS file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``: 
+
+- ``file name`` (``string``) is the name of the DFS file; 
+- ``multiplier`` (``real``) is a number multiplying all values; 
+- ``ivar`` (``integer``) is the item index to be used (set to 1 for a unique item in the DFS file); 
+- ``flag`` (``integer``) is set to *3*.
+
 
 - **NetCDF file**
 
-RW3D supports reading input data from **NetCDF** files (``flag`` set to 4). 
+RW3D supports reading input data from **NetCDF** files (``flag`` set to *4*). 
 **NetCDF (Network Common Data Form)** is a widely used, self-describing binary file format designed for storing array-oriented scientific data. 
 For more information on the NetCDF format, see the official documentation: https://www.unidata.ucar.edu/software/netcdf/
 
@@ -146,6 +191,13 @@ The NetCDF file must follow a specific format. It must contain **4 dimensions** 
 Also, the NetCDF dataset must contain only one variable (i.e., the parameter to be specified). The name of the variable that the code read and use is recalled in the log file. 
 
 Note that the NetCDF format of the file will have to follow the specifications of your instalation of the NetCDF library. 
+
+To read a parameter from a NetCDF file, use the usual inputs for an ``array`` parameter: ``file name`` ``multiplier`` ``ivar`` ``flag``:
+
+- ``file name`` (``string``) is the name of the NetCDF file; 
+- ``multiplier`` (``real``) is a number multiplying all values; 
+- ``ivar`` (``integer``) has to be specified but will not be used; 
+- ``flag`` (``integer``) is set to *4*.
 
 
 File format for *time function*
@@ -186,6 +238,8 @@ Parameter file
 The parameter file consists in a text file. The following blocks of information has to be sequentially provided. 
 
 - :ref:`General setup`
+- :ref:`Species and Phases`
+- :ref:`Time`
 - :ref:`Geometry`
 - :ref:`Time discretization`
 - :ref:`Advection`
@@ -219,9 +273,9 @@ General setup
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   |Line  | Variable                                                                | Type               | Description                                                                            |
   +======+=========================================================================+====================+========================================================================================+
-  | 5    | ``path_outputs``                                                        | ``string``         | ``path_outputs``: path to the output files                                             |
+  | 4    | ``path_outputs``                                                        | ``string``         | ``path_outputs``: path to the output files                                             |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
-  | 6    | ``base_outputs``                                                        | ``string``         | ``base_outputs``: base name for all output files                                       |
+  | 5    | ``base_outputs``                                                        | ``string``         | ``base_outputs``: base name for all output files                                       |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
   | 4    | ``idebug``                                                              | ``integer``        | ``idebug``: Integer defining degree of debugging as written in rw3d_general.dbg        |
   |      |                                                                         |                    |                                                                                        |
@@ -297,6 +351,8 @@ The first first blocs of the input file would look like that:
    -----------------------------------------------------------------
     General Setup
    -----------------------------------------------------------------
+   C:\Path\To\Ouputs                   !... path_outputs
+   test_case                           !... basename_outputs
    0                                   !idebug
    -----------------------------------------------------------------
     Species and Phases
@@ -369,6 +425,8 @@ Geometry
   |      |                                                                         |                    |    - 1: The particle bounces at the boundary                                           |
   |      |                                                                         |                    |    - 2: The particle is sent to the opposite side of the domain                        |
   +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
+  | 8    | ``write_vtu``                                                           | ``logical``        | ``T`` Write the grid, inactive cells and topography in a vtu file, ``F`` otherwise     |
+  +------+-------------------------------------------------------------------------+--------------------+----------------------------------------------------------------------------------------+
 
 
 **Example**: The domain is discretized in 1200 cells in the *x*-direction, 1400 cells in the *y*-direction and 11 cells in the *z*-direction. 
@@ -389,6 +447,7 @@ Finally, particles reaching the boundary of the domain will be killed, expect at
    floor.dat            1.0      1    1             !floor
    InactCell.dat        1.0      1    1    T        !inactive_cell
    0   0   0   0   0   1                            !ib(1,1); ib(1,2); ib(2,1); ib(2,2); ib(3,1); ib(3,2)
+   T                                                !write_vtu
 
 
 .. _Time discretization:
@@ -1351,63 +1410,63 @@ Ouputs
 
 
 
+.. 
+  Inputs from MIKE-SHE 
+  ------------
+..
+  A Python script (`../python_utilities/rw3d_inputs_from_mikeshe.py`) has been designed to extract and convert hydrological model outputs from MIKE-SHE simulations into input files for RW3D. 
+  It processes a variety of hydrological variables from `.dfs2` and `.dfs3` files and outputs them as text (`.dat`) or NetCDF (`.nc`) files. 
+..
+  NetCDF files are typically used for transient parameters. At each time step of the MIKE-SHE flow solution, RW3D will read/update the corresponding parameter values. 
+  Text files are only read at the start of the RW3D simulation. 
+..
+  Input Files
+  ~~~~~~~~~~
+..
+  The script expects the following MIKE-SHE output files for a given domain:
+..
+  - **3D Saturated Zone Head**: `*_3DSZ.dfs3`
+  - **3D Saturated Zone Flow**: `*_3DSZflow.dfs3`
+  - **2D Unsaturated Zone**: `*_2DUZ_AllCells.dfs2`
+  - **2D Saturated Zone Flow**: `*_2DSZflow.dfs2`
+  - **3D Preprocessed Data**: `*_PreProcessed_3DSZ.dfs3`
+..
+  Output Files
+  ~~~~~~~~~~
+..
+  The script generates the following series of `.dat` and `.nc` (NetCDF) files:
+..
+  *Domain description*: 
+..
+  - `dz.dat`: Layer thicknesses
+  - `floor.dat`: Bottom elevations
+  - `InactCell.dat`: Inactive cells
+..
+  *Water and Flow*:
+..
+  - `porosity.dat`: Porosity field
+  - `heads.nc`: Groundwater heads
+  - `qx.nc`: Horizontal fluxes (in x axis) from flow
+  - `qy.nc`: Horizontal fluxes (in y axis) from flow
+  - `qz.nc`: Vertical groundwater flux
+..
+  *Sinks* (delete or add more):
+..
+  - `Qtotal_recharge.nc`: Total recharge
+  - `Qriver.nc`: River exchange fluxes
+  - `Qdrain.nc`: Drainage fluxes
+  - `Qwell.nc`: Groundwater extractions
 
-Inputs from MIKE-SHE 
-------------
-
-A Python script (`../python_utilities/rw3d_inputs_from_mikeshe.py`) has been designed to extract and convert hydrological model outputs from MIKE-SHE simulations into input files for RW3D. 
-It processes a variety of hydrological variables from `.dfs2` and `.dfs3` files and outputs them as text (`.dat`) or NetCDF (`.nc`) files. 
-
-NetCDF files are typically used for transient parameters. At each time step of the MIKE-SHE flow solution, RW3D will read/update the corresponding parameter values. 
-Text files are only read at the start of the RW3D simulation. 
-
-Input Files
-~~~~~~~~~~
-
-The script expects the following MIKE-SHE output files for a given domain:
-
-- **3D Saturated Zone Head**: `*_3DSZ.dfs3`
-- **3D Saturated Zone Flow**: `*_3DSZflow.dfs3`
-- **2D Unsaturated Zone**: `*_2DUZ_AllCells.dfs2`
-- **2D Saturated Zone Flow**: `*_2DSZflow.dfs2`
-- **3D Preprocessed Data**: `*_PreProcessed_3DSZ.dfs3`
-
-Output Files
-~~~~~~~~~~
-
-The script generates the following series of `.dat` and `.nc` (NetCDF) files:
-
-*Domain description*: 
-
-- `dz.dat`: Layer thicknesses
-- `floor.dat`: Bottom elevations
-- `InactCell.dat`: Inactive cells
-
-*Water and Flow*:
-
-- `porosity.dat`: Porosity field
-- `heads.nc`: Groundwater heads
-- `qx.nc`: Horizontal fluxes (in x axis) from flow
-- `qy.nc`: Horizontal fluxes (in y axis) from flow
-- `qz.nc`: Vertical groundwater flux
-
-*Sinks* (delete or add more):
-
-- `Qtotal_recharge.nc`: Total recharge
-- `Qriver.nc`: River exchange fluxes
-- `Qdrain.nc`: Drainage fluxes
-- `Qwell.nc`: Groundwater extractions
-
-
-How to Use
-~~~~~~~~~~
-
-1. **Set Parameters**:
-   - `simul_time`: Start and end dates of the simulation (e.g., `["2000-1-5", "2010-1-6"]`)
-   - `domain`: Spatial extent `[left, bottom, right, top]` in model coordinates
-
-2. **Define Input Paths**:
-   - Set the paths to the required `.dfs2` and `.dfs3` files using `types.SimpleNamespace()`.
-
-3. **Run the Script**:
-   - Call `get_rw3d_inputs(filein, pathout, simul_time[0], simul_time[1], domain)` to generate the output files.
+..
+  How to Use
+  ~~~~~~~~~~
+..
+  1. **Set Parameters**:
+    - `simul_time`: Start and end dates of the simulation (e.g., `["2000-1-5", "2010-1-6"]`)
+    - `domain`: Spatial extent `[left, bottom, right, top]` in model coordinates
+..
+  2. **Define Input Paths**:
+    - Set the paths to the required `.dfs2` and `.dfs3` files using `types.SimpleNamespace()`.
+..
+  3. **Run the Script**:
+    - Call `get_rw3d_inputs(filein, pathout, simul_time[0], simul_time[1], domain)` to generate the output files.
