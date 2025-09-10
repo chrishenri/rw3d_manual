@@ -180,6 +180,9 @@ To read a parameter from a DFS file, use the usual inputs for an ``array`` param
   - ``ivar`` (``integer``) is the item index to be used (set to 1 for a unique item in the DFS file); 
   - ``flag`` (``integer``) is set to *3*.
 
+Note that for the moment, the geometry of the DFS files must match the grid specified in the parameter file (:ref:`Geometry`) (i.e., same domain and spatial discretization). 
+The same applies to the time discretization, which must correspond to the discretization specified in the parameter file (:ref:`Time`). 
+A more flexible approach will be developed soon. 
 
 - **NetCDF file**
 
@@ -452,9 +455,9 @@ We would also like to produce a vtu file to visualize the grid, the active/innac
    T                                                !write_vtu
 
 
-.. _Time discretization:
+.. _Time step:
 
-Time discretization
+Time step
 ~~~~~~~~~~
 
 .. _tbl-grid:
