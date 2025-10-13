@@ -127,3 +127,9 @@ If you are a relatively new Windows developers, here are some brief instructions
     #. In Configuration Properties :math:`\to` Linker :math:`\to` Input: Fill "Additional Dependencies" with the `netCDF-Fortran` and `netCDF-C` libraries (with their paths); click OK to validate the changes
     #. The solution can now be built; In Visual Studio: Build :math:`\to` Build Solution
     #. The generated executable, located in the newly created folder (named Debug or Release, following the chosen Configuration), is now ready to be used.
+
+
+How to run RW3D?
+----------------
+
+Once you have located the executable file (`rw3d.exe`), just run it and follow the code's instruction (i.e., provide a parameter file, as described here :ref:`Inputs`). 
