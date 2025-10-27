@@ -18,6 +18,15 @@ All input files are located in the folder ``examples\Bornholm_groundwater_bodies
 
 Here we detail the provided parameter file: 
 
+General Setup
+~~~~~~~~~~~~~~~~~~
+Here, we specify in which folder outputs (and log file) will be printed, as well as the base name of those outputs. 
+Remember to set the absolute path of your output folder. 
+
+- ``..\Bornholm_outputs                                       !... path_outputs``
+- ``Bornholm                                                  !... basename_outputs``
+
+
 Species and Phases
 ~~~~~~~~~~~~~~~~~~
 Our problem involves a single aqueous chemical species that we will call "A". No mineral species are considered in this simulation.
