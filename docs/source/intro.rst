@@ -7,23 +7,32 @@ An Intro to RW3D
 ------------
 
 **RW3D (Random-Walk in 3 Dimensions)** is an object-oriented Fortran code designed to solve the fate and transport of conservative and certain reactive solutes in porous media using the random-walk particle-tracking method. 
-Originally developed to operate on up to 3D flow fields produced by MODFLOW, RW3D has evolved over the years to tackle increasingly complex problems.
+Originally developed as a research tool to better understand solute transport in heterogeneous porous media, RW3D has evolved over the years to tackle increasingly complex and realistic problems.
 
 Each development phase has undergone rigorous code validation by comparing solutions against well-established Eulerian methods and, when possible, analytical solutions :cite:p:`Henri2014,Henri2015`.
 
 Today, RW3D can solve both conservative and reactive transport problems, including first-order decay networks, bimolecular reactions, and linear sorption. 
 The code also offers the flexibility to represent all parameters as spatially and temporally variable.
 
-Additionally, a series of preprocessing codes written in Python enable the execution of reactive transport simulations on outputs from relatively complex MIKE-She models.
+Additionally, the code is now able to read different types of input file formats, including *NetCDF* and *DFS*, a binary data file format typically used in the MIKE Powered by DHI software.
+
+As an open-source project, any contribution to improve and expend the code are welcome.  
 
 
 How do I get set up?
 ----------------
 
+Run the executable
+~~~~~~~~~~
+
+A built Windows executable and required dll files is provided in the folder ``exe``.
+We can not guarantee that the exe file will run on your machine. Alternatively, the code can be build to insure compatibility with your system. 
+
+
 Get the code
 ~~~~~~~~~~
 
-The code will be released soon (expected during spring 2025). To access it, clone (or download) the project's repository here:
+The code will be released soon (expected during fall 2025). To access it, clone (or download) the project's repository here:
 
 .. code-block::
     
@@ -34,7 +43,14 @@ Build a solution
 ~~~~~~~~~~
 
 - RW3D is a Fortran 90 code. Intel Fortran compiler (ifort) and gfortran have been successfully used to build the code. Other compilers, including the newest Intel compiler (ifx), haven't been tested yet. Especially, issues concerning the compiling of the `netCDF-Fortran` library using ifx has been reported. In case you choose to work with Intel, the use of ifort is then still advised. 
-- Dependencies: `LAPACK <https://www.netlib.org/lapack/>`_ (llapack), `BLAS <https://www.netlib.org/blas/>`_ (lblas), `netCDF-Fortran <https://docs.unidata.ucar.edu/netcdf-fortran/current/>`_ (lnetcdff)
+- Dependencies: `LAPACK <https://www.netlib.org/lapack/>`_ (llapack), `BLAS <https://www.netlib.org/blas/>`_ (lblas), `netCDF-Fortran <https://docs.unidata.ucar.edu/netcdf-fortran/current/>`_ (lnetcdff), DFS file reader provided by DHI (see below for instructions).
+
+
+DFS file reader
+""""""""""
+
+*Instructions to come soon...*
+
 
 Makefile
 """"""""""
@@ -69,7 +85,7 @@ This will:
     *Using MinGW via MSYS2*
     
     To build the project using the provided Makefile on Windows, we recommend using **MinGW** along with the **MSYS2** shell.
-    From our experience, this handles required dependencies in the most straighforward and stable manner. 
+    From our experience, this handles required dependencies (especially the NetCDF librairy) in the most straighforward and stable manner. 
     This `link <https://code.visualstudio.com/docs/cpp/config-mingw>`_ provides useful information to install MinGW and configure Viusal Studio Code. 
     Here, we summarize the installation process:
     
@@ -102,7 +118,7 @@ This will:
 Visual Studio
 """"""""""
 
-The code was mostly developed on Windows, using Visual Studio. The IDE has the benefit of streamlining the software development process by offering intelligent code completion, some debugging tools, and an integration with version control systems like Git.
+The code was (and still is )mostly developed on Windows, using Visual Studio. The IDE has the benefit of streamlining the software development process by offering intelligent code completion, some debugging tools, and an integration with version control systems like Git.
 From our experience, one of the main challenge in using Visual Studio is the linking with the netcdf-Fortran library that needs to be previously built. 
 If you are a relatively new Windows developers, here are some brief instructions (as of 15/01/2025) to build a solution using Visual Studio IDE and Intel Fortran:
 

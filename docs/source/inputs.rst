@@ -1308,9 +1308,9 @@ Well recirculation
       In ``connection_string``, the well names must correspond to the ``wellID`` specified in :ref:`_Extraction well`.
 
 
-.. _Ouputs:
+.. _Outputs:
 
-Ouputs
+Outputs
 ~~~~~~~~~~
 
 .. table::
