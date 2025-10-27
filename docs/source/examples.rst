@@ -8,11 +8,11 @@ Bornholm's groundwater bodies characterization
 
 .. figure:: Bornholm_topography.png
     :align: center
-    :scale: 100 %
+    :width: 100%
 
 
 In this example, we will simulate the arrival of particle in a series of groundwater bodies located in the island of Bornholm, Denmark. 
-All input files are locate in the folder ``examples\Bornholm_groundwater_bodies``
+All input files are located in the folder ``examples\Bornholm_groundwater_bodies``
 
 Here we detail the provided parameter file: 
 
@@ -32,7 +32,10 @@ The simulation runs for a total of 1000 time units using forward water transport
 
 Spatial discretization and Boundaries
 ~~~~~~~~~~~~~~~~~~
-The model domain is defined with a specific origin and grid dimensions. Horizontal spacing is uniform, while vertical spacing varies and is read from an external file. Topography and inactive cells are also specified.
+The model domain is defined with a specific origin and the grid consists of 330 cells in the *x*-direction, 360 cells in the *y*-direction and 7 layers. 
+Horizontal spacing is uniform (100 meters), while vertical spacing varies and is read from an external file (*DFS3* format). Topography and inactive cells are also specified in a *DFS2* and *DFS3* file, respectively.
+All borders of the domain are "open", i.e., particles will be "killed" if they leave the domain. 
+The grid, topgether will the domain topography and active/inactive cells will be printed in a vtu file for visualization in, e.g., Paraview. 
 
 - ``861050.0   6109050.0                                      !... x_origin2, y_origin2``
 - ``330   360   7                                             !... nx2, ny2, nz2``
@@ -46,7 +49,8 @@ The model domain is defined with a specific origin and grid dimensions. Horizont
 
 Time Discretization
 ~~~~~~~~~~~~~~~~~~
-Time stepping is controlled using a constant Courant number method. Additional parameters include Peclet number and coefficients for kinetic, decay, and MRMT processes.
+Time stepping is controlled using a constant Courant number method. Additional parameters include Peclet number and coefficients for kinetic, decay, and MRMT processes. Those will not be used, but need to be specified. 
+The slowest 1% particles will be disregarded in the time step calculation by setting the relaxation factor to 0.99.  
 
 - ``constant_cu                                               !... dt_method``
 - ``0.5  0.2  0.2  0.1  0.1  0.1                              !... dt, cu, pe, da_kinetic, da_decay, da_mrmt``
@@ -54,7 +58,8 @@ Time stepping is controlled using a constant Courant number method. Additional p
 
 Advection
 ~~~~~~~~~~~~~~~~~~
-Advection is enabled and handled using an Eulerian approach. Velocity fields in all three directions and porosity are read from external files.
+Advection is enabled and handled using an Eulerian approach. Velocity fields in all three directions and porosity are read from external files (*DFS3* files).
+Flows are provided in *x* and *y* directions and need then be converted to fluxes within the code, while fluxes are directly provided in the *z*-direction. 
 
 - ``T                                                         !... advection_action``
 - ``Eulerian                                                  !... advection_method``
@@ -65,7 +70,7 @@ Advection is enabled and handled using an Eulerian approach. Velocity fields in 
 
 Heads
 ~~~~~~~~~~~~~~~~~~
-Hydraulic heads are included in the simulation and read from a file. A threshold is set to identify dry cells.
+Hydraulic heads are included in the simulation and read from a *DFS3* file. A minimum head threshold is set to 5 cm to identify dry cells.
 
 - ``T                                                         !... heads_action``
 - ``heads_opl71.dfs3               1.0   1   3   F            !... heads array``
@@ -73,7 +78,7 @@ Hydraulic heads are included in the simulation and read from a file. A threshold
 
 Sinks
 ~~~~~~~~~~~~~~~~~~
-Four types of sinks are defined: river, drain, unsaturated zone, and well. Each is associated with a specific input file.
+Four types of sinks are defined: river, drain, unsaturated zone, and well. Each is associated with a specific input file (all read from a DFS file).
 
 - ``T                                                         !... sink_action``
 - ``4                                                         !... sink_number``
@@ -114,7 +119,8 @@ No bimolecular reactions are considered.
 
 Control surface
 ~~~~~~~~~~~~~~~~~~
-Six regional lenses are defined for breakthrough curve analysis. The extent and boundaries are specified using DFS2 files.
+Six regional lenses, representing six groundwater bodies, are defined for breakthrough curve analysis. 
+The extent and boundaries (top and bottom elevations) are specified using DFS2 files.
 
 - ``0   F                                                     !... nwell``
 - ``0   F                                                     !... nplane``
@@ -149,7 +155,14 @@ Six regional lenses are defined for breakthrough curve analysis. The extent and 
 
 Injection
 ~~~~~~~~~~~~~~~~~~
+
+.. figure:: Bornholm_plume_t0.png
+    :align: center
+    :width: 100%
+
+
 One injection event is defined using a DIRAC pulse in a specific layer. The horizontal extent is read from a DFS2 file.
+All particles are injected at time 0. 
 
 - ``1                                                         !... ninj``
 - ``layer  random   DIRAC  T                                  !... name_inj, type_inj``
@@ -166,7 +179,7 @@ Recirculation is not enabled in this test case.
 
 Outputs
 ~~~~~~~~~~~~~~~~~~
-Various outputs are configured including breakthrough curves, history, and pathlines. Output format and frequency are specified.
+Finally, we want to print 100 plume snapshots, from t=0 to t=1000 years. We will also print the cumulative breakthrough curves, as well of the full plume history.   
 
 - ``0                                                         !... ixmom``
 - ``1   0                                                     !... iwcshot, output_format``
@@ -176,8 +189,6 @@ Various outputs are configured including breakthrough curves, history, and pathl
 - ``1   1   0                                                 !... iwcbtc, inc, output_format``
 - ``1   0   0                                                 !... iwhistory, print_out, output_format``
 - ``0   1   1   0                                             !... iwpath, pathfreq, pathpart, output_format``
-
-
 
 
 Reactive transport
