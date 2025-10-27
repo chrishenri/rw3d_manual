@@ -10,6 +10,8 @@ Bornholm's groundwater bodies characterization
     :align: center
     :width: 100%
 
+    Grid and topography of the domain visualized in Paraview
+
 
 In this example, we will simulate the arrival of particle in a series of groundwater bodies located in the island of Bornholm, Denmark. 
 All input files are located in the folder ``examples\Bornholm_groundwater_bodies``
@@ -78,7 +80,8 @@ Hydraulic heads are included in the simulation and read from a *DFS3* file. A mi
 
 Sinks
 ~~~~~~~~~~~~~~~~~~
-Four types of sinks are defined: river, drain, unsaturated zone, and well. Each is associated with a specific input file (all read from a DFS file).
+Four types of sinks are defined: river, drain, unsaturated zone, and well. Each is associated with a specific input file (all read from a DFS file). 
+Arrival into each sink will be recorded in a breakthrough curve. 
 
 - ``T                                                         !... sink_action``
 - ``4                                                         !... sink_number``
@@ -119,8 +122,10 @@ No bimolecular reactions are considered.
 
 Control surface
 ~~~~~~~~~~~~~~~~~~
-Six regional lenses, representing six groundwater bodies, are defined for breakthrough curve analysis. 
-The extent and boundaries (top and bottom elevations) are specified using DFS2 files.
+Six regional lenses are defined for breakthrough curve analysis. 
+The extent and boundaries (top and bottom elevations) are specified using DFS2 files. 
+For each lense, a DFS2 file specifying registration codes cell by cell is provided. Each registration code correspond to a specific groundwater body. 
+Time and location of every particle entery and exit into/from each registration code (i.e., groundwater body) will be recorded. 
 
 - ``0   F                                                     !... nwell``
 - ``0   F                                                     !... nplane``
@@ -160,6 +165,8 @@ Injection
     :align: center
     :width: 100%
 
+    Initial location of particles
+
 
 One injection event is defined using a DIRAC pulse in a specific layer. The horizontal extent is read from a DFS2 file.
 All particles are injected at time 0. 
@@ -189,6 +196,26 @@ Finally, we want to print 100 plume snapshots, from t=0 to t=1000 years. We will
 - ``1   1   0                                                 !... iwcbtc, inc, output_format``
 - ``1   0   0                                                 !... iwhistory, print_out, output_format``
 - ``0   1   1   0                                             !... iwpath, pathfreq, pathpart, output_format``
+
+
+Output Analysis
+~~~~~~~~~~~~~~~~~~
+Running RW3D using this parameter file will produce a series of csv files corresponding to breakthrough curves of particles *in* and *out* each groundwater body, and each sink: 
+
+.. figure:: Bornholm_all_cbtc_in_gwb.png
+    :align: center
+    :width: 100%
+
+    Breakthrough curves for all particles entering groundwater bodies. 
+
+A series of particle snapshots (location and key properties at a given time) will also be printed into a corresponding series of csv files. 
+Those can be directly imported into Paraview for 3D visualization. 
+
+.. figure:: plume_Bornholm_top.gif
+    :align: center
+    :width: 100%
+
+    Plume snapshots. 
 
 
 Reactive transport
