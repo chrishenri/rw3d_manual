@@ -656,7 +656,14 @@ Plume snapshots
 The location of all particles can be printed in a file at a series of user-defined time steps. The file will also provide the mass, the zone, the specie and the ID of the particles. 
 
 .. tip::
-    A postprocessing Python script is provided to generate a Paraview input file that allow to visualize the plume evolution as an animation. 
+    The generated *csv* files (if this is the chosen output format) can be directly imported into Paraview for 3D visualization. In Paraview, use the ``TableToPoint`` filter after importing your data. 
+    You can also import together the series of csv files generated for each snapshot (at selected time) to generate an animation.  
+
+    .. figure:: plume_t25.png
+    :align: center
+    :width: 100%
+
+    Example of a single plume snapshot visualized in Paraview. 
 
 
 .. _Cumulative breakthrough curves:
@@ -770,7 +777,8 @@ This option proposes to record all arrivals to any observation object by providi
 Particle paths
 `````````````
 
-The path of 
+With this option, the path (together with key properties) of a given or all particles will be printed at any time or following a given temporal frequency. 
+
 
 .. _Spatial moments:
 
