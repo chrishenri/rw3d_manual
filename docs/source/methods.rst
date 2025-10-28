@@ -660,10 +660,10 @@ The location of all particles can be printed in a file at a series of user-defin
     You can also import together the series of csv files generated for each snapshot (at selected time) to generate an animation.  
 
     .. figure:: plume_t25.png
-    :align: center
-    :width: 100%
+        :align: center
+        :width: 100%
 
-    Example of a single plume snapshot visualized in Paraview. 
+        Example of a single plume snapshot visualized in Paraview. 
 
 
 .. _Cumulative breakthrough curves:
