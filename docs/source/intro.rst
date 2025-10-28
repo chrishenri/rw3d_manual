@@ -22,13 +22,6 @@ As an open-source project, any contribution to improve and expend the code are w
 How do I get set up?
 ----------------
 
-Run the executable
-~~~~~~~~~~
-
-A built Windows executable and required dll files is provided in the folder ``exe``.
-We can not guarantee that the exe file will run on your machine. Alternatively, the code can be build to insure compatibility with your system. 
-
-
 Get the code
 ~~~~~~~~~~
 
@@ -37,6 +30,13 @@ The code will be released soon (expected during fall 2025). To access it, clone 
 .. code-block::
     
     git clone https://github.com/upc-ghs/RW3D
+
+
+Run the executable
+~~~~~~~~~~
+
+A built Windows executable and required dll files is provided in the folder ``exe``.
+We can not guarantee that the exe file will run on your machine. Alternatively, the code can be build to insure compatibility with your system. 
 
 
 Build a solution
