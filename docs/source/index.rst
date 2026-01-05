@@ -1,4 +1,4 @@
-Welcome to RW3D's User Manual
+RW3D - Reactive Transport with Random-Walk Particle-Tracking
 =============================
 
 
@@ -18,7 +18,7 @@ With the essential inputs from:
 
 .. note::
 
-   This project is under active development.
+   This project is still under active development.
 
 .. note::
 
@@ -57,4 +57,8 @@ Contents
 | This manual is licensed under the GNU Free Documentation License.
 
 | Copyright © 2025 Christopher V. Henri, Daniel Fernandez-Garcia. 
-  
+
+.. meta::
+   :google-site-verification: google-site-verification=sDhGuQz-ea9Bv3ushmP_l3T2ON7Wtc763vq-XQPqDpI
+
+   
