@@ -13,13 +13,14 @@ In the following sections, we outline the interpolation schemes and available op
 .. warning::
 
     **Concentration versus Total Density**
+
     For practical purposes, RW3D's core algorithm solves the motion in time and space of the **total density** of a solute (:math:`\rho`), which is related to concentration by the porosity and the retardation factor: :math:`\rho = \phi \times R \times c`. 
     This is something to remember when designing the particles injection in your input file. 
-    If ``read_concentration_file`` is the specified injection type (``type_inj``), the code will internally convert the concentration values to total density. 
+    If ``read_concentration_file`` is the specified injection type (``type_inj``), the code will internally convert the concentration values to total densities. 
     For all other injection types, the convertion should be done by the user, if needed.  
 
     This has no incidence on the outputs of the code, which are expressed in terms of mass fluxes (e.g., for (C)BTCs) and number of particles (e.g., for plume snapshots). 
-    If concentration values has to be estimated from the outputs, the user should convert local particle densities to concentrations.
+    If concentration values has to be estimated from the outputs, the user should convert local particle densities reflecting total densities (from plume snapshots) to concentrations.
 
     A future release of the code will include an option to compute concentration fields. 
 
