@@ -31,11 +31,6 @@ Remember to set the absolute path of your output folder.
    ``..\Bornholm_outputs``                                       !... path_outputs
    ``Bornholm``                                                  !... basename_outputs
 
-
-| ``..\Bornholm_outputs                                       !... path_outputs``
-| ``Bornholm                                                  !... basename_outputs``
-
-
 **Species and Phases**
 
 Our problem involves a single aqueous chemical species that we will call "A". No mineral species are considered in this simulation.
