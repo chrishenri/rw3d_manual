@@ -26,6 +26,12 @@ Input description
 Here, we specify in which folder outputs (and log file) will be printed, as well as the base name of those outputs. 
 Remember to set the absolute path of your output folder. 
 
+.. parsed-literal::
+
+   ``..\Bornholm_outputs``                                       !... path_outputs
+   ``Bornholm``                                                  !... basename_outputs
+
+
 | ``..\Bornholm_outputs                                       !... path_outputs``
 | ``Bornholm                                                  !... basename_outputs``
 
@@ -46,7 +52,7 @@ The simulation runs for a total of 1000 time units using forward water transport
 
 **Spatial discretization and Boundaries**
 
-The model domain is defined with a specific origin and the grid consists of 330 cells in the *x*-direction, 360 cells in the *y*|direction and 7 layers. 
+The model domain is defined with a specific origin and the grid consists of 330 cells in the *x*-direction, 360 cells in the *y*-direction and 7 layers. 
 Horizontal spacing is uniform (100 meters), while vertical spacing varies and is read from an external file (*DFS3* format). Topography and inactive cells are also specified in a *DFS2* and *DFS3* file, respectively.
 All borders of the domain are "open", i.e., particles will be "killed" if they leave the domain. 
 The grid, topgether will the domain topography and active/inactive cells will be printed in a vtu file for visualization in, e.g., Paraview. 
@@ -73,7 +79,7 @@ The slowest 1% particles will be disregarded in the time step calculation by set
 **Advection**
 
 Advection is enabled and handled using an Eulerian approach. Velocity fields in all three directions and porosity are read from external files (*DFS3* files).
-Flows are provided in *x* and *y* directions and need then be converted to fluxes within the code, while fluxes are directly provided in the *z*|direction. 
+Flows are provided in *x* and *y* directions and need then be converted to fluxes within the code, while fluxes are directly provided in the *z*-direction. 
 
 | ``T                                                         !... advection_action``
 | ``Eulerian                                                  !... advection_method``
