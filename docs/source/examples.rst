@@ -18,8 +18,11 @@ All input files are located in the folder ``examples\Bornholm_groundwater_bodies
 
 Here we detail the provided parameter file: 
 
-General Setup
+Input description
 ~~~~~~~~~~~~~~~~~~
+
+**General Setup**
+
 Here, we specify in which folder outputs (and log file) will be printed, as well as the base name of those outputs. 
 Remember to set the absolute path of your output folder. 
 
@@ -27,22 +30,22 @@ Remember to set the absolute path of your output folder.
 - ``Bornholm                                                  !... basename_outputs``
 
 
-Species and Phases
-~~~~~~~~~~~~~~~~~~
+**Species and Phases**
+
 Our problem involves a single aqueous chemical species that we will call "A". No mineral species are considered in this simulation.
 
 - ``1  0                                                      !... nspe_aq, nspe_min``
 - ``A                                                         !... name_aq``
 
-Simulation Time and Transport modes
-~~~~~~~~~~~~~~~~~~
+**Simulation Time and Transport modes**
+
 The simulation runs for a total of 1000 time units using forward water transport. It is a steady-state simulation.
 
 - ``1000.0    FW                                              !... t_sim, transport_mode``
 - ``F                                                         !... transient_flag``
 
-Spatial discretization and Boundaries
-~~~~~~~~~~~~~~~~~~
+**Spatial discretization and Boundaries**
+
 The model domain is defined with a specific origin and the grid consists of 330 cells in the *x*-direction, 360 cells in the *y*-direction and 7 layers. 
 Horizontal spacing is uniform (100 meters), while vertical spacing varies and is read from an external file (*DFS3* format). Topography and inactive cells are also specified in a *DFS2* and *DFS3* file, respectively.
 All borders of the domain are "open", i.e., particles will be "killed" if they leave the domain. 
@@ -58,8 +61,8 @@ The grid, topgether will the domain topography and active/inactive cells will be
 - ``0 0 0 0 0 0                                               !... ibound``
 - ``T                                                         !... print grid to vtu file (Paraview)``
 
-Time Discretization
-~~~~~~~~~~~~~~~~~~
+**Time Discretization**
+
 Time stepping is controlled using a constant Courant number method. Additional parameters include Peclet number and coefficients for kinetic, decay, and MRMT processes. Those will not be used, but need to be specified. 
 The slowest 1% particles will be disregarded in the time step calculation by setting the relaxation factor to 0.99.  
 
@@ -67,8 +70,8 @@ The slowest 1% particles will be disregarded in the time step calculation by set
 - ``0.5  0.2  0.2  0.1  0.1  0.1                              !... dt, cu, pe, da_kinetic, da_decay, da_mrmt``
 - ``0.99                                                      !... time_step relaxation``
 
-Advection
-~~~~~~~~~~~~~~~~~~
+**Advection**
+
 Advection is enabled and handled using an Eulerian approach. Velocity fields in all three directions and porosity are read from external files (*DFS3* files).
 Flows are provided in *x* and *y* directions and need then be converted to fluxes within the code, while fluxes are directly provided in the *z*-direction. 
 
@@ -79,16 +82,16 @@ Flows are provided in *x* and *y* directions and need then be converted to fluxe
 - ``qz_opl71.dfs3                  1.0   1   3   F   F        !... qz array``
 - ``porosity_opl71.DFS3            1.0   1   3   F            !... porosity array``
 
-Heads
-~~~~~~~~~~~~~~~~~~
+**Heads**
+
 Hydraulic heads are included in the simulation and read from a *DFS3* file. A minimum head threshold is set to 5 cm to identify dry cells.
 
 - ``T                                                         !... heads_action``
 - ``heads_opl71.dfs3               1.0   1   3   F            !... heads array``
 - ``0.05                                                      !... dry_cell_threshold``
 
-Sinks
-~~~~~~~~~~~~~~~~~~
+**Sinks**
+
 Four types of sinks are defined: river, drain, unsaturated zone, and well. Each is associated with a specific input file (all read from a DFS file). 
 Arrival into each sink will be recorded in a breakthrough curve. 
 
@@ -99,38 +102,38 @@ Arrival into each sink will be recorded in a breakthrough curve.
 - ``uz     Qrech_opl71.dfs2        1.0   1   3   F   T        !... name, qsink array``
 - ``well   Qwell_opl71.dfs3        1.0   1   3   F   T        !... name, qsink array``
 
-Dispersion / Diffusion
-~~~~~~~~~~~~~~~~~~
+**Dispersion / Diffusion**
+
 Dispersion and diffusion processes are not considered in this test case.
 
 - ``F                                                         !... dispersion_action``
 
-Mass transfer
-~~~~~~~~~~~~~~~~~~
+**Mass transfer**
+
 Mass transfer between mobile and immobile zones is disabled.
 
 - ``F                                                         !... mrmt_action``
 
-Retardation
-~~~~~~~~~~~~~~~~~~
+**Retardation**
+
 Chemical retardation effects are not included in this simulation.
 
 - ``F                                                         !... retardation_action``
 
-Linear reaction
-~~~~~~~~~~~~~~~~~~
+**Linear reaction**
+
 Linear decay reactions are not modeled in this test case.
 
 - ``F                                                         !... decay_action``
 
-Bimolecular reaction
-~~~~~~~~~~~~~~~~~~
+**Bimolecular reaction**
+
 No bimolecular reactions are considered.
 
 - ``F                                                         !... kinetic_action``
 
-Control surface
-~~~~~~~~~~~~~~~~~~
+**Control surface**
+
 Six regional lenses are defined for breakthrough curve analysis. 
 The extent and boundaries (top and bottom elevations) are specified using DFS2 files. 
 For each lense, a DFS2 file specifying registration codes cell by cell is provided. Each registration code correspond to a specific groundwater body. 
@@ -167,8 +170,8 @@ Time and location of every particle entery and exit into/from each registration 
 - ``reglenses\top_layer6.dfs2        1.0   1   3   F``
 - ``reglenses\regcodes_layer6.dfs2   1.0   1   3``
 
-Injection
-~~~~~~~~~~~~~~~~~~
+**Injection**
+
 
 .. figure:: Bornholm_plume_t0.png
     :align: center
@@ -187,14 +190,14 @@ All particles are injected at time 0.
 - ``injection_extent.dfs2      1.0   1   3                    !... horizontal_extent``
 - ``0.0                                                       !... tinj``
 
-Recirculation
-~~~~~~~~~~~~~~~~~~
+**Recirculation**
+
 Recirculation is not enabled in this test case.
 
 - ``F                                                         !... recirculation_action``
 
-Outputs
-~~~~~~~~~~~~~~~~~~
+**Outputs**
+
 Finally, we want to print 100 plume snapshots, from t=0 to t=1000 years. We will also print the cumulative breakthrough curves, as well of the full plume history.   
 
 - ``0                                                         !... ixmom``
