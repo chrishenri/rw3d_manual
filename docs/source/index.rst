@@ -28,8 +28,14 @@ With the essential inputs from:
 
 
 
-Contents
---------
+.. raw:: latex
+
+   \section*{Contents}
+
+.. only:: html
+
+   Contents
+   --------
 
 .. raw:: latex
 
