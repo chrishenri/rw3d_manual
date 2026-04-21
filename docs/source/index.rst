@@ -15,10 +15,11 @@ With the essential inputs from:
 | Manual generated : |today|
 
 
-.. tips::
+.. only:: html
 
-   You can download a pdf version of this manual by going to the "latest" window that should be on the lower right side of your screen.
-   Click, and under "Download", click on "PDF".
+   .. tip::
+      You can download a pdf version of this manual by going to the "latest" window that should be on the lower right side of your screen.
+      Click, and under "Download", click on "PDF".
 
 
 .. note::
