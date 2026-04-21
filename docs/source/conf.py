@@ -64,6 +64,8 @@ latex_elements = {
         \usepackage[table]{xcolor}
         \usepackage{booktabs}
         \renewcommand{\arraystretch}{1.3}
+        \setcounter{tocdepth}{2}  % 1 = sections, 2 = subsections, 3 = subsubsections
+        \setcounter{secnumdepth}{2} % Ensure numbering also matches this depth
     ''',
 }
 
