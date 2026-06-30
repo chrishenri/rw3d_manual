@@ -68,62 +68,6 @@ The following libraries are required to build RW3D:
 - DFS file reader provided by DHI — **Windows only** (see `DFS reader libraries`_ below)
 
 
-DFS reader libraries
-''''''''''''''''''''
-
-This section describes how to build the DHI DFS reader libraries on Windows. This is required
-when building RW3D with Visual Studio. On Linux and Mac, this step can be skipped.
-
-**Step 1 — Install the DHI NuGet packages**
-
-#. In Visual Studio, navigate to **Tools → NuGet Package Manager → Manage NuGet Packages for Solution**
-#. Search for and install the package **DHI.DFS** (version 23.0.3 recommended; other versions may also work)
-#. This will automatically install dependent packages and create a ``packages`` folder containing subfolders such as:
-
-   - ``DHI.DFS.23.0.3``
-   - ``DHI.DHIfl.23.0.3``
-   - ``DHI.EUM.23.0.3``
-   - ``DHI.PFS.23.0.3``
-
-.. important::
-
-   The ``packages`` folder must be located in the same folder as the Visual Studio solution file (``.sln``).
-
-**Step 2 — Extract the Fortran wrapper source files**
-
-#. Locate ``MzFortranWrappers_VS_with_dependencies.zip`` in the RW3D repository (under ``lib/dfs/``)
-#. Extract the archive into the **same folder** as the ``packages`` folder. The resulting structure should look like:
-
-.. code-block:: text
-
-   your_folder/
-   ├── packages/
-   │   ├── DHI.DFS.23.0.3/
-   │   ├── DHI.DHIfl.23.0.3/
-   │   └── ...
-   ├── MzFortranWrappers_VS_with_dependencies/
-   │   ├── MzF90.sln
-   │   ├── MzF90_lib/   (C source files)
-   │   └── MzF90/       (Fortran source files)
-
-**Step 3 — Build the libraries**
-
-#. Open ``MzF90.sln`` in Visual Studio
-#. Select the build configuration (**Debug** or **Release**) matching the one you intend to use for RW3D
-#. Build the projects **in the following order** (the Fortran library depends on the C library):
-
-   #. Build the static C library: **MzF90_lib**
-   #. Build the static Fortran library: **MzF90**
-
-The following files will be generated in the ``x64\Release\`` (or ``x64\Debug\``) subfolder:
-
-- ``MzF90.lib`` — static Fortran interface library
-- ``MzF90c.lib`` — static C library
-- Several ``.dll`` files — required at runtime (see `Runtime setup`_ below)
-
-Note the path to these files, as they will be needed when configuring the RW3D project properties.
-
-
 Makefile
 ''''''''
 
@@ -225,6 +169,7 @@ available on Linux and Mac. The preprocessor flag ``USE_DFS`` is not defined, so
    these DLLs are already accessible without modifying the system PATH.
 
 
+
 Visual Studio
 '''''''''''''
 
@@ -265,7 +210,7 @@ Note the paths to these files, as they will be needed when configuring the RW3D 
 
 **Build the DFS reader libraries**
 
-Follow the instructions in the `DFS reader libraries`_ section above to build ``MzF90.lib`` and
+Follow the instructions in the `DFS reader libraries`_ section below to build ``MzF90.lib`` and
 ``MzF90c.lib`` before proceeding.
 
 If you do not need to read DFS files, this step can be skipped, provided you remove the
@@ -328,6 +273,62 @@ Before running ``rw3d.exe``, make sure the following ``.dll`` files are present 
 - Any ``.dll`` files required by the ``netCDF`` libraries (typically distributed alongside the pre-built binaries)
 
 Without these files, the executable will fail to launch.
+
+
+DFS reader libraries
+''''''''''''''''''''
+
+This section describes how to build the DHI DFS reader libraries on Windows. This is required
+when building RW3D with Visual Studio. On Linux and Mac, this step can be skipped.
+
+**Step 1 — Install the DHI NuGet packages**
+
+#. In Visual Studio, navigate to **Tools → NuGet Package Manager → Manage NuGet Packages for Solution**
+#. Search for and install the package **DHI.DFS** (version 23.0.3 recommended; other versions may also work)
+#. This will automatically install dependent packages and create a ``packages`` folder containing subfolders such as:
+
+   - ``DHI.DFS.23.0.3``
+   - ``DHI.DHIfl.23.0.3``
+   - ``DHI.EUM.23.0.3``
+   - ``DHI.PFS.23.0.3``
+
+.. important::
+
+   The ``packages`` folder must be located in the same folder as the Visual Studio solution file (``.sln``).
+
+**Step 2 — Extract the Fortran wrapper source files**
+
+#. Locate ``MzFortranWrappers_VS_with_dependencies.zip`` in the RW3D repository (under ``lib/dfs/``)
+#. Extract the archive into the **same folder** as the ``packages`` folder. The resulting structure should look like:
+
+.. code-block:: text
+
+   your_folder/
+   ├── packages/
+   │   ├── DHI.DFS.23.0.3/
+   │   ├── DHI.DHIfl.23.0.3/
+   │   └── ...
+   ├── MzFortranWrappers_VS_with_dependencies/
+   │   ├── MzF90.sln
+   │   ├── MzF90_lib/   (C source files)
+   │   └── MzF90/       (Fortran source files)
+
+**Step 3 — Build the libraries**
+
+#. Open ``MzF90.sln`` in Visual Studio
+#. Select the build configuration (**Debug** or **Release**) matching the one you intend to use for RW3D
+#. Build the projects **in the following order** (the Fortran library depends on the C library):
+
+   #. Build the static C library: **MzF90_lib**
+   #. Build the static Fortran library: **MzF90**
+
+The following files will be generated in the ``x64\Release\`` (or ``x64\Debug\``) subfolder:
+
+- ``MzF90.lib`` — static Fortran interface library
+- ``MzF90c.lib`` — static C library
+- Several ``.dll`` files — required at runtime (see `Runtime setup`_ below)
+
+Note the path to these files, as they will be needed when configuring the RW3D project properties.
 
 
 How to run RW3D?
