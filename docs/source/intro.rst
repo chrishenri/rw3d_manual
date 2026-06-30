@@ -206,6 +206,24 @@ available on Linux and Mac. The preprocessor flag ``USE_DFS`` is not defined, so
    Note that building with DFS support via the Makefile on Windows is not currently supported.
    Use Visual Studio instead if DFS file reading is required.
 
+.. tip::
+
+   **Running rw3d.exe built via MSYS2**
+
+   The executable built via the Makefile on MSYS2/UCRT64 depends on several DLLs
+   (LAPACK, BLAS, netCDF, and related libraries) located in ``C:\msys64\ucrt64\bin``.
+   To run ``rw3d.exe`` outside of the MSYS2 terminal (e.g., by double-clicking it or
+   running it from a regular Windows Command Prompt), add this folder to your Windows
+   PATH environment variable:
+
+   1. Open **Settings → System → About → Advanced system settings → Environment Variables**
+   2. Under **User variables** (or **System variables**), select **Path** and click **Edit**
+   3. Click **New** and add: ``C:\msys64\ucrt64\bin``
+   4. Click **OK** to confirm all dialogs
+
+   Alternatively, you can run ``rw3d.exe`` directly from the MSYS2 UCRT64 terminal, where
+   these DLLs are already accessible without modifying the system PATH.
+
 
 Visual Studio
 '''''''''''''
